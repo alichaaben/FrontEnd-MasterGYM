@@ -1,0 +1,56 @@
+/* Font family classes */
+.font-righteous {
+  font-family: 'Righteous', sans-serif;
+}
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1199px) {
+  body {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 32px;
+  }
+  
+  h2 {
+    font-size: 30px;
+  }
+  
+  h3 {
+    font-size: 20px;
+  }
+}
+
+/* Custom hover effect for club cards */
+.club-card:hover::before {
+  opacity: 1;
+  margin-top: 0;
+}
+
+/* Custom hover effect for service items */
+.service-item:hover::before {
+  opacity: 1;
+  margin-top: 0;
+}
+
+/* Ensure proper z-index for decorative elements */
+.decorative-element {
+  z-index: 0;
+}
+
+/* Content should be above decorative elements */
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+}

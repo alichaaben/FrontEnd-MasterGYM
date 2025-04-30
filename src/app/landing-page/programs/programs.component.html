@@ -1,0 +1,65 @@
+<!-- programs-section.component.html -->
+<section class="relative py-32 md:py-36 bg-cover bg-center bg-fixed"
+  style="background-image: url('assets/bg-programs.jpg');">
+
+  <!-- Triangular clips at top and bottom -->
+  <div class="absolute top-0 left-0 w-full h-6 bg-[#202020] z-10" style="clip-path: polygon(0 0, 100% 100%, 100% 0)">
+  </div>
+  <div class="absolute bottom-0 left-0 w-full h-6 bg-[#202020] z-10"
+    style="clip-path: polygon(100% 0, 0 100%, 100% 100%)">
+  </div>
+
+  <!-- Dark overlay -->
+  <div class="mask absolute inset-0 bg-black/70"></div>
+
+  <div class="container relative mx-auto px-4 z-[3]">
+    <!-- Section header -->
+    <div class="text-center mb-12">
+      <h2 class="title-decor text-3xl md:text-4xl font-bold text-white mb-4">
+        Our <span class="text-red-600">Programs</span>
+      </h2>
+      <p class="slogan text-gray-300 max-w-2xl mx-auto mb-10">
+        Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem
+        ut, venenatis dapibus miq.
+      </p>
+    </div>
+
+    <!-- Programs grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div *ngFor="let program of programs; let i = index" class="program-col mb-8 md:mb-0"
+        [class.md:pt-10]="i % 2 === 1">
+        <div class="program-item h-[350px] relative perspective-[1000px] group">
+          <!-- Front of card -->
+          <div
+            class="program-item-front absolute w-full h-full flex items-center justify-center bg-cover bg-center backface-hidden transition-all duration-700 ease-[cubic-bezier(0.5,0.12,0.46,0.88)] group-hover:rotate-y-180"
+            [style.background-image]="'url(' + program.image + ')'" style="transform-style: preserve-3d">
+            <div
+              class="program-item-inner w-full z-[2] backface-hidden text-center transition-all duration-400 ease-[cubic-bezier(0.5,0.12,0.46,0.88)] delay-200 group-hover:translate-z-[100px] group-hover:delay-0">
+              <h3 class="text-xl md:text-2xl font-bold uppercase text-white">{{program.title}}</h3>
+            </div>
+          </div>
+
+          <!-- Back of card -->
+          <div
+            class="program-item-back absolute w-full h-full flex items-center justify-center bg-cover bg-center backface-hidden transition-all duration-700 ease-[cubic-bezier(0.5,0.12,0.46,0.88)] rotate-y-[-180deg] group-hover:rotate-y-0"
+            [style.background-image]="'url(' + program.image + ')'" style="transform-style: preserve-3d">
+
+            <!-- Red border (only visible on hover) -->
+            <div
+              class="absolute border-[5px] border-red-600 top-[-14px] bottom-[-14px] left-1/2 transform -translate-x-1/2 w-[94%] z-[1] opacity-0 backface-hidden transition-all duration-400 ease-[cubic-bezier(0.5,0.12,0.46,0.88)] group-hover:opacity-100">
+            </div>
+
+            <div
+              class="program-item-inner w-full z-[2] backface-hidden text-center transition-all duration-400 ease-[cubic-bezier(0.5,0.12,0.46,0.88)] group-hover:translate-z-0 group-hover:delay-200">
+              <h3 class="text-xl md:text-2xl font-bold uppercase text-white mb-6">{{program.title}}</h3>
+              <a [href]="program.link"
+                class="font-bold btn min-w-[134px] inline-block bg-red-600 text-white uppercase px-6 py-3 transition-transform hover:scale-105">
+                Contact
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,140 @@
+<!-- =============== HEADER-TITLE =============== -->
+<section class="bg-[url('assets/bg-1-min.png')] bg-cover bg-center bg-no-repeat bg-blue-950">
+  <div class="container mx-auto px-4">
+    <div class="min-h-[260px] flex items-center py-[50px]">
+      <h2 class="title-decor text-4xl md:text-5xl font-bold text-white text-center mb-4">Contact
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- ============= HEADER-TITLE END ============= -->
+
+
+<!-- ================ S-CONTACTS ================ -->
+<section class="py-[140px] bg-[url('assets/bg-contacts.svg')] bg-center bg-no-repeat">
+  <div class="container mx-auto px-4">
+    <h2 class="title-decor text-3xl md:text-4xl font-bold text-white text-center mb-4">
+      Contact <span class="text-[#f23849]">Us</span>
+    </h2>
+    <div class="w-16 h-1 bg-[#f23849] mx-auto mb-6"></div>
+
+    <p class="text-center max-w-[560px] mx-auto mb-[40px] text-[#ccc]">
+      Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem ut,
+      venenatis dapibus miq.
+    </p>
+
+    <div class="flex flex-wrap -mx-4">
+      <!-- Contact Info Column -->
+      <div class="w-full md:w-5/12 lg:w-4/12 px-4">
+        <!-- Need Help -->
+        <div class="flex justify-between items-center text-center bg-[#272a31] py-[20px] mb-[20px] text-white">
+          <div class="w-[40%] border-r-2 border-red-500">
+            <img class="mx-auto" src="assets/icon-1.svg" alt="help icon">
+            <h4 class="uppercase mt-[-8px] font-['Righteous'] text-[18px]">need help</h4>
+          </div>
+          <div class="w-[60%] px-[15px]">
+            <ul>
+              <li class="text-[#bebebe] hover:text-red-500 transition-colors duration-300">
+                <a href="tel:18004886040">1-800-488-6040</a>
+              </li>
+              <li class="text-[#bebebe] hover:text-red-500 transition-colors duration-300">
+                <a href="tel:18005784090">1-800-578-4090</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Questions -->
+        <div class="flex justify-between items-center text-center bg-[#272a31] py-[20px] mb-[20px] text-white">
+          <div class="w-[40%] border-r-2 border-red-500">
+            <img class="mx-auto" src="assets/icon-2.svg" alt="questions icon">
+            <h4 class="uppercase mt-[-8px] font-['Righteous'] text-[18px]">questions</h4>
+          </div>
+          <div class="w-[60%] px-[15px]">
+            <ul>
+              <li class="text-[#bebebe] hover:text-red-500 transition-colors duration-300">
+                <a href="mailto:team@gmail.com">team&#64;gmail.com</a>
+              </li>
+              <li class="text-[#bebebe] hover:text-red-500 transition-colors duration-300">
+                <a href="mailto:help@gmail.com">help&#64;gmail.com</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="flex justify-between items-center text-center bg-[#272a31] py-[20px] mb-[20px] text-white">
+          <div class="w-[40%] border-r-2 border-red-500">
+            <img class="mx-auto" src="assets/icon-3.svg" alt="address icon">
+            <h4 class="uppercase mt-[-8px] font-['Righteous'] text-[18px]">address</h4>
+          </div>
+          <div class="w-[60%] px-[15px]">
+            <ul>
+              <li class="text-[#bebebe]">8500, Lorem Street, Chicago, IL, 55030</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form Column -->
+      <div class="w-full md:w-7/12 lg:w-8/12 px-4">
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+          <div class="mb-[19px]">
+            <label class="block text-[14px] mb-[8px] font-medium text-white">Name * (required)</label>
+            <input type="text" formControlName="name"
+              class="w-full px-4 py-2 bg-[#272a31] border border-[#3a3a3a] text-white focus:border-red-500 focus:ring-1 focus:ring-red-500 transition duration-300">
+            <div *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched"
+              class="text-red-500 text-sm mt-1">
+              Name is required
+            </div>
+          </div>
+
+          <div class="mb-[19px]">
+            <label class="block text-[14px] mb-[8px] font-medium text-white">E-mail * (required)</label>
+            <input type="email" formControlName="email"
+              class="w-full px-4 py-2 bg-[#272a31] border border-[#3a3a3a] text-white focus:border-red-500 focus:ring-1 focus:ring-red-500 transition duration-300">
+            <div *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
+              class="text-red-500 text-sm mt-1">
+              Valid email is required
+            </div>
+          </div>
+
+          <div class="mb-[19px]">
+            <label class="block text-[14px] mb-[8px] font-medium text-white">Message * (required)</label>
+            <textarea formControlName="message" rows="5"
+              class="w-full px-4 py-2 bg-[#272a31] border border-[#3a3a3a] text-white focus:border-red-500 focus:ring-1 focus:ring-red-500 transition duration-300"></textarea>
+            <div *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"
+              class="text-red-500 text-sm mt-1">
+              Message is required
+            </div>
+          </div>
+
+          <div class="my-[30px]">
+            <div class="flex items-start"> 
+              <input type="checkbox" formControlName="agree" class="mt-1 mr-2">
+              <p class="text-[14px] text-white">
+                By using this form you agree with the storage and handling of your data by this website.
+              </p>
+            </div>
+            <div *ngIf="contactForm.get('agree')?.invalid && contactForm.get('agree')?.touched"
+              class="text-red-500 text-sm mt-1">
+              You must agree to the terms
+            </div>
+          </div>
+
+          <div class="text-right">
+            <button type="submit" [disabled]="contactForm.invalid"
+              class="px-6 py-3 bg-red-500 text-white uppercase  rounded-lg font-medium hover:bg-red-600 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+              send comment
+            </button>
+          </div>
+        </form>
+
+        <div *ngIf="formSubmitted" class="mt-4 p-4 bg-green-500 text-white rounded">
+          Thank you for your message! We'll get back to you soon.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============== S-CONTACTS-END ============== -->

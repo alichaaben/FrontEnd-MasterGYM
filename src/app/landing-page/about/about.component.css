@@ -1,0 +1,68 @@
+
+
+/* Font family classes */
+.font-righteous {
+  font-family: 'Righteous', sans-serif;
+}
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1199px) {
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  h2 {
+    font-size: 30px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 991px) {
+  .s-header-title {
+    min-height: 150px;
+    padding: 30px 15px;
+  }
+}
+
+@media (max-width: 1366px) {
+  h3 {
+    font-size: 22px;
+  }
+}
+
+
+/* Add these styles to your existing CSS */
+.pagination-button {
+  transition: all 0.3s ease;
+}
+
+.pagination-button:hover:not(.active) {
+  background-color: #f3f4f6;
+}
+
+.pagination-button.active {
+  background-color: #f23849;
+  color: white;
+}
+
+.pagination-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,157 @@
+/* club-cards.component.css */
+.s-club-cards {
+  padding: 128px 0 180px;
+}
+
+.title-decor {
+  position: relative;
+  text-align: center;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  font-family: "Righteous", sans-serif;
+  font-size: 36px;
+}
+
+.title-decor span {
+  color: #f23849;
+}
+
+.title-decor::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45px;
+  height: 4px;
+  background-color: #f23849;
+}
+
+.slogan {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 40px;
+  color: #ccc;
+  font-family: "Poppins", sans-serif;
+}
+
+.club-card-col {
+  transform: translateY(40px);
+  padding: 15px;
+}
+
+.club-card-col.transform-none {
+  transform: translateY(0);
+}
+
+.club-card-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  background-color: #272a31;
+  box-shadow: 4px 4px 14px 0px rgba(0, 0, 0, 0.15);
+  padding: 98px 20px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.club-card-item::before {
+  content: '';
+  position: absolute;
+  width: 95%;
+  height: 95%;
+  left: 50%;
+  top: 50%;
+  opacity: 0;
+  margin-top: 40px;
+  transform: translate(-50%, -50%);
+  border: 7px solid #f23849;
+  transition: 0.4s ease-in-out;
+  pointer-events: none;
+}
+
+.club-card-item:hover::before {
+  opacity: 1;
+  margin-top: 0;
+}
+
+.price-cover {
+  display: block;
+  text-align: center;
+  padding-bottom: 17px;
+  position: relative;
+  font-family: "Righteous", sans-serif;
+  text-transform: uppercase;
+}
+
+.price-cover::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45px;
+  height: 4px;
+  background-color: #f23849;
+}
+
+.price {
+  padding-right: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 19px;
+  font-size: 72px;
+  line-height: 0.75;
+  color: white;
+}
+
+.price span {
+  color: #f23849;
+  font-size: 36px;
+  line-height: 0.75;
+  position: relative;
+  top: -4px;
+}
+
+.date {
+  padding-left: 0;
+  font-size: 18px;
+  color: white;
+}
+
+.club-card-text {
+  max-width: 330px;
+  text-align: center;
+  color: #bebebe;
+  margin: 30px auto 46px;
+  font-family: "Poppins", sans-serif;
+}
+
+.club-card-item p {
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Responsive styles */
+@media (max-width: 1199px) {
+  .title-decor {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .club-card-col {
+    transform: translateY(0) !important;
+    margin-bottom: 30px;
+  }
+
+  .club-card-col:last-child {
+    margin-bottom: 0;
+  }
+
+  .s-club-cards {
+    padding: 80px 0;
+  }
+}

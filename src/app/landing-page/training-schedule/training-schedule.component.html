@@ -1,0 +1,46 @@
+<section class="py-16 md:py-32 bg-black">
+  <div class="container mx-auto px-4">
+    <h2 class="title-decor text-3xl md:text-4xl font-bold text-white text-center mb-4">
+      Training <span class="text-[#f23849]">Schedule</span>
+    </h2>
+    <div class="w-16 h-1 bg-[#f23849] mx-auto mb-6"></div>
+    <p class="slogan text-gray-300 max-w-2xl mx-auto text-center mb-12">
+      Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem
+      ut, venenatis dapibus miq.
+    </p>
+
+    <div class="training-schedule-cover max-w-[1400px] mx-auto text-center">
+      <h3 class="training-schedule-top border-t border-[#f23849] bg-[#272a31] py-2 uppercase font-bold text-white">
+        {{scheduleData.dateRange}}
+      </h3>
+
+      <div class="training-schedule-table overflow-x-auto">
+        <table class="w-full bg-[#343641] text-sm">
+          <thead class="bg-[#191a1f] uppercase">
+            <tr>
+              <th class="w-[12.5%] p-2.5 text-center text-gray-400 font-bold"></th>
+              <th *ngFor="let day of scheduleData.days" class="w-[12.5%] p-2.5 text-center text-gray-400 font-bold">
+                {{day}}
+              </th>
+            </tr>
+          </thead>
+          <tbody class="text-white">
+            <tr *ngFor="let timeSlot of scheduleData.timeSlots" class="border-b border-[#3c3e4a]">
+              <td class="p-3 text-center text-gray-400 font-bold">{{timeSlot.time}}</td>
+              <td *ngFor="let day of scheduleData.days"
+                  class="p-3 text-center border-r border-[#3c3e4a]"
+                  [class.border-r]="day !== 'sunday'">
+                <ng-container *ngIf="hasSession(day, timeSlot); else emptyCell">
+                  <h4 class="uppercase font-bold">{{getSession(day, timeSlot).title}}</h4>
+                  <div class="date font-bold mt-0.5 text-[#f23849]">{{getSession(day, timeSlot).timeRange}}</div>
+                  <div class="name capitalize">{{getSession(day, timeSlot).instructor}}</div>
+                </ng-container>
+                <ng-template #emptyCell></ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,67 @@
+/* Font family classes */
+.font-righteous {
+  font-family: 'Righteous', sans-serif;
+}
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1199px) {
+  body {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 32px;
+  }
+  
+  h2 {
+    font-size: 30px;
+  }
+  
+  h3 {
+    font-size: 20px;
+  }
+}
+
+/* Form input focus styles */
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px #f23849;
+}
+
+/* Checkbox styling */
+.contact-form input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #bebebe;
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+
+.contact-form input[type="checkbox"]:checked {
+  background-color: #f23849;
+  border-color: #f23849;
+}
+
+.contact-form input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

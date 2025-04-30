@@ -1,0 +1,26 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Effet de dégradé pour le logo */
+.inline-flex.relative::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  bottom: 0;
+  width: 100%;
+  filter: blur(10px);
+  background: linear-gradient(to right,
+          #f87bff,
+          #fb92cf,
+          #ffdd9b,
+          #c2f0b1,
+          #2fd8fe);
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/assets/fonts/DMSans-Regular.ttf') format('truetype');
+}

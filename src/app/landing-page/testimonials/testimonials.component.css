@@ -1,0 +1,59 @@
+/* Animation for scrolling testimonials */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50% - 1.25rem));
+  }
+}
+
+@keyframes scrollReverse {
+  0% {
+    transform: translateX(calc(-50% - 1.25rem));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}
+
+.animate-scrollReverse {
+  animation: scrollReverse 40s linear infinite;
+}
+
+/* Pause animation on hover */
+.hover\:\[animation-play-state\:paused\]:hover {
+  animation-play-state: paused;
+}
+
+/* Dark mode transitions */
+.dark\:bg-gray-50 {
+  transition: background-color 0.3s ease;
+}
+
+.dark\:text-black {
+  transition: color 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .testimonial-card {
+    width: 280px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 767px) {
+  .testimonial-card {
+    width: 320px;
+  }
+}
+
+@media (min-width: 768px) {
+  .testimonial-card {
+    width: 440px;
+  }
+}

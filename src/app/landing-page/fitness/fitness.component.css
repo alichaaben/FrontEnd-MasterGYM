@@ -1,0 +1,142 @@
+
+.s-welcome-fitness {
+  padding: 140px 0;
+}
+
+.welcome-fitness-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin: 0 auto;
+  max-width: 1140px;
+}
+
+.welcome-fitness-img {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 0 15px;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+
+  img {
+    display: block;
+  }
+}
+
+.welcome-fitness-item {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 93px 15px 0;
+
+  img {
+    display: block;
+    position: relative;
+    left: -30px;
+    margin-top: -20px;
+  }
+}
+
+.welcome-fitness-info {
+  padding: 53px 30px 92px 0;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -15px;
+    height: 100%;
+    width: calc(100% + 94px);
+    border: 7px solid #f23849;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .title-decor {
+    text-align: left;
+    line-height: 1;
+    padding-bottom: 0;
+    margin-bottom: 16px;
+
+    &:before {
+      display: none;
+    }
+
+    span {
+      display: block;
+    }
+  }
+
+  .btn {
+    margin-top: 23px;
+  }
+}
+
+/* Title decor styles */
+.title-decor {
+  position: relative;
+  text-align: center;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+
+  span {
+    color: #f23849;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45px;
+    height: 4px;
+    background-color: #f23849;
+  }
+}
+
+/* Button styles */
+.btn {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: #f23849;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: darken(#f23849, 10%);
+    transform: translateY(-2px);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .welcome-fitness-row {
+    flex-direction: column;
+  }
+
+  .welcome-fitness-img,
+  .welcome-fitness-item {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .welcome-fitness-item img {
+    left: 0;
+    margin-top: 30px;
+  }
+
+  .welcome-fitness-info {
+    padding: 30px 15px;
+
+    &:before {
+      display: none;
+    }
+  }
+}

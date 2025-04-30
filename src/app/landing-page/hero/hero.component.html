@@ -1,0 +1,78 @@
+<!-- slider.component.html -->
+<div class=" min-h-screen flex items-center justify-center overflow-hidden p-4 sm:p-8 bg-black">
+  <!-- Background effects -->
+  <div class="fixed inset-0 -z-10">
+    <div class="absolute inset-0 bg-gradient-to-br from-black-900/20 via-black-900/20 to-fuchsia-900/20"></div>
+    <div class="absolute top-1/4 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-black-500/10 rounded-full filter blur-3xl">
+    </div>
+    <div class="absolute bottom-1/4 right-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-fuchsia-500/10 rounded-full filter blur-3xl">
+    </div>
+  </div>
+
+  <!-- Main container -->
+  <div class="w-full max-w-8xl max-h-8xl my-0 ">
+    <!-- Carousel container -->
+    <div class="carousel-container relative">
+      <!-- Progress bar -->
+      <div class="absolute top-0 left-0 right-0 h-1 bg-white/10 rounded-full overflow-hidden z-20">
+        <div class="progress-bar absolute top-0 left-0 h-full bg-gradient-to-r from-red-500 to-red-500"
+          [style.width]="getProgressWidth()"></div>
+      </div>
+
+      <!-- Navigation buttons -->
+      <button
+        class="nav-button absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center z-20 text-white touch-manipulation"
+        (click)="prevSlide()" title="Previous slide">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+
+      <button
+        class="nav-button absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center z-20 text-white touch-manipulation"
+        (click)="nextSlide()" title="Next slide">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+
+      <!-- Carousel track -->
+      <div class="carousel-track relative h-[800px] sm:h-[800px] md:h-[800px] overflow-hidden">
+        <!-- Carousel items -->
+        <div *ngFor="let slide of slides; let i = index" class="carousel-item absolute top-0 left-0 w-full h-full"
+          [class.active]="getSlideClass(i) === 'active'" [class.next]="getSlideClass(i) === 'next'"
+          [class.prev]="getSlideClass(i) === 'prev'" [class.hidden]="getSlideClass(i) === 'hidden'">
+          <div class="w-full h-full p-4 sm:p-8">
+            <div class="w-full h-full rounded-xl sm:rounded-2xl overflow-hidden relative group">
+              <img [src]="slide.image" [alt]="slide.title"
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+              <div class="absolute inset-0 bg-gradient-to-br from-gray-500/40 to-gray-500/40 mix-blend-overlay">
+              </div>
+              <div
+                class="absolute inset-x-0 bottom-0 p-4 sm:p-8 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                <h3 class="text-white text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3">
+                  {{ slide.title }} <span class="text-red-600">{{ titleSpan }}</span>
+                </h3>
+                <p class="text-gray-200 text-sm sm:text-base md:text-lg max-w-2xl">
+                  {{ text }}
+                </p>
+                <p class="text-gray-300 text-xs sm:text-sm mt-2">{{ slide.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Indicators -->
+      <div class="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 flex gap-1 sm:gap-2 z-20">
+        <button *ngFor="let slide of slides; let i = index"
+          class="w-8 sm:w-12 h-1 sm:h-1.5 rounded-full transition-colors hover:bg-white/60"
+          [class.bg-white]="i === currentSlide" [class.bg-white]="i !== currentSlide" (click)="goToSlide(i)"
+          [title]="'Go to slide ' + (i + 1)">
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
