@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { HomePageComponent } from './landing-page/home-page/home-page.component';
+import { AboutComponent } from './landing-page/about/about.component';
+import { ServicesComponent } from './landing-page/services/services.component';
+import { ContactComponent } from './landing-page/contact/contact.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'MasterGYM',
+    redirectTo: 'MasterGYM/home',
     pathMatch: 'full',
   },
   // {
@@ -15,87 +19,29 @@ const routes: Routes = [
   {
     path: 'MasterGYM',
     component: LandingPageComponent,
+  },
+  {
+    path: 'MasterGYM',
+    component: LandingPageComponent,
+    children: [
+      {
+        path: 'home',
+        component: HomePageComponent,
+      },
+        {
+          path: 'about',
+          component: AboutComponent,
+        },
+        {
+          path: 'services',
+          component: ServicesComponent,
+        },
+        {
+          path: 'contact',
+          component: ContactComponent,
+        },
+    ]
   }
-  //,{
-    // path: 'Admin',
-    // component: AdminTemplateComponent,
-    // children: [
-    //   {
-    //     path: 'dashboard',
-    //     component: DashboardComponent,
-    //   },
-    //   {
-    //     path: 'Profil',
-    //     component: ProfilComponent,
-    //   },
-    //   {
-    //     path: 'Settings',
-    //     component: SettingComponent,
-    //   },
-
-      /*************** Users *************** */
-      // {
-      //   path: 'Users',
-      //   component: ListUsersComponent,
-      // },
-      // {
-      //   path: 'Create-Users',
-      //   component: CreateUsersComponent,
-      // },
-      // {
-      //   path: 'Update-Users',
-      //   component: UpdateUsersComponent,
-      // },
-
-      /*************** Billings *************** */
-      // {
-      //   path: 'Billings',
-      //   component: ListBillsComponent,
-      // },
-      // {
-      //   path: 'Creates-Billings',
-      //   component: CreateBillsComponent,
-      // },
-      // {
-      //   path: 'Update-Billings',
-      //   component: UpdateBillsComponent,
-      // },
-      // {
-      //   path: 'Details-Billings',
-      //   component: DetailsBillsComponent,
-      // },
-
-      /*************** Materials *************** */
-      // {
-      //   path: 'Materials',
-      //   component: ListMatComponent,
-      // },
-      // {
-      //   path: 'Creates-Materials',
-      //   component: CreateMatComponent,
-      // },
-      // {
-      //   path: 'Update-Materials',
-      //   component: UpdateMatComponent,
-      // },
-      // {
-      //   path: 'store-Materials',
-      //   component: StoreMatComponent,
-      // },
-      // {
-      //   path: 'details-Materials',
-      //   component: DetailsMatComponent,
-      // },
-
-      /*************** Ro-Systems *************** */
-
-      // {
-      //   path: 'RO-Systems',
-      //   component: RoSystemComponent,
-      // },
-
-    //],
-  //},
 ];
 
 @NgModule({

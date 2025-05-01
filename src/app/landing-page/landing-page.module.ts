@@ -17,6 +17,7 @@ import { ServicesComponent } from './services/services.component';
 import { ViewTrainerComponent } from './view-trainer/view-trainer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 
 
@@ -36,7 +37,8 @@ import { TestimonialsComponent } from './testimonials/testimonials.component';
     AboutComponent,
     ServicesComponent,
     ViewTrainerComponent,
-    TestimonialsComponent
+    TestimonialsComponent,
+    HomePageComponent,
   ],
   imports: [
     CommonModule,
