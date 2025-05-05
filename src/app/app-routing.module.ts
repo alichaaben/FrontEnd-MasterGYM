@@ -5,6 +5,23 @@ import { HomePageComponent } from './landing-page/home-page/home-page.component'
 import { AboutComponent } from './landing-page/about/about.component';
 import { ServicesComponent } from './landing-page/services/services.component';
 import { ContactComponent } from './landing-page/contact/contact.component';
+import { LoginComponent } from './UI/login/login.component';
+import { AdminTemplateComponent } from './admin-template/admin-template.component';
+import { ListRoleComponent } from './UI/roles/list-role/list-role.component';
+import { DashboardComponent } from './UI/dashboard/dashboard.component';
+import { CreateRoleComponent } from './UI/roles/create-role/create-role.component';
+import { UpdateRoleComponent } from './UI/roles/update-role/update-role.component';
+import { ListUsersComponent } from './UI/users/list-users/list-users.component';
+import { CreateUsersComponent } from './UI/users/create-users/create-users.component';
+import { UpdateUsersComponent } from './UI/users/update-users/update-users.component';
+import { ErrorPageComponent } from './UI/error-page/error-page.component';
+import { AllClientComponent } from './UI/clients/all-client/all-client.component';
+import { CreateCustomerComponent } from './UI/clients/create-customer/create-customer.component';
+import { UpdateCustomerComponent } from './UI/clients/update-customer/update-customer.component';
+import { ClientComponent } from './UI/clients/client/client.component';
+import { ScheduleCalendarComponent } from './UI/schedule-calendar/schedule-calendar.component';
+import { PhotoGalleryComponent } from './UI/photo-gallery/photo-gallery.component';
+import { MessagesComponent } from './UI/messages/messages.component';
 
 const routes: Routes = [
   {
@@ -12,10 +29,10 @@ const routes: Routes = [
     redirectTo: 'MasterGYM/home',
     pathMatch: 'full',
   },
-  // {
-  //   path:'login',
-  //   component:LoginComponent,
-  // },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
   {
     path: 'MasterGYM',
     component: LandingPageComponent,
@@ -28,21 +45,68 @@ const routes: Routes = [
         path: 'home',
         component: HomePageComponent,
       },
-        {
-          path: 'about',
-          component: AboutComponent,
-        },
-        {
-          path: 'services',
-          component: ServicesComponent,
-        },
-        {
-          path: 'contact',
-          component: ContactComponent,
-        },
+      {
+        path: 'about',
+        component: AboutComponent,
+      },
+      {
+        path: 'services',
+        component: ServicesComponent,
+      },
+      {
+        path: 'contact',
+        component: ContactComponent,
+      },
     ]
-  }
+  },
+  {
+    path: 'admin',
+    component: AdminTemplateComponent,
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent },
+
+
+      /***************************** Admin ****************************************************/
+      /*************** roles *************** */
+      // { path: 'roles', component: ListRoleComponent },
+      // { path: 'roles/create', component: CreateRoleComponent },
+      // { path: 'roles/update', component: UpdateRoleComponent },
+
+      /*************** Users *************** */
+      { path: 'users', component: ListUsersComponent },
+      { path: 'users/create', component: CreateUsersComponent },
+      { path: 'users/update/:id', component: UpdateUsersComponent },
+
+      /*************** customers *************** */
+      { path: 'customers', component: AllClientComponent },
+      { path: 'customers/create', component: CreateCustomerComponent },
+      { path: 'customers/update/:id', component: UpdateCustomerComponent },
+
+      /*************** customer-coatch *************** */
+      { path: 'customer-coatch', component: ClientComponent },
+      //{ path: 'customer-coatch/create', component: CreateCustomersComponent },
+      { path: 'customer-coatch/update', component: UpdateCustomerComponent },
+
+      /*************** schedule-calendar *************** */
+      { path: 'schedule-calendar', component: ScheduleCalendarComponent },
+
+      /*************** photo-gallery*************** */
+      { path: 'photo-gallery', component: PhotoGalleryComponent },
+
+      /*************** contact-msg*************** */
+      { path: 'contact-msg', component: MessagesComponent },
+
+
+
+      /*************** Error Pages *************** */
+      { path: 'error', component: ErrorPageComponent },
+      { path: '**', component: ErrorPageComponent },
+    ],
+  },
+
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

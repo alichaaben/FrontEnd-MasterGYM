@@ -14,24 +14,24 @@ export class HeroComponent {
     {
       id: 1,
       image: 'assets/slide-1.jpg',
-      title: 'Digital Prism',
-      description: 'Where geometry meets art in a stunning display of light and form.'
+      title: 'Strength Zone',
+      description: 'Push your limits and build power with every rep and every set.'
     },
     {
       id: 2,
       image: 'assets/slide-2.jpg',
-      title: 'Tech Haven',
-      description: 'Immerse yourself in the cutting edge of technology and innovation.'
+      title: 'Cardio Pulse',
+      description: 'Ignite your energy and boost endurance with heart-pumping workouts.'
     },
     {
       id: 3,
       image: 'assets/slide-3.jpg',
-      title: 'Neural Dreams',
-      description: 'AI-generated masterpieces that blur the line between human and machine creativity.'
+      title: 'Focus & Form',
+      description: 'Train smart, stay disciplined, and master your movement.'
     }
   ];
   titleSpan = 'YOURSELF';
-  text = 'Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem ut, venenatis dapibus mi. Nunc venenatis sollicitudin nisl vel auctor.';
+  text = 'Unleash your full potential with targeted workouts, expert guidance, and a community that motivates you to be your best.';
   private autoAdvanceTimer: any;
   private touchStartX = 0;
 

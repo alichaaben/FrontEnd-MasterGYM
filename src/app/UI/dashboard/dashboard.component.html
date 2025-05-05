@@ -1,0 +1,141 @@
+<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <!-- Card 1: Total Users -->
+    <section class="bg-[#3483E3] text-white rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between">
+            <i class="ph ph-users text-lg"></i>
+            <i class="ph ph-arrow-up-right text-sm"></i>
+        </div>
+        <p class="mt-4 text-2xl font-bold">2,345</p>
+        <p class="text-sm opacity-80">Total Users</p>
+        <p class="mt-2 text-xs">
+            <span class="text-green-300">+12.5%</span> from last month
+        </p>
+    </section>
+
+    <!-- Card 2: Revenue -->
+    <section class="bg-[#c7e0ff] rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between">
+            <i class="ph ph-currency-dollar text-lg text-[#3483E3]"></i>
+            <i class="ph ph-arrow-up-right text-sm text-green-500"></i>
+        </div>
+        <p class="mt-4 text-2xl font-bold text-black">$12,623</p>
+        <p class="text-sm text-gray-500">Revenue</p>
+        <p class="mt-2 text-xs text-black">
+            <span class="text-green-500">+8.2%</span> from last month
+        </p>
+    </section>
+
+    <!-- Card 3: Active Sessions -->
+    <section class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between">
+            <i class="ph ph-chart-line-up text-lg text-[#3483E3]"></i>
+            <i class="ph ph-arrow-down-right text-sm text-red-500"></i>
+        </div>
+        <p class="mt-4 text-2xl font-bold text-black">1,482</p>
+        <p class="text-sm text-gray-500">Active Sessions</p>
+        <p class="mt-2 text-xs text-black">
+            <span class="text-red-500">-4.3%</span> from last month
+        </p>
+    </section>
+
+    <!-- Card 4: Conversion Rate -->
+    <section class="bg-[#052659] text-white rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between">
+            <i class="ph ph-currency-dollar text-lg"></i>
+            <i class="ph ph-arrow-up-right text-sm"></i>
+        </div>
+        <p class="mt-4 text-2xl font-bold">89.2%</p>
+        <p class="text-sm opacity-80">Conversion Rate</p>
+        <p class="mt-2 text-xs">
+            <span class="text-green-300">+2.1%</span> from last month
+        </p>
+    </section>
+</div>
+
+
+
+
+<!-- Charts -->
+<div class="grid gap-6 md:grid-cols-2 mb-5 mt-5">
+    <!-- Water Quality Trends -->
+    <div class="rounded-lg border bg-white p-4  dark:bg-[#222b45]  dark:border-gray-600">
+        <h2 class="text-lg font-bold">Water Quality Trends</h2>
+        <p class="text-sm text-gray-500">TDS and pH levels over time</p>
+        <div class="mt-4">
+            <!-- Placeholder for Water Quality Chart -->
+            <div class="h-64 bg-gray-100 rounded-lg dark:bg-gray-500"></div>
+        </div>
+    </div>
+
+    <!-- System Pressure -->
+    <div class="rounded-lg border bg-white p-4  dark:bg-[#222b45]  dark:border-gray-600">
+        <h2 class="text-lg font-bold">System Pressure</h2>
+        <p class="text-sm text-gray-500">Inlet and outlet pressure readings</p>
+        <div class="mt-4">
+            <!-- Placeholder for Pressure Chart -->
+            <div class="h-64 bg-gray-100 rounded-lg dark:bg-gray-500"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Invoices and Alerts -->
+<div class="grid gap-6 md:grid-cols-3 mb-5">
+    <!-- Recent Invoices -->
+    <div class="rounded-lg border bg-white p-4 md:col-span-2  dark:bg-[#222b45]  dark:border-gray-600">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-bold">Recent Invoices</h2>
+                <p class="text-sm text-gray-500">Manage your maintenance and service invoices</p>
+            </div>
+            <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                <span class="mr-2 text-2xl">📤</span>
+                Upload Invoice
+            </button>
+        </div>
+        <div class="mt-4">
+            <!-- Placeholder for Invoice List -->
+            <div class="h-64 bg-gray-100 rounded-lg dark:bg-gray-500"></div>
+        </div>
+    </div>
+
+    <!-- System Alerts -->
+    <div class="rounded-lg border bg-white p-4  dark:bg-[#222b45]  dark:border-gray-600">
+        <h2 class="text-lg font-bold">System Alerts</h2>
+        <p class="text-sm text-gray-500">Recent notifications and warnings</p>
+        <div class="mt-4 space-y-4">
+            <!-- High Pressure Warning -->
+            <div class="p-4 bg-red-500 rounded-lg">
+                <div class="flex items-center gap-2">
+                    <span class="text-red-500 text-2xl">⚠️</span>
+                    <div>
+                        <p class="font-medium text-white">High Pressure Warning</p>
+                        <p class="text-sm text-white">System pressure exceeds normal range. Check for blockages.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maintenance Due -->
+            <div class="p-4 bg-yellow-500 rounded-lg">
+                <div class="flex items-center gap-2">
+                    <span class="text-yellow-500 text-2xl">🛠️</span>
+                    <div>
+                        <p class="font-medium text-white">Maintenance Due</p>
+                        <p class="text-sm text-white">Scheduled maintenance is due in 5 days.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Invoice Payment -->
+            <div class="p-4 bg-blue-500 rounded-lg">
+                <div class="flex items-center gap-2">
+                    <span class="text-blue-500 text-2xl">📄</span>
+                    <div>
+                        <p class="font-medium text-white">Invoice Payment</p>
+                        <p class="text-sm text-white">Recent maintenance invoice pending payment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

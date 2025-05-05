@@ -1,0 +1,25 @@
+/* Add any custom styles here */
+.bg-primary {
+  background-color: #3b82f6;
+  /* Example primary color */
+}
+
+.text-primary-foreground {
+  color: #ffffff;
+  /* White text for primary background */
+}
+
+.border-primary {
+  border-color: #3b82f6;
+  /* Example primary border color */
+}
+
+.hover\:bg-gray-100:hover {
+  background-color: #f3f4f6;
+  /* Light gray hover */
+}
+
+.hover\:bg-orange-600:hover {
+  background-color: #ea580c;
+  /* Darker orange hover */
+}

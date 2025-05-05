@@ -1,0 +1,127 @@
+<div class="container">
+  <div class="sidebar bg-[#031f4a] dark:bg-[#222b45]" [class.active]="isSidebarActive">
+    <div class="menu-btn bg-[#7DA0CA] dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-700"
+      (click)="toggleSidebar()">
+      <i class="ph-bold ph-caret-left dark:text-yellow-500 text-lg hover:text-[#1c1919]"></i>
+    </div>
+    <div class="head">
+      <div class="user-img-logo">
+        <img src="assets/login-logo.png" alt="" />
+      </div>
+    </div>
+    <div class="nav">
+      <div class="menu">
+        <p class="title">Main</p>
+        <ul>
+          <li [class.active]="activeMenuItem === 0" (click)="toggleMenuItem(0, $event)">
+            <a routerLink="dashboard">
+              <i class="icon ph-bold ph-house-simple"></i>
+              <span class="text" [class.tooltip]="isSidebarActive">Dashboard</span>
+            </a>
+          </li>
+
+          <li [class.active]="activeMenuItem === 1" (click)="toggleMenuItem(1, $event)">
+            <a routerLink="users">
+              <i class="ph ph-users text-xl"></i>
+              <span class="text" [class.tooltip]="isSidebarActive">Users</span>
+            </a>
+          </li>
+
+          <!-- <li [class.active]="activeMenuItem === 1" (click)="toggleMenuItem(1, $event)">
+            <a>
+              <i class="ph ph-users text-xl"></i>
+              <span class="text" [class.tooltip]="isSidebarActive">Users</span>
+              <i class="arrow ph-bold ph-caret-down"></i>
+            </a>
+            <ul class="sub-menu dark:bg-[#222b45] bg-[#031f4a]"
+              [style.display]="activeMenuItem === 1 ? 'block' : 'none'" (mouseenter)="onSubMenuMouseEnter()"
+              (mouseleave)="onSubMenuMouseLeave()">
+              <li>
+                <a routerLink="users">
+                  <span class="text" [class.tooltip]="isSidebarActive">List Users</span>
+                </a>
+              </li>
+              <li>
+                <a routerLink="roles">
+                  <span class="text" [class.tooltip]="isSidebarActive">List Roles</span>
+                </a>
+              </li>
+            </ul>
+          </li> -->
+
+          <li [class.active]="activeMenuItem === 2" (click)="toggleMenuItem(2, $event)">
+            <a routerLink="customers">
+              <i class="ph ph-identification-card text-2xl"></i>
+              <span class="text" [class.tooltip]="isSidebarActive">All-Customers</span>
+            </a>
+          </li>
+
+          <li [class.active]="activeMenuItem === 3" (click)="toggleMenuItem(3, $event)">
+            <a routerLink="customer-coatch">
+              <i class="ph ph-identification-card text-2xl"></i>
+              <span class="text" [class.tooltip]="isSidebarActive">Customers</span>
+            </a>
+          </li>
+
+          <li [class.active]="activeMenuItem === 4" (click)="toggleMenuItem(4, $event)">
+            <a routerLink="schedule-calendar">
+              <i class="ph ph-calendar-plus text-2xl"></i>
+              <span class="text" [class.tooltip]="isSidebarActive">training date</span>
+            </a>
+          </li>
+
+          <li [class.active]="activeMenuItem === 5" (click)="toggleMenuItem(5, $event)">
+            <a routerLink="photo-gallery">
+              <i class="ph ph-image text-2xl"></i>
+              <span class="text" [class.tooltip]="isSidebarActive">Gallery</span>
+            </a>
+          </li>
+
+          <li [class.active]="activeMenuItem === 6" (click)="toggleMenuItem(6, $event)">
+            <a routerLink="contact-msg">
+              <i class="ph ph-chat-dots text-2xl"></i>
+              <span class="text" [class.tooltip]="isSidebarActive">Testimonial</span>
+            </a>
+          </li>
+
+
+        </ul>
+      </div>
+      <!----------------------------------------------------------------------------------------->
+      <div class="menu">
+        <p class="title">Settings</p>
+        <ul>
+          <li [class.active]="activeMenuItem === 7" (click)="toggleMenuItem(7, $event)">
+            <a routerLink="settings">
+              <i class="icon ph-bold ph-gear"></i>
+              <span class="text" [class.tooltip]="isSidebarActive">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="menu">
+      <p class="title">Account</p>
+      <ul>
+        <li [class.active]="activeMenuItem === 8" (click)="toggleMenuItem(8, $event)">
+          <a routerLink="/login">
+            <i class="icon ph-bold ph-sign-out"></i>
+            <span class="text" [class.tooltip]="isSidebarActive">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="head">
+      <div class="user-img">
+        <img src="assets/Ali2.jpg" alt="" />
+      </div>
+      <div class="user-details">
+        <p class="title">Admin</p>
+        <p class="name">Ali Chaabane</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!---------------------------------*********--------------------------------->

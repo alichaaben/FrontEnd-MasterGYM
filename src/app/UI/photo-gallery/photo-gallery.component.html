@@ -1,0 +1,287 @@
+<div class="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Training Hall Photos</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400">Manage your training facility images</p>
+    </div>
+
+    <div class="flex space-x-3">
+      <!-- Album Selector -->
+      <div class="relative">
+        <select [(ngModel)]="selectedAlbum" (change)="filterPhotos()"
+          class="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          <option value="all">All Albums</option>
+          <option *ngFor="let album of albums" [value]="album.id">{{album.name}}</option>
+          <option value="new">+ Create New Album</option>
+        </select>
+        <div
+          class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
+          <i class="ph ph-caret-down"></i>
+        </div>
+      </div>
+
+      <!-- Upload Button -->
+      <button (click)="openUploadModal()"
+        class="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+        <i class="ph ph-cloud-arrow-up mr-2"></i>
+        Upload Photos
+      </button>
+    </div>
+  </div>
+
+  <!-- Gallery Grid -->
+  <div *ngIf="filteredPhotos.length > 0; else emptyState"
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div *ngFor="let photo of filteredPhotos" class="relative group">
+      <!-- Photo Card -->
+      <div class="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden shadow-sm">
+        <img [src]="photo.url" [alt]="photo.name"
+          class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+
+        <!-- Photo Actions -->
+        <div
+          class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-2">
+          <button (click)="viewPhoto(photo); $event.stopPropagation()"
+            class="p-2 bg-white/80 rounded-full hover:bg-white text-gray-800 w-8 h-8">
+            <i class="ph ph-eye text-center"></i>
+          </button>
+          <button (click)="openEditModal(photo); $event.stopPropagation()"
+            class="p-2 bg-white/80 rounded-full hover:bg-white text-gray-800 w-8 h-8">
+            <i class="ph ph-pencil-simple text-center"></i>
+          </button>
+          <button (click)="deletePhoto(photo.id); $event.stopPropagation()"
+            class="p-2 bg-white/80 rounded-full hover:bg-white text-red-600 w-8 h-8">
+            <i class="ph ph-trash text-center"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Photo Info -->
+      <div class="mt-2 px-1">
+        <h3 class="text-sm font-medium text-gray-800 dark:text-white truncate">{{photo.name}}</h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400">
+          {{photo.album}} • {{photo.date | date:'mediumDate'}}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <ng-template #emptyState>
+    <div class="text-center py-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg">
+      <i class="ph ph-image text-5xl text-gray-300 dark:text-gray-600 mb-4"></i>
+      <h3 class="text-lg font-medium text-gray-500 dark:text-gray-400">No photos found</h3>
+      <p class="mt-1 text-sm text-gray-400 dark:text-gray-500">Upload photos to get started</p>
+      <button (click)="openUploadModal()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+        <i class="ph ph-cloud-arrow-up mr-2"></i>
+        Upload Photos
+      </button>
+    </div>
+  </ng-template>
+
+  <!-- Photo Viewer Modal -->
+  <div *ngIf="viewingPhoto" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+    <div class="relative w-full max-w-6xl">
+      <!--------------------------------------------->
+      <button (click)="closeViewer()"
+        class="absolute top-4 right-4 z-10 p-2 bg-black/50 rounded-full text-white hover:bg-black/70 w-8 h-8">
+        <i class="ph ph-x"></i>
+      </button>
+
+      <div class="flex flex-col lg:flex-row gap-6">
+        <!-- Main Photo -->
+        <div class="flex-1 bg-black rounded-lg overflow-hidden">
+          <img [src]="viewingPhoto.url" [alt]="viewingPhoto.name" class="w-full h-auto max-h-[80vh] object-contain">
+        </div>
+
+        <!-- Photo Details -->
+        <div class="lg:w-80 bg-white dark:bg-gray-800 rounded-lg p-4 shadow-lg">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">{{viewingPhoto.name}}</h3>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">Album</label>
+              <p class="text-sm text-gray-800 dark:text-white">{{viewingPhoto.album || 'Uncategorized'}}</p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">Uploaded</label>
+              <p class="text-sm text-gray-800 dark:text-white">{{viewingPhoto.date | date:'mediumDate'}}</p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">Description</label>
+              <p class="text-sm text-gray-800 dark:text-white" *ngIf="viewingPhoto.description; else noDescription">
+                {{viewingPhoto.description}}
+              </p>
+              <ng-template #noDescription>
+                <p class="text-sm text-gray-400 dark:text-gray-500 italic">No description</p>
+              </ng-template>
+            </div>
+
+            <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+              <button (click)="openEditModal(viewingPhoto)"
+                class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                <i class="ph ph-pencil-simple mr-2"></i>
+                Edit Details
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Arrows -->
+      <button *ngIf="canNavigatePrevious()" (click)="navigatePhoto(-1)"
+        class="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-3 bg-black/50 rounded-full text-white hover:bg-black/70">
+        <i class="ph ph-caret-left text-2xl"></i>
+      </button>
+      <button *ngIf="canNavigateNext()" (click)="navigatePhoto(1)"
+        class="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-3 bg-black/50 rounded-full text-white hover:bg-black/70">
+        <i class="ph ph-caret-right text-2xl"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Upload/Edit Modal -->
+  <div *ngIf="showUploadModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl">
+      <div class="p-6">
+        <!-- Modal Header -->
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+            {{editingPhoto ? 'Edit Photo' : 'Upload Photos'}}
+          </h3>
+          <!--------------------------------------------->
+          <button (click)="closeUploadModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+            <i class="ph ph-x "></i>
+          </button>
+        </div>
+
+        <!-- Upload Form -->
+        <form [formGroup]="photoForm" (ngSubmit)="savePhoto()" class="space-y-4">
+          <!-- File Upload -->
+          <div *ngIf="!editingPhoto" class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Photos</label>
+            <div
+              class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 transition-colors"
+              (click)="fileInput.click()" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+              <input #fileInput type="file" class="hidden" accept="image/*" multiple (change)="onFileSelected($event)">
+
+              <i class="ph ph-cloud-arrow-up text-4xl text-gray-400 mb-3"></i>
+              <p class="text-sm text-gray-600 dark:text-gray-300">
+                Drag & drop photos here, or <span class="text-blue-600 dark:text-blue-400">click to browse</span>
+              </p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                JPEG, PNG, or WEBP (Max 10MB each)
+              </p>
+            </div>
+
+            <!-- Selected Files Preview -->
+            <div *ngIf="selectedFiles.length > 0" class="mt-4 space-y-3">
+              <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300">Selected Files</h4>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div *ngFor="let file of selectedFiles" class="relative group">
+                  <img [src]="file.preview"
+                    class="h-20 w-full object-cover rounded border border-gray-200 dark:border-gray-700">
+                  <button (click)="removeSelectedFile(file)"
+                    class="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                    <i class="ph ph-x text-xs"></i>
+                  </button>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 truncate mt-1">{{file.name}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Edit Fields (shown when editing single photo) -->
+          <div *ngIf="editingPhoto" class="space-y-4">
+            <div class="flex flex-col sm:flex-row gap-4">
+              <div class="flex-1">
+                <img [src]="editingPhoto.url"
+                  class="w-full h-auto max-h-64 object-contain rounded border border-gray-200 dark:border-gray-700">
+              </div>
+              <div class="flex-1 space-y-4">
+                <!-- Photo Name -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Photo Name</label>
+                  <input type="text" formControlName="name"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                </div>
+
+                <!-- Album Selection -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Album</label>
+                  <select formControlName="album"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <option value="">Select Album</option>
+                    <option *ngFor="let album of albums" [value]="album.id">{{album.name}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+              <textarea formControlName="description" rows="3"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="flex justify-end space-x-3 pt-4">
+            <button type="button" (click)="closeUploadModal()"
+              class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:bg-gray-600">
+              Cancel
+            </button>
+            <button type="submit" [disabled]="photoForm.invalid || (selectedFiles.length === 0 && !editingPhoto)"
+              class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+              {{editingPhoto ? 'Update' : 'Upload'}}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Album Modal -->
+  <div *ngIf="showAlbumModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white">Create New Album</h3>
+          <button (click)="closeAlbumModal()" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+            <i class="ph ph-x text-2xl"></i>
+          </button>
+        </div>
+
+        <form [formGroup]="albumForm" (ngSubmit)="createAlbum()" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Album Name</label>
+            <input type="text" formControlName="name"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description
+              (Optional)</label>
+            <textarea formControlName="description" rows="3"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
+          </div>
+
+          <div class="flex justify-end space-x-3 pt-4">
+            <button type="button" (click)="closeAlbumModal()"
+              class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:bg-gray-600">
+              Cancel
+            </button>
+            <button type="submit" [disabled]="albumForm.invalid"
+              class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+              Create Album
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

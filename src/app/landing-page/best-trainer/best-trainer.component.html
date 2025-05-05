@@ -1,73 +1,75 @@
-<!-- best-trainer.component.html -->
-<section class="s-best-trainer py-32 md:py-36 bg-black">
+<section class="s-best-trainer py-32 md:py-36 bg-black relative overflow-hidden">
   <div class="container mx-auto px-4 mb-16">
     <h2 class="title-decor text-3xl md:text-4xl font-bold text-white text-center mb-4">
       Best <span class="text-[#f23849]">Trainer</span>
     </h2>
     <div class="w-16 h-1 bg-[#f23849] mx-auto mb-6"></div>
-    
+
     <p class="slogan text-gray-300 max-w-2xl mx-auto text-center">
-      Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem
-      ut, venenatis dapibus miq.
+      Achieve your best self through dedication, strength, and unstoppable motivation. Your fitness journey starts here.
     </p>
   </div>
 
-  <div class="relative">
+  <div class="relative" (mouseenter)="pauseAutoScroll()" (mouseleave)="resumeAutoScroll()">
     <!-- Navigation buttons -->
-    <ng-container *ngIf="trainers.length > 5">
-      <button
-        (click)="prevSlide()"
-        class="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 text-white p-2 rounded-full"
-        aria-label="Previous trainers"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 18l-6-6 6-6"/>
-        </svg>
-      </button>
-      <button
-        (click)="nextSlide()"
-        class="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 text-white p-2 rounded-full"
-        aria-label="Next trainers"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 18l6-6-6-6"/>
-        </svg>
-      </button>
-    </ng-container>
+    <button
+      (click)="prevSlide()"
+      class="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 text-white p-2 rounded-full hover:bg-[#f23849] transition-colors duration-300"
+      aria-label="Previous trainers"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+    <button
+      (click)="nextSlide()"
+      class="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 text-white p-2 rounded-full hover:bg-[#f23849] transition-colors duration-300"
+      aria-label="Next trainers"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </button>
 
-    <!-- Trainer slider -->
-    <div class="best-trainer-slider flex overflow-x-hidden">
-      <a
-        *ngFor="let trainer of visibleTrainers"
-        [href]="trainer.link"
-        class="best-trainer-slide relative text-center uppercase pb-5 mb-5 flex-1 group"
-      >
-        <!-- Red border that appears on hover -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 h-[calc(95%-10px)] w-[calc(100%-40px)] mt-[40px] border-[7px] border-[#f23849] pointer-events-none transition-all duration-400 z-[2] opacity-0 group-hover:opacity-100 group-hover:mt-[20px]"></div>
+    <!-- Trainer slider container with animation -->
+    <div class="best-trainer-slider-container overflow-hidden">
+      <!-- Infinite scrolling trainers -->
+      <div class="best-trainer-slider flex" [class.paused]="isPaused" [style.transform]="'translateX(-' + currentPosition + 'px)'">
+        <ng-container *ngFor="let trainer of duplicatedTrainers; let i = index">
+          <a
+            [href]="trainer.link"
+            class="best-trainer-slide relative text-center uppercase pb-5 mb-5 flex-shrink-0 w-[300px] mx-4 group"
+            (mouseenter)="pauseOnHover()"
+            (mouseleave)="resumeOnHover()"
+          >
+            <!-- Red border that appears on hover -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 h-[calc(95%-10px)] w-[calc(100%-40px)] mt-[40px] border-[7px] border-[#f23849] pointer-events-none transition-all duration-400 z-[2] opacity-0 group-hover:opacity-100 group-hover:mt-[20px]"></div>
 
-        <!-- Trainer image -->
-        <div class="best-trainer-img relative mb-[-98px]">
-          <div class="absolute inset-0 bg-black/60 transition-opacity duration-300 ease-in group-hover:opacity-0"></div>
-          <img
-            [src]="trainer.image || '/placeholder.svg'"
-            [alt]="trainer.name + ' ' + trainer.surname"
-            class="w-full h-[500px] object-cover block"
-          />
-        </div>
+            <!-- Trainer image -->
+            <div class="best-trainer-img relative mb-[-98px]">
+              <div class="absolute inset-0 bg-black/60 transition-opacity duration-300 ease-in group-hover:opacity-0"></div>
+              <img
+                [src]="trainer.image || '/placeholder.svg'"
+                [alt]="trainer.name + ' ' + trainer.surname"
+                class="w-full h-[500px] object-cover block"
+              />
+            </div>
 
-        <!-- Trainer name -->
-        <h3 class="name text-[#f23849] px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 text-xl font-bold  ">
-          {{trainer.name}}
-        </h3>
-        <h3 class="surname text-[#f23849] px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 text-xl font-bold">
-          {{trainer.surname}}
-        </h3>
+            <!-- Trainer name -->
+            <h3 class="name text-[#f23849] px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 text-xl font-bold mt-4">
+              {{trainer.name}}
+            </h3>
+            <h3 class="surname text-[#f23849] px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 text-xl font-bold">
+              {{trainer.surname}}
+            </h3>
 
-        <!-- Trainer profession -->
-        <div class="prof mt-3 text-sm text-white px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 mb-4">
-          {{trainer.profession}}
-        </div>
-      </a>
+            <!-- Trainer profession -->
+            <div class="prof mt-3 text-sm text-white px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 mb-4">
+              {{trainer.profession}}
+            </div>
+          </a>
+        </ng-container>
+      </div>
     </div>
   </div>
 </section>

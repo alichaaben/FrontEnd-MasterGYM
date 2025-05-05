@@ -1,0 +1,72 @@
+.header {
+  margin-left: 254px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  /* background-color: #ffffff; */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 9px;
+  left: 25px;
+  right: 5px;
+  z-index: 1000;
+  transition: margin-left 0.3s, width 0.3s;
+}
+
+
+/* Dark mode styles for scrolled header */
+.header.scrolled.dark {
+  background-color: rgba(26, 32, 44, 0.8);
+}
+
+/* Sidebar active state */
+.header.sidebar-active {
+  margin-left: 92px;
+}
+
+/* Hamburger menu for mobile */
+.header-right .hamburger-menu {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .header-right .hamburger-menu {
+      display: flex;
+  }
+  .header {
+      margin-left: 0 !important;
+  }
+}
+
+/* Dark mode toggle button */
+.dark-mode-btn {
+  font-size: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.dark-mode-btn:hover {
+  color: #699dfa;
+}
+
+/* Notification icons */
+.iconsnot {
+  font-size: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.iconsnot:hover {
+  background-color: #699dfa;
+}
+
+/* Right section of the header */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}

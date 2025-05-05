@@ -11,7 +11,7 @@ export class TestimonialsComponent {
       quote: "Working with Samuel was a game-changer! His Tailwind CSS skills brought our UI to life with a clean, modern, and fully responsive design.",
       name: "Sarah M",
       role: "Startup Founder",
-      image: "https://images.unsplash.com/photo-1665686307516-1915b9616526?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw4fHxmZW1hbGV8ZW58MHwwfHx8MTc0MzU5Njc5OXww&ixlib=rb-4.0.3&q=80&w=1080"
+      image: "https://images.unsplash.com/photo-1665686307516-?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw4fHxmZW1hbGV8ZW58MHwwfHx8MTc0MzU5Njc5OXww&ixlib=rb-4.0.3&q=80&w=1080"
     },
     {
       quote: "Finding a great Laravel developer is tough, but Samuel exceeded all my expectations. His code is clean, efficient, and highly scalable.",

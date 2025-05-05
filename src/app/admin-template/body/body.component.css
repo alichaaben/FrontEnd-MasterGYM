@@ -1,0 +1,94 @@
+.body{
+  border-radius: 20px;
+  padding: 3rem;
+  /* background-color: #F8FAFC; */
+  box-shadow: 3px 3px 4px 3px rgba(0, 0, 0, 0.1);
+  /* -- position: relative; --- msakra bcommentaire */
+  top: -834px;
+  left: 21px;
+  right: 5px;
+  z-index: 1000;
+  transition: margin-left 0.3s, width 0.3s;
+}
+
+/* Si le sidebar est actif, le body devient plus petit */
+.body-md-screen {
+  margin-bottom: 10px;
+  margin-top: 92px;
+  margin-left: 280px;
+  margin-right: 7px;
+}
+
+/* Si le sidebar est fermé, le body reprend toute la largeur */
+.body-trimmed{
+  margin-bottom: 10px;
+  margin-top: 92px;
+  margin-left: 120px;
+  margin-right: 7px;
+}
+
+/* Left Section: Home Icon and Breadcrumb */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-left .home-icon {
+  font-size: 1.5rem;
+}
+
+.header-left .breadcrumb {
+  margin: 0px;
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.02857em;
+  opacity: 1;
+  text-transform: capitalize;
+  vertical-align: unset;
+  text-decoration: none;
+  color: rgb(52, 71, 103);
+  font-weight: 400;
+  line-height: 0;
+}
+/* Add these styles to your component's SCSS file or global styles */
+
+.header-left {
+  margin-top: -30px;
+  margin-bottom: 20px; /* Adjust spacing as needed */
+}
+
+.breadcrumb {
+  .ph {
+      transition: color 0.3s ease;
+  }
+
+  a:hover .ph {
+      color: #1a56db; /* Change to your preferred hover color */
+  }
+}
+
+/* Responsive */
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .body {
+      margin-left: 0 !important; /* Override sidebar margins on small screens */
+      margin-right: 0 !important;
+      padding: 1rem; /* Further reduce padding for small screens */
+      border-radius: 0; /* Remove border radius for full-width layout */
+      top: 0; /* Reset top positioning */
+      left: 0; /* Reset left positioning */
+      right: 0; /* Reset right positioning */
+  }
+
+  .body-md-screen,
+  .body-trimmed {
+      border-radius: 20px;
+      margin-left: 25px !important;
+      margin-right: 10px !important;
+  }
+  .header-left {
+      margin-top: 0px;
+      margin-bottom: 20px; /* Adjust spacing as needed */
+  }
+}

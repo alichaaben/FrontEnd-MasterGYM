@@ -7,66 +7,66 @@ import { Component } from '@angular/core';
   styleUrls: ['./about.component.css']
 })
 export class AboutComponent {
-  
+
 
   trainers = [
     {
-      name: 'Sam piters',
+      name: 'Sam Piters',
       image: 'assets/trainer-1.jpg',
-      profession: 'Weightlifting',
-      description: 'Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem ut, venenatis dapibus miq.'
+      profession: 'Weightlifting Coach',
+      description: 'Specialized in strength training and weightlifting, Sam helps you build muscle and improve your performance with personalized routines.'
     },
     {
-      name: 'kim piters',
+      name: 'Kim Piters',
       image: 'assets/trainer-2.jpg',
-      profession: 'Weightlifting',
-      description: 'Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem ut, venenatis dapibus miq.'
+      profession: 'Weightlifting Coach',
+      description: 'Kim has years of experience helping individuals achieve their weightlifting goals, focusing on technique, strength, and endurance.'
     },
     {
-      name: 'Samanta piters',
+      name: 'Samanta Piters',
       image: 'assets/trainer-3.jpg',
-      profession: 'Weightlifting',
-      description: 'Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem ut, venenatis dapibus miq.'
+      profession: 'Weightlifting Coach',
+      description: 'Samanta is dedicated to providing customized programs to enhance your strength and physique, helping you lift smarter and stronger.'
     },
     {
-      name: 'artur piters',
+      name: 'Artur Piters',
       image: 'assets/trainer-4.jpg',
-      profession: 'Weightlifting',
-      description: 'Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem ut, venenatis dapibus miq.'
+      profession: 'Weightlifting Coach',
+      description: 'With a passion for powerlifting and form correction, Artur helps athletes reach their peak performance while minimizing injury risk.'
     },
     {
-      name: 'Sam piters',
+      name: 'Sam Piters',
       image: 'assets/trainer-1.jpg',
-      profession: 'Weightlifting',
-      description: 'Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem ut, venenatis dapibus miq.'
+      profession: 'Weightlifting Coach',
+      description: 'Specialized in strength training and weightlifting, Sam helps you build muscle and improve your performance with personalized routines.'
     },
     {
-      name: 'kim piters',
+      name: 'Kim Piters',
       image: 'assets/trainer-2.jpg',
-      profession: 'Weightlifting',
-      description: 'Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem ut, venenatis dapibus miq.'
+      profession: 'Weightlifting Coach',
+      description: 'Kim has years of experience helping individuals achieve their weightlifting goals, focusing on technique, strength, and endurance.'
     },
     {
-      name: 'Samanta piters',
+      name: 'Samanta Piters',
       image: 'assets/trainer-3.jpg',
-      profession: 'Weightlifting',
-      description: 'Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem ut, venenatis dapibus miq.'
+      profession: 'Weightlifting Coach',
+      description: 'Samanta is dedicated to providing customized programs to enhance your strength and physique, helping you lift smarter and stronger.'
     },
     {
-      name: 'artur piters',
+      name: 'Artur Piters',
       image: 'assets/trainer-4.jpg',
-      profession: 'Weightlifting',
-      description: 'Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor tincidunt lorem ut, venenatis dapibus miq.'
+      profession: 'Weightlifting Coach',
+      description: 'With a passion for powerlifting and form correction, Artur helps athletes reach their peak performance while minimizing injury risk.'
     }
   ];
 
   stats = [
-    { value: '10', label: 'years', description: 'Facilis voluptas harum natus enim dolorum dolores' },
-    { value: '27', label: 'trainer', description: 'But I must explain to you all this mistaken idea of' },
-    { value: '18', label: 'club', description: 'Nor again is there anyone who loves or pursues or' }
+    { value: '10', label: 'Years of Experience', description: 'A decade of helping people transform their bodies and lives through fitness.' },
+    { value: '27', label: 'Trainers', description: 'A diverse and passionate team of trainers ready to guide you to success.' },
+    { value: '18', label: 'Clubs', description: 'Our network of gyms provides you with access to top-tier fitness facilities.' }
   ];
 
-  
+
   currentPage: number = 1;
   itemsPerPage: number = 4;
   //pageSizes: number[] = [2, 4, 6, 8];

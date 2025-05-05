@@ -1,0 +1,5 @@
+/* Add custom styles if needed */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

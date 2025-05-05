@@ -1,0 +1,114 @@
+<!-- /*************tables*************/ -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+
+  <!-- Header -->
+  <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+    <h2 class="text-xl font-semibold text-gray-800 dark:text-white uppercase">Roles</h2>
+  </div>
+
+  <!-- Table Content -->
+  <div class="p-6">
+    <div class="flex justify-end mt-4 mb-5">
+      <button routerLink="create"
+        class="bg-[#3483E3] hover:bg-[#052659] dark:bg-blue-800 dark:hover:bg-[#3483E3] text-white px-4 py-2 rounded-2xl flex items-center gap-2">
+        <i class="ph ph-plus-circle"></i> Add Role
+      </button>
+    </div>
+
+    <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-[#052659] dark:bg-gray-700 text-gray-500 rounded-xl">
+          <tr>
+            <th class="px-6 py-3 text-sm font-medium text-white dark:text-gray-300 uppercase tracking-wider">
+              ID Roles</th>
+            <th class="px-6 py-3 text-sm font-medium text-white dark:text-gray-300 uppercase tracking-wider">
+              Role Name</th>
+              <th class="px-6 py-3 text-sm font-medium text-white dark:text-gray-300 uppercase tracking-wider">
+                Description</th>
+            <th class="px-6 py-3 text-sm font-medium text-white dark:text-gray-300 uppercase tracking-wider">
+              Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <tr *ngFor="let role of roles | paginate: { itemsPerPage: itemsPerPage, currentPage: p }"
+            class="hover:bg-gray-50 dark:hover:bg-gray-700 text-center transition-colors duration-150">
+            <td class="px-6 py-4 whitespace-nowrap text-base text-gray-900 dark:text-gray-200">{{ role.id }} </td>
+            <td class="px-6 py-4 whitespace-nowrap text-base text-gray-900 dark:text-gray-200">{{ role.roleName }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-base text-gray-900 dark:text-gray-200">{{ role.description }}</td>
+            <td class="p-3 flex gap-2 justify-center">
+              <button routerLink="update"
+                class="text-green-600 hover:bg-green-200 p-2 rounded-lg border dark:border-slate-600">
+                <i class="ph ph-pencil-simple text-xl"></i>
+              </button>
+              <button class="text-red-700 hover:bg-red-200 p-2 rounded-lg border dark:border-slate-600">
+                <i class="ph ph-trash text-xl"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex items-center justify-end space-x-2 p-4">
+      <!-- Items per page selector -->
+      <div class="mr-auto">
+        <select [(ngModel)]="itemsPerPage" (change)="changePageSize(itemsPerPage)"
+          class="border rounded-md px-3 py-1 text-sm dark:bg-gray-800 dark:border-gray-700 text-black dark:text-white">
+          <option *ngFor="let size of pageSizes" [value]="size">{{ size }} per page</option>
+        </select>
+      </div>
+
+      <!-- Previous Button -->
+      <button
+        class="dark:text-white px-4 py-2 border rounded-full text-sm font-medium hover:bg-gray-50 dark:hover:bg-blue-800 dark:border-slate-600"
+        (click)="p = Math.max(1, p - 1)" [disabled]="p === 1">
+        Previous
+      </button>
+
+      <!-- Page Numbers (Visible on larger screens) -->
+      <div class="hidden md:flex items-center space-x-2">
+        <!-- Always show first page -->
+        <button class="  dark:text-white px-4 py-2 border rounded-full text-sm dark:border-slate-600"
+          [ngClass]="{'bg-[#052659] dark:bg-blue-800 text-white dark:text-white': p === 1, 'dark:text-white hover:bg-gray-50 dark:hover:bg-blue-800': p !== 1}"
+          (click)="p = 1">
+          1
+        </button>
+
+        <!-- Show ellipsis if current page is far from start -->
+        <span *ngIf="p > 3" class="px-2 dark:text-white">...</span>
+
+        <!-- Show pages around current page -->
+        <ng-container *ngFor="let page of getMiddlePages()">
+          <button class="px-4 py-2 border rounded-full text-sm dark:border-slate-600"
+            [ngClass]="{'bg-[#052659] dark:bg-blue-800 text-white dark:text-white': p === page, 'dark:text-white hover:bg-gray-50 dark:hover:bg-blue-800': p !== page}"
+            (click)="p = page">
+            {{ page }}
+          </button>
+        </ng-container>
+
+        <!-- Show ellipsis if current page is far from end -->
+        <span *ngIf="p < totalPages - 2" class="px-2 dark:text-white">...</span>
+
+        <!-- Always show last page if there's more than 1 page -->
+        <button *ngIf="totalPages > 1" class=" dark:text-white px-4 py-2 border rounded-full text-sm dark:border-slate-600"
+          [ngClass]="{'bg-[#052659] dark:bg-blue-800 text-white': p === totalPages, 'hover:bg-gray-50 dark:hover:bg-blue-800': p !== totalPages}"
+          (click)="p = totalPages">
+          {{ totalPages }}
+        </button>
+      </div>
+
+      <!-- Ellipsis (Visible on smaller screens) -->
+      <div class="md:hidden px-4 py-2 text-sm dark:text-white">
+        {{ p }} of {{ totalPages }}
+      </div>
+
+      <!-- Next Button -->
+      <button
+        class=" dark:text-white  px-4 py-2 border rounded-full text-sm font-medium hover:bg-gray-50 dark:hover:bg-blue-800 dark:border-slate-600"
+        (click)="p = Math.min(totalPages, p + 1)" [disabled]="p === totalPages">
+        Next
+      </button>
+    </div>
+  </div>
+</div>

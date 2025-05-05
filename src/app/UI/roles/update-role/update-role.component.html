@@ -1,0 +1,34 @@
+<div class=" p-8 bg-white shadow-lg rounded-2xl border border-gray-200   dark:bg-[#222b45]  dark:border-gray-600">
+  <form [formGroup]="RolesUpdateForm" (ngSubmit)="onSubmit()" class="space-y-7">
+      <h3 class="text-2xl font-semibold text-center py-3 bg-[#052659] text-white rounded-lg dark:bg-[#151a30]">Update Roles</h3>
+
+
+      <!-- Nom complet -->
+      <div class="form-group">
+          <label for="rolename" class="block text-sm font-medium  mb-2 dark:text-white">role name : </label>
+          <input id="rolename" type="text" formControlName="rolename"
+              class="w-full px-4 py-2 border border-gray-300 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600"
+              placeholder="Admin" />
+          <div *ngIf="RolesUpdateForm.get('rolename')?.touched && RolesUpdateForm.get('rolename')?.invalid"
+              class="text-sm text-red-600 mt-1">role name is requis (min. 3 caractères).
+          </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+          <label for="description" class="block text-sm font-medium  mb-2 dark:text-white">Description</label>
+          <textarea id="description" type="text" formControlName="description"
+              class="w-full px-4 py-2 border border-gray-300 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600"
+                placeholder="Administrator role with full access"></textarea>
+          <div *ngIf="RolesUpdateForm.get('description')?.touched && RolesUpdateForm.get('description')?.invalid"
+              class="text-sm text-red-600 mt-1">Description requis.
+          </div>
+      </div>
+          <!-- Buttons Section -->
+      <div class="flex flex-col md:flex-row justify-end gap-2">
+          <button class="px-4 py-2  rounded-md bg-[#052659] hover:bg-[#3483E3]  text-white dark:bg-blue-800 dark:hover:bg-[#3483E3]">Add
+              role</button>
+          <button type="reset" class="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">Cancel</button>
+      </div>
+  </form>
+</div>
