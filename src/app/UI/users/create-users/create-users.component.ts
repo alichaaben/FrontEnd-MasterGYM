@@ -29,6 +29,7 @@ export class CreateUsersComponent {
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       roles: ['', Validators.required],
+      description: ['', [Validators.required]],
       phone: ['', [Validators.required, Validators.pattern(/^[0-9]{8,12}$/)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
@@ -89,6 +90,7 @@ export class CreateUsersComponent {
       telephone: this.userForm.get('phone')?.value,
       motDePasse: this.userForm.get('password')?.value,
       roleName: this.userForm.get('roles')?.value,
+      description: this.userForm.get('description')?.value,
       profileImage: null
     };
 

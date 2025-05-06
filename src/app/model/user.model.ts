@@ -7,4 +7,5 @@ export interface UserModel {
   profileImage: File | null;
   roleName: string;
   imageUrl?: string;
+  description: string;
 }

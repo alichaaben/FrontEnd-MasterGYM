@@ -30,6 +30,7 @@ export class CraeteCoatchComponent {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern(/^[0-9]{8,12}$/)]],
       pack: ['', [Validators.required]],
+      montPay: ['', [Validators.required]],
       dateDebut: ['', [Validators.required]],
       dateFin: ['', [Validators.required]],
     });
@@ -210,6 +211,7 @@ export class CraeteCoatchComponent {
       pack: this.customerForm.get('pack')?.value,
       dateDebut: this.customerForm.get('dateDebut')?.value,
       dateFin: this.customerForm.get('dateFin')?.value,
+      montPay: this.customerForm.get('montPay')?.value,
       profileImage: null
     };
 

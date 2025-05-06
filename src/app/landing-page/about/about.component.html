@@ -128,44 +128,18 @@
         [class.md:translate-y-[30px]="i % 2 === 1">
         <div class="flex justify-between bg-[#272a31] items-stretch transition-all duration-300 hover:bg-white">
           <a class="flex-[0_0_30%] max-w-[30%]">
-            <img class="block w-full h-full object-cover" [src]="trainer.image" alt="img">
+            <img class="block w-full h-full object-cover" [src]="imageBaseUrl + '/' + trainer.profileImage" alt="img">
           </a>
           <div class="flex-[0_0_70%] max-w-[70%] flex flex-col justify-center p-[30px]">
             <h3 class="uppercase transition-all duration-300">
-              <a class="text-white hover:text-black">{{trainer.name}}</a>
+              <a class="text-white hover:text-black">{{trainer.userName}}</a>
             </h3>
             <div class="text-[14px] uppercase mb-[16px] text-red-500 font-medium transition-all duration-300">
-              {{trainer.profession}}
+              {{trainer.roleName}}
             </div>
             <p class="text-[#bebebe] mb-[17px] transition-all duration-300 group-hover:text-[#4d4d4d]">
               {{trainer.description}}
             </p>
-            <ul class="flex">
-              <li class="mr-[18px]">
-                <a href="https://www.facebook.com/rovadex" target="_blank"
-                  class="text-white hover:text-red-500 text-[23px] transition-all duration-300">
-                  <i class="fa fa-facebook"></i>
-                </a>
-              </li>
-              <li class="mr-[18px]">
-                <a href="https://twitter.com/RovadexStudio" target="_blank"
-                  class="text-white hover:text-red-500 text-[23px] transition-all duration-300">
-                  <i class="fa fa-twitter"></i>
-                </a>
-              </li>
-              <li class="mr-[18px]">
-                <a href="https://www.youtube.com/" target="_blank"
-                  class="text-white hover:text-red-500 text-[23px] transition-all duration-300">
-                  <i class="fa fa-youtube"></i>
-                </a>
-              </li>
-              <li>
-                <a href="https://www.instagram.com/rovadex" target="_blank"
-                  class="text-white hover:text-red-500 text-[23px] transition-all duration-300">
-                  <i class="fa fa-instagram"></i>
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
       </div>
@@ -173,13 +147,6 @@
 
     <!-- Pagination -->
     <div class="flex items-center justify-between mt-8 p-4">
-      <!-- Items per page selector -->
-      <!-- <div>
-        <select (change)="changePageSize(itemsPerPage)"
-          class="border rounded-md px-3 py-1 text-sm bg-[#272a31] border-gray-700 text-white">
-          <option *ngFor="let size of pageSizes" [value]="size">{{ size }} per page</option>
-        </select>
-      </div> -->
 
       <div class="flex items-center space-x-2">
         <!-- Previous Button -->

@@ -96,8 +96,7 @@
                 class="dark:text-white w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600">
                 <option value="" disabled selected>Choose a Role</option>
                 <option value="Admin">Admin</option>
-                <option value="ROLE_Manager">Manager</option>
-                <option value="ROLE_Employer">Employer</option>
+                <option value="Coatch">Coatch</option>
               </select>
               <div *ngIf="updateForm.get('roles')?.touched && updateForm.get('roles')?.invalid"
                 class="text-sm text-red-600 mt-1">Roles requis.
@@ -114,6 +113,18 @@
                 class="text-sm text-red-600 mt-1">Password requis (min. 6 caractères).
               </div>
             </div>
+
+            <div class="form-group">
+              <label for="description" class="block text-sm font-medium  mb-2 dark:text-white">Password :</label>
+              <textarea id="description" formControlName="description"
+                class="w-full px-4 py-2 border border-gray-300 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600"
+                placeholder="Entrez un mot de passe" ></textarea>
+              <div *ngIf="updateForm.get('description')?.touched && updateForm.get('description')?.invalid"
+                class="text-sm text-red-600 mt-1">description requis.
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>

@@ -32,6 +32,7 @@ export class UpdateUsersComponent {
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       roles: ['', Validators.required],
+      description: ['', [Validators.required]],
       phone: ['', [Validators.required, Validators.pattern(/^[0-9]{8,12}$/)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
@@ -88,6 +89,7 @@ export class UpdateUsersComponent {
             email: user.email,
             phone: user.telephone,
             roles: user.roleName,
+            description: user.description,
             password: user.motDePasse,
           });
         },
@@ -107,6 +109,7 @@ export class UpdateUsersComponent {
         telephone: this.updateForm.value.phone,
         motDePasse: this.updateForm.value.password,
         roleName: this.updateForm.value.roles,
+        description: this.updateForm.value.description,
         profileImage: this.selectedFile,
       };
 
@@ -136,6 +139,7 @@ export class UpdateUsersComponent {
         telephone: this.updateForm.get('phone')?.value,
         motDePasse: this.updateForm.get('password')?.value,
         roleName: this.updateForm.get('roles')?.value,
+        description: this.updateForm.get('description')?.value,
         profileImage: null
       };
 

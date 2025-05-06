@@ -180,6 +180,21 @@
               </div>
             </div>
 
+
+            <div class="sform-group">
+              <label for="montPay" class="block text-sm font-medium  mb-2 dark:text-white">Amount paid :</label>
+              <div class="relative flex rounded-md">
+                  <span
+                      class="flex items-center justify-center rounded-l-md border dark:text-white border-r-0 bg-gray-100 px-3  dark:bg-gray-800 dark:border-gray-600">DTN</span>
+                  <input id="montPay" type="number" formControlName="montPay"
+                      class="pl-6 rounded-l-none w-full p-2 border rounded-md dark:text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600"
+                      placeholder="000" />
+              </div>
+              <div *ngIf="customerForm.get('montPay')?.touched && customerForm.get('montPay')?.invalid"
+                  class="text-sm text-red-600 mt-1">amount paid requis
+              </div>
+          </div>
+
           </div>
         </div>
       </div>

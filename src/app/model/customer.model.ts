@@ -9,4 +9,5 @@ export interface CustomerModel {
   dateFin: Date;
   profileImage: File | null;
   UrlImagesCustomer?: string;
+  montPay:String;
 }

@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../services/user.service';
+import { UserModel } from '../../model/user.model';
+import { environment } from '../../../environments/environment.dev';
 
 
 @Component({
@@ -6,59 +9,26 @@ import { Component } from '@angular/core';
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css']
 })
-export class AboutComponent {
+export class AboutComponent implements OnInit{
 
+  public imageBaseUrl = `${environment.UrlImages}`;
+  public recuperUser: UserModel[] = [];
 
-  trainers = [
-    {
-      name: 'Sam Piters',
-      image: 'assets/trainer-1.jpg',
-      profession: 'Weightlifting Coach',
-      description: 'Specialized in strength training and weightlifting, Sam helps you build muscle and improve your performance with personalized routines.'
-    },
-    {
-      name: 'Kim Piters',
-      image: 'assets/trainer-2.jpg',
-      profession: 'Weightlifting Coach',
-      description: 'Kim has years of experience helping individuals achieve their weightlifting goals, focusing on technique, strength, and endurance.'
-    },
-    {
-      name: 'Samanta Piters',
-      image: 'assets/trainer-3.jpg',
-      profession: 'Weightlifting Coach',
-      description: 'Samanta is dedicated to providing customized programs to enhance your strength and physique, helping you lift smarter and stronger.'
-    },
-    {
-      name: 'Artur Piters',
-      image: 'assets/trainer-4.jpg',
-      profession: 'Weightlifting Coach',
-      description: 'With a passion for powerlifting and form correction, Artur helps athletes reach their peak performance while minimizing injury risk.'
-    },
-    {
-      name: 'Sam Piters',
-      image: 'assets/trainer-1.jpg',
-      profession: 'Weightlifting Coach',
-      description: 'Specialized in strength training and weightlifting, Sam helps you build muscle and improve your performance with personalized routines.'
-    },
-    {
-      name: 'Kim Piters',
-      image: 'assets/trainer-2.jpg',
-      profession: 'Weightlifting Coach',
-      description: 'Kim has years of experience helping individuals achieve their weightlifting goals, focusing on technique, strength, and endurance.'
-    },
-    {
-      name: 'Samanta Piters',
-      image: 'assets/trainer-3.jpg',
-      profession: 'Weightlifting Coach',
-      description: 'Samanta is dedicated to providing customized programs to enhance your strength and physique, helping you lift smarter and stronger.'
-    },
-    {
-      name: 'Artur Piters',
-      image: 'assets/trainer-4.jpg',
-      profession: 'Weightlifting Coach',
-      description: 'With a passion for powerlifting and form correction, Artur helps athletes reach their peak performance while minimizing injury risk.'
+  constructor(private userService: UserService) {}
+
+    //get all users
+    ngOnInit(): void {
+      this.userService.getAllByRoleName('Coatch').subscribe({
+        next: (data: UserModel[]) => {
+          this.recuperUser = data;
+        },
+        error: (err) => {
+          console.error('Error loading users:', err);
+        },
+      });
     }
-  ];
+
+
 
   stats = [
     { value: '10', label: 'Years of Experience', description: 'A decade of helping people transform their bodies and lives through fitness.' },
@@ -69,21 +39,20 @@ export class AboutComponent {
 
   currentPage: number = 1;
   itemsPerPage: number = 4;
-  //pageSizes: number[] = [2, 4, 6, 8];
 
   get paginatedTrainers() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    return this.trainers.slice(startIndex, endIndex);
+    return this.recuperUser.slice(startIndex, endIndex);
   }
 
   get totalPages(): number {
-    return Math.ceil(this.trainers.length / this.itemsPerPage);
+    return Math.ceil(this.recuperUser.length / this.itemsPerPage);
   }
 
   changePageSize(size: number): void {
     this.itemsPerPage = size;
-    this.currentPage = 1; // Reset to first page when changing page size
+    this.currentPage = 1;
   }
 
   goToPage(page: number): void {

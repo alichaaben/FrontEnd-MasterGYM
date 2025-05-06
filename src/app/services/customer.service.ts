@@ -26,6 +26,8 @@ export class CustomerService {
     return this.http.get<CustomerModel>(`${this.apiUrl}/filtre-name`, { params });
   }
 
+
+
   public getAllCustomerByUserId(id: string): Observable<CustomerModel[]> {
     return this.http.get<CustomerModel[]>(`${this.apiUrl}/filtre-user/${id}`);
   }
@@ -55,6 +57,7 @@ export class CustomerService {
     formData.append('pack', customer.pack);
     formData.append('dateDebut', this.formatDate(customer.dateDebut));
     formData.append('dateFin', this.formatDate(customer.dateFin));
+    formData.append('montPay', customer.montPay.toString());
 
     if (profileImage) {
       formData.append('profileImage', profileImage);

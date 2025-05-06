@@ -32,6 +32,7 @@ export class UpdateCoatchComponent {
         email: ['', [Validators.required, Validators.email]],
         phone: ['', [Validators.required, Validators.pattern(/^[0-9]{8,12}$/)]],
         pack: ['', [Validators.required]],
+        montPay: ['', [Validators.required]],
         dateDebut: ['', [Validators.required]],
         dateFin: ['', [Validators.required]],
       });
@@ -90,6 +91,7 @@ export class UpdateCoatchComponent {
               pack: customer.pack,
               dateDebut: customer.dateDebut,
               dateFin: customer.dateFin,
+              montPay: customer.montPay,
             });
           },
 
@@ -110,6 +112,7 @@ export class UpdateCoatchComponent {
           pack: this.updateForm.get('pack')?.value,
           dateDebut: this.updateForm.get('dateDebut')?.value,
           dateFin: this.updateForm.get('dateFin')?.value,
+          montPay: this.updateForm.get('montPay')?.value,
           profileImage: this.selectedFile,
         };
 

@@ -12,61 +12,66 @@
 
   <div class="relative" (mouseenter)="pauseAutoScroll()" (mouseleave)="resumeAutoScroll()">
     <!-- Navigation buttons -->
-    <button
-      (click)="prevSlide()"
+    <button (click)="prevSlide()"
       class="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 text-white p-2 rounded-full hover:bg-[#f23849] transition-colors duration-300"
-      aria-label="Previous trainers"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M15 18l-6-6 6-6"/>
+      aria-label="Previous trainers">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6" />
       </svg>
     </button>
-    <button
-      (click)="nextSlide()"
+    <button (click)="nextSlide()"
       class="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 text-white p-2 rounded-full hover:bg-[#f23849] transition-colors duration-300"
-      aria-label="Next trainers"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 18l6-6-6-6"/>
+      aria-label="Next trainers">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18l6-6-6-6" />
       </svg>
     </button>
 
     <!-- Trainer slider container with animation -->
     <div class="best-trainer-slider-container overflow-hidden">
       <!-- Infinite scrolling trainers -->
-      <div class="best-trainer-slider flex" [class.paused]="isPaused" [style.transform]="'translateX(-' + currentPosition + 'px)'">
+      <div class="best-trainer-slider flex" [class.paused]="isPaused"
+        [style.transform]="'translateX(-' + currentPosition + 'px)'">
         <ng-container *ngFor="let trainer of duplicatedTrainers; let i = index">
-          <a
-            [href]="trainer.link"
-            class="best-trainer-slide relative text-center uppercase pb-5 mb-5 flex-shrink-0 w-[300px] mx-4 group"
-            (mouseenter)="pauseOnHover()"
-            (mouseleave)="resumeOnHover()"
-          >
+          <a class="best-trainer-slide relative text-center uppercase pb-5 mb-5 flex-shrink-0 w-[300px] mx-4 group"
+            (mouseenter)="pauseOnHover()" (mouseleave)="resumeOnHover()">
             <!-- Red border that appears on hover -->
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 h-[calc(95%-10px)] w-[calc(100%-40px)] mt-[40px] border-[7px] border-[#f23849] pointer-events-none transition-all duration-400 z-[2] opacity-0 group-hover:opacity-100 group-hover:mt-[20px]"></div>
+            <div
+              class="absolute top-0 left-1/2 -translate-x-1/2 h-[calc(95%-10px)] w-[calc(100%-40px)] mt-[40px] border-[7px] border-[#f23849] pointer-events-none transition-all duration-400 z-[2] opacity-0 group-hover:opacity-100 group-hover:mt-[20px]">
+            </div>
 
             <!-- Trainer image -->
             <div class="best-trainer-img relative mb-[-98px]">
-              <div class="absolute inset-0 bg-black/60 transition-opacity duration-300 ease-in group-hover:opacity-0"></div>
-              <img
-                [src]="trainer.image || '/placeholder.svg'"
-                [alt]="trainer.name + ' ' + trainer.surname"
-                class="w-full h-[500px] object-cover block"
-              />
+              <div class="absolute inset-0 bg-black/60 transition-opacity duration-300 ease-in group-hover:opacity-0">
+              </div>
+              <img [src]="imageBaseUrl + '/' + trainer.profileImage"
+                [alt]="getTrainerName(trainer) + ' ' + getTrainerSurname(trainer)"
+                class="w-full h-[500px] object-cover block" />
             </div>
 
             <!-- Trainer name -->
-            <h3 class="name text-[#f23849] px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 text-xl font-bold mt-4">
-              {{trainer.name}}
+            <h3
+              class="name text-[#f23849] px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 text-xl font-bold mt-4">
+              {{ getTrainerName(trainer) }}
             </h3>
-            <h3 class="surname text-[#f23849] px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 text-xl font-bold">
-              {{trainer.surname}}
+            <h3
+              class="surname text-[#f23849] px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 text-xl font-bold">
+              {{ getTrainerSurname(trainer) }}
             </h3>
 
             <!-- Trainer profession -->
-            <div class="prof mt-3 text-sm text-white px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 mb-4">
-              {{trainer.profession}}
+            <div
+              class="prof mt-3 text-sm text-white px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 mb-4">
+              {{ trainer.roleName | titlecase }}
             </div>
+
+            <!-- Trainer profession -->
+            <!-- <div
+              class="prof mt-3 text-sm text-white px-10 transition-opacity duration-400 opacity-0 group-hover:opacity-100 mb-4">
+              Coach
+            </div> -->
           </a>
         </ng-container>
       </div>

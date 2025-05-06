@@ -26,6 +26,11 @@ export class UserService {
     return this.http.get<UserModel>(`${this.apiUrl}/filtre`, { params });
   }
 
+  public getAllByRoleName(rolename: string): Observable<UserModel[]> {
+    const params = new HttpParams().set('roleName', rolename);
+    return this.http.get<UserModel[]>(`${this.apiUrl}/by-role`, { params });
+  }
+
   public addUser(user: UserModel, profileImage: File | null): Observable<UserModel> {
     const formData = new FormData();
     formData.append('userName', user.userName);
@@ -33,6 +38,7 @@ export class UserService {
     formData.append('telephone', user.telephone);
     formData.append('motDePasse', user.motDePasse);
     formData.append('roleName', user.roleName);
+    formData.append('description', user.description);
 
     if (profileImage) {
       formData.append('profileImage', profileImage);
@@ -51,6 +57,7 @@ export class UserService {
     formData.append('telephone', user.telephone);
     formData.append('motDePasse', user.motDePasse);
     formData.append('roleName', user.roleName);
+    formData.append('description', user.description);
 
     if (profileImage) {
       formData.append('profileImage', profileImage);

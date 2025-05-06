@@ -29,6 +29,7 @@ import { ClientCoatchComponent } from './UI/clients/client-coatch/client-coatch.
 import { CraeteCoatchComponent } from './UI/clients/craete-coatch/craete-coatch.component';
 import { UpdateCoatchComponent } from './UI/clients/update-coatch/update-coatch.component';
 import { DatePipe } from '@angular/common';
+import { SettingComponent } from './UI/setting/setting.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { DatePipe } from '@angular/common';
     MessagesComponent,
     ClientCoatchComponent,
     CraeteCoatchComponent,
-    UpdateCoatchComponent
+    UpdateCoatchComponent,
+    SettingComponent
   ],
   imports: [
     BrowserModule,
