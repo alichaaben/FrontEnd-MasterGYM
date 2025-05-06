@@ -8,32 +8,57 @@
       Plan your workouts, stay on track, and make every session count. Consistency is the key to progress.
     </p>
 
+    <!-- Month Navigation -->
+    <div class="flex justify-center items-center mb-8 gap-4">
+      <button (click)="previousMonth()" class="p-2 rounded-md bg-[#272a31] hover:bg-[#343641] text-white">
+        <i class="ph ph-caret-left"></i>
+      </button>
+      <h3 class="text-xl font-semibold text-white min-w-[180px] text-center">
+        {{ currentMonth | date:'MMMM yyyy' }}
+      </h3>
+      <button (click)="nextMonth()" class="p-2 rounded-md bg-[#272a31] hover:bg-[#343641] text-white">
+        <i class="ph ph-caret-right"></i>
+      </button>
+    </div>
 
     <div class="training-schedule-cover max-w-[1400px] mx-auto text-center">
       <h3 class="training-schedule-top border-t border-[#f23849] bg-[#272a31] py-2 uppercase font-bold text-white">
-        {{scheduleData.dateRange}}
+        {{ getWeekRange() }}
       </h3>
 
       <div class="training-schedule-table overflow-x-auto">
         <table class="w-full bg-[#343641] text-sm">
           <thead class="bg-[#191a1f] uppercase">
             <tr>
-              <th class="w-[12.5%] p-2.5 text-center text-gray-400 font-bold"></th>
-              <th *ngFor="let day of scheduleData.days" class="w-[12.5%] p-2.5 text-center text-gray-400 font-bold">
-                {{day}}
+              <th class="w-[12.5%] p-2.5 text-center text-gray-400 font-bold">Time</th>
+              <th *ngFor="let day of daysInWeek" class="w-[12.5%] p-2.5 text-center text-gray-400 font-bold">
+                {{ day | date:'EEE' }}<br>
+                <span class="text-xs font-normal">{{ day | date:'d' }}</span>
               </th>
             </tr>
           </thead>
           <tbody class="text-white">
-            <tr *ngFor="let timeSlot of scheduleData.timeSlots" class="border-b border-[#3c3e4a]">
-              <td class="p-3 text-center text-gray-400 font-bold">{{timeSlot.time}}</td>
-              <td *ngFor="let day of scheduleData.days"
+            <tr *ngFor="let timeSlot of timeSlots" class="border-b border-[#3c3e4a]">
+              <td class="p-3 text-center text-gray-400 font-bold">{{ timeSlot }}</td>
+              <td *ngFor="let day of daysInWeek; let i = index"
                   class="p-3 text-center border-r border-[#3c3e4a]"
-                  [class.border-r]="day !== 'sunday'">
+                  [class.border-r]="i < 6">
                 <ng-container *ngIf="hasSession(day, timeSlot); else emptyCell">
-                  <h4 class="uppercase font-bold">{{getSession(day, timeSlot).title}}</h4>
-                  <div class="date font-bold mt-0.5 text-[#f23849]">{{getSession(day, timeSlot).timeRange}}</div>
-                  <div class="name capitalize">{{getSession(day, timeSlot).instructor}}</div>
+                  <div class="session-container">
+                    <h4 class="uppercase font-bold">{{ getSession(day, timeSlot).sportName | titlecase }}</h4>
+                    <div class="text-xs text-gray-300 mb-1">
+                      {{ getSession(day, timeSlot).sessionType | titlecase }}
+                    </div>
+                    <div class="date font-bold mt-0.5 text-[#f23849]">
+                      {{ getSession(day, timeSlot).startTime }} - {{ getSession(day, timeSlot).endTime }}
+                    </div>
+                    <div class="name capitalize">{{ getSession(day, timeSlot).instructor }}</div>
+                    <div *ngIf="getSession(day, timeSlot).maxParticipants" class="text-xs mt-1">
+                      <span class="bg-[#f23849]/20 px-1.5 py-0.5 rounded-full">
+                        {{ getSession(day, timeSlot).maxParticipants }} <i class="ph ph-users"></i>
+                      </span>
+                    </div>
+                  </div>
                 </ng-container>
                 <ng-template #emptyCell></ng-template>
               </td>

@@ -61,7 +61,7 @@
       <div class="mt-2 px-1">
         <h3 class="text-sm font-medium text-gray-800 dark:text-white truncate">{{photo.name}}</h3>
         <p class="text-xs text-gray-500 dark:text-gray-400">
-          {{photo.album}} • {{photo.date | date:'mediumDate'}}
+          {{photo.albumName}} • {{photo.displayDate | date:'mediumDate'}}
         </p>
       </div>
     </div>
@@ -92,7 +92,7 @@
       <div class="flex flex-col lg:flex-row gap-6">
         <!-- Main Photo -->
         <div class="flex-1 bg-black rounded-lg overflow-hidden">
-          <img [src]="viewingPhoto.url" [alt]="viewingPhoto.name" class="w-full h-auto max-h-[80vh] object-contain">
+          <img [src]="'assets/Gallery/' + viewingPhoto.imageName" [alt]="viewingPhoto.name" class="w-full h-auto max-h-[80vh] object-contain">
         </div>
 
         <!-- Photo Details -->
@@ -102,12 +102,12 @@
           <div class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">Album</label>
-              <p class="text-sm text-gray-800 dark:text-white">{{viewingPhoto.album || 'Uncategorized'}}</p>
+              <p class="text-sm text-gray-800 dark:text-white">{{viewingPhoto.albumName || 'Uncategorized'}}</p>
             </div>
 
             <div>
               <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">Uploaded</label>
-              <p class="text-sm text-gray-800 dark:text-white">{{viewingPhoto.date | date:'mediumDate'}}</p>
+              <p class="text-sm text-gray-800 dark:text-white">{{viewingPhoto.displayDate | date:'mediumDate'}}</p>
             </div>
 
             <div>
@@ -235,7 +235,7 @@
               class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:bg-gray-600">
               Cancel
             </button>
-            <button type="submit" [disabled]="photoForm.invalid || (selectedFiles.length === 0 && !editingPhoto)"
+            <button type="submit"
               class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
               {{editingPhoto ? 'Update' : 'Upload'}}
             </button>

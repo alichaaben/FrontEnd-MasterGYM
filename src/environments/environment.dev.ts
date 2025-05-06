@@ -3,5 +3,7 @@ export const environment = {
   apiUrl: 'http://localhost/',  // Redirigé par Nginx
   BackEndHost: "http://localhost:8089",
   UrlImages: "http://localhost:8089/user/images",
-  UrlImagesCustomer: "http://localhost:8089/customer/images"
+  UrlImagesCustomer: "http://localhost:8089/customer/images",
+  UrlImagesGallery: "http://localhost:8089/photos/images",
+
 };

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClientComponent } from './client.component';
+import { ClientCoatchComponent } from './client-coatch.component';
 
-describe('ClientComponent', () => {
-  let component: ClientComponent;
-  let fixture: ComponentFixture<ClientComponent>;
+describe('ClientCoatchComponent', () => {
+  let component: ClientCoatchComponent;
+  let fixture: ComponentFixture<ClientCoatchComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ClientComponent]
+      declarations: [ClientCoatchComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ClientComponent);
+    fixture = TestBed.createComponent(ClientCoatchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

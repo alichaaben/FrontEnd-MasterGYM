@@ -1,23 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { TrainingSessionService } from '../../services/training-session.service';
+import { TrainingSession, CalendarDay } from '../../model/training-session.model';
 
-interface CalendarDay {
-  date: Date;
-  isCurrentMonth: boolean;
-  isToday: boolean;
-  isSelected: boolean;
-  sessions: TrainingSession[];
-}
-
-interface TrainingSession {
-  id?: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  sessionType: 'INDIVIDUAL' | 'GROUP' | 'WORKSHOP';
-  maxParticipants: number;
-}
 
 @Component({
   selector: 'app-schedule-calendar',
@@ -34,34 +20,16 @@ export class ScheduleCalendarComponent implements OnInit {
   editingSession: TrainingSession | null = null;
   totalSessions = 0;
 
-  // Sample data for demonstration
-  sampleSessions: TrainingSession[] = [
-    {
-      id: '1',
-      date: this.formatDate(new Date()),
-      startTime: '09:00',
-      endTime: '10:30',
-      sessionType: 'INDIVIDUAL',
-      maxParticipants: 1
-    },
-    {
-      id: '2',
-      date: this.formatDate(new Date(new Date().setDate(new Date().getDate() + 2))),
-      startTime: '14:00',
-      endTime: '16:00',
-      sessionType: 'GROUP',
-      maxParticipants: 8
-    }
-  ];
-
   sessionForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private trainingSessionService: TrainingSessionService
   ) {
     this.sessionForm = this.fb.group({
       date: ['', Validators.required],
+      sportName: ['', Validators.required],
       startTime: ['09:00', Validators.required],
       endTime: ['10:00', Validators.required],
       sessionType: ['INDIVIDUAL', Validators.required],
@@ -71,7 +39,7 @@ export class ScheduleCalendarComponent implements OnInit {
 
   ngOnInit(): void {
     this.generateCalendar();
-    this.loadSampleSessions();
+    this.loadSessions();
   }
 
   private formatDate(date: Date): string {
@@ -132,8 +100,8 @@ export class ScheduleCalendarComponent implements OnInit {
 
   isSameDay(date1: Date, date2: Date): boolean {
     return date1.getDate() === date2.getDate() &&
-           date1.getMonth() === date2.getMonth() &&
-           date1.getFullYear() === date2.getFullYear();
+      date1.getMonth() === date2.getMonth() &&
+      date1.getFullYear() === date2.getFullYear();
   }
 
   isSelected(date: Date): boolean {
@@ -148,7 +116,7 @@ export class ScheduleCalendarComponent implements OnInit {
       1
     );
     this.generateCalendar();
-    this.loadSampleSessions();
+    this.loadSessions();
   }
 
   nextMonth(): void {
@@ -158,7 +126,7 @@ export class ScheduleCalendarComponent implements OnInit {
       1
     );
     this.generateCalendar();
-    this.loadSampleSessions();
+    this.loadSessions();
   }
 
   selectDay(day: CalendarDay): void {
@@ -218,7 +186,8 @@ export class ScheduleCalendarComponent implements OnInit {
       startTime: '09:00',
       endTime: '10:00',
       sessionType: 'INDIVIDUAL',
-      maxParticipants: 1
+      maxParticipants: 1,
+      sportName: 'CrossFit'
     });
     this.showSessionModal = true;
   }
@@ -230,7 +199,8 @@ export class ScheduleCalendarComponent implements OnInit {
       startTime: session.startTime,
       endTime: session.endTime,
       sessionType: session.sessionType,
-      maxParticipants: session.maxParticipants
+      maxParticipants: session.maxParticipants,
+      sportName: session.sportName
     });
     this.showSessionModal = true;
   }
@@ -245,43 +215,72 @@ export class ScheduleCalendarComponent implements OnInit {
 
     const sessionData: TrainingSession = {
       ...this.sessionForm.value,
-      id: this.editingSession?.id || this.generateId()
+      id: this.editingSession?.id
     };
 
     if (this.editingSession) {
-      // Update in sample data
-      const index = this.sampleSessions.findIndex(s => s.id === this.editingSession?.id);
-      if (index !== -1) {
-        this.sampleSessions[index] = sessionData;
-      }
+      this.trainingSessionService.updateSession(sessionData).subscribe({
+        next: () => {
+          this.loadSessions();
+          this.closeSessionModal();
+        },
+        error: (err) => {
+          console.error('Error updating session:', err);
+        }
+      });
     } else {
-      // Add to sample data
-      this.sampleSessions.push(sessionData);
+      this.trainingSessionService.createSession(sessionData).subscribe({
+        next: () => {
+          this.loadSessions();
+          this.closeSessionModal();
+        },
+        error: (err) => {
+          console.error('Error creating session:', err);
+        }
+      });
     }
-
-    this.loadSampleSessions();
-    this.closeSessionModal();
   }
 
   deleteSession(): void {
     if (!this.editingSession?.id) return;
 
     if (confirm('Are you sure you want to delete this session?')) {
-      this.sampleSessions = this.sampleSessions.filter(s => s.id !== this.editingSession?.id);
-      this.loadSampleSessions();
-      this.closeSessionModal();
+      this.trainingSessionService.deleteSession(this.editingSession.id).subscribe({
+        next: () => {
+          this.loadSessions();
+          this.closeSessionModal();
+        },
+        error: (err) => {
+          console.error('Error deleting session:', err);
+        }
+      });
     }
   }
 
-  private generateId(): string {
-    return Math.random().toString(36).substring(2, 9);
-  }
+  loadSessions(): void {
+    // Get first and last day of the current month view
+    const firstDay = new Date(
+      this.currentMonth.getFullYear(),
+      this.currentMonth.getMonth(),
+      1
+    );
+    const lastDay = new Date(
+      this.currentMonth.getFullYear(),
+      this.currentMonth.getMonth() + 1,
+      0
+    );
 
-  loadSampleSessions(): void {
-    this.calendarDays.forEach(day => {
-      const dayStr = this.formatDate(day.date);
-      day.sessions = this.sampleSessions.filter(session => session.date === dayStr);
+    this.trainingSessionService.getSessionsByDateRange(firstDay, lastDay).subscribe({
+      next: (sessions) => {
+        this.calendarDays.forEach(day => {
+          const dayStr = this.formatDate(day.date);
+          day.sessions = sessions.filter(session => session.date === dayStr);
+        });
+        this.totalSessions = sessions.length;
+      },
+      error: (err) => {
+        console.error('Error loading sessions:', err);
+      }
     });
-    this.totalSessions = this.sampleSessions.length;
   }
 }

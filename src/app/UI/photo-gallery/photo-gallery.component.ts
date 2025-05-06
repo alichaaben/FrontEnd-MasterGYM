@@ -1,22 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-interface Photo {
-  id: string;
-  name: string;
-  url: string;
-  album: string;
-  albumId: string;
-  date: Date;
-  description?: string;
-}
-
-interface Album {
-  id: string;
-  name: string;
-  description?: string;
-  coverPhoto?: string;
-}
+import { Photo, PhotoDto } from '../../model/photo.model';
+import { Album, AlbumDto } from '../../model/album.model';
+import { PhotoService } from '../../services/photo.service';
+import { AlbumService } from '../../services/album.service';
 
 interface SelectedFile {
   file: File;
@@ -30,43 +17,8 @@ interface SelectedFile {
   styleUrls: ['./photo-gallery.component.css']
 })
 export class PhotoGalleryComponent implements OnInit {
-  // Sample data for demonstration
-  photos: Photo[] = [
-    {
-      id: '1',
-      name: 'Main Training Area',
-      url: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1075&q=80',
-      album: 'Facility',
-      albumId: '1',
-      date: new Date('2023-05-15'),
-      description: 'Our main training area with premium equipment'
-    },
-    {
-      id: '2',
-      name: 'Cardio Zone',
-      url: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-      album: 'Facility',
-      albumId: '1',
-      date: new Date('2023-05-16')
-    },
-    {
-      id: '3',
-      name: 'Yoga Class',
-      url: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-      album: 'Classes',
-      albumId: '2',
-      date: new Date('2023-06-02'),
-      description: 'Morning yoga session in progress'
-    }
-  ];
-
-  albums: Album[] = [
-    { id: '1', name: 'Facility', description: 'Training hall facilities and equipment' },
-    { id: '2', name: 'Classes', description: 'Photos from our training classes' },
-    { id: '3', name: 'Events', description: 'Special events and workshops' }
-  ];
-
-  // State management
+  photos: Photo[] = [];
+  albums: Album[] = [];
   filteredPhotos: Photo[] = [];
   selectedAlbum: string = 'all';
   viewingPhoto: Photo | null = null;
@@ -76,11 +28,14 @@ export class PhotoGalleryComponent implements OnInit {
   editingPhoto: Photo | null = null;
   selectedFiles: SelectedFile[] = [];
 
-  // Forms
   photoForm: FormGroup;
   albumForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private photoService: PhotoService,
+    private albumService: AlbumService
+  ) {
     this.photoForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       album: [''],
@@ -94,23 +49,45 @@ export class PhotoGalleryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filterPhotos();
+    this.loadAlbums();
+    this.loadPhotos();
   }
 
-  // Photo filtering by album
+  loadPhotos(): void {
+    this.photoService.getAllPhotos().subscribe(photos => {
+      this.photos = photos.map(photo => ({
+        ...photo,
+        url: `../../../assets/Gallery/${photo.imageName}`,
+        albumName: this.getAlbumName(photo.albumId),
+        displayDate: new Date(photo.uploadDate)
+      }));
+      this.filterPhotos();
+    });
+  }
+
+  loadAlbums(): void {
+    this.albumService.getAllAlbums().subscribe(albums => {
+      this.albums = albums;
+    });
+  }
+
+  getAlbumName(albumId: number): string {
+    const album = this.albums.find(a => a.id === albumId);
+    return album ? album.name : 'Uncategorized';
+  }
+
   filterPhotos(): void {
     if (this.selectedAlbum === 'all') {
       this.filteredPhotos = [...this.photos];
     } else if (this.selectedAlbum === 'new') {
       this.openAlbumModal();
       this.selectedAlbum = 'all';
-      this.filterPhotos();
     } else {
-      this.filteredPhotos = this.photos.filter(photo => photo.albumId === this.selectedAlbum);
+      const albumId = Number(this.selectedAlbum);
+      this.filteredPhotos = this.photos.filter(photo => photo.albumId === albumId);
     }
   }
 
-  // File handling
   onFileSelected(event: any): void {
     const files: FileList = event.target.files;
     this.handleFiles(files);
@@ -151,7 +128,6 @@ export class PhotoGalleryComponent implements OnInit {
     this.selectedFiles = this.selectedFiles.filter(f => f !== file);
   }
 
-  // Photo viewer methods
   viewPhoto(photo: Photo): void {
     this.viewingPhoto = photo;
     this.currentPhotoIndex = this.filteredPhotos.findIndex(p => p.id === photo.id);
@@ -174,7 +150,6 @@ export class PhotoGalleryComponent implements OnInit {
     return this.currentPhotoIndex < this.filteredPhotos.length - 1;
   }
 
-  // Modal controls
   openUploadModal(): void {
     this.showUploadModal = true;
     this.editingPhoto = null;
@@ -207,73 +182,87 @@ export class PhotoGalleryComponent implements OnInit {
     this.showAlbumModal = false;
   }
 
-  // Data operations
+
   savePhoto(): void {
     if (this.editingPhoto) {
-      // Update existing photo
-      const updatedPhoto = {
-        ...this.editingPhoto,
+      const photoDto: PhotoDto = {
+        id: this.editingPhoto.id,
         name: this.photoForm.value.name,
-        albumId: this.photoForm.value.album,
-        album: this.albums.find(a => a.id === this.photoForm.value.album)?.name || '',
-        description: this.photoForm.value.description
+        description: this.photoForm.value.description,
+        albumId: Number(this.photoForm.value.album)
       };
 
-      const index = this.photos.findIndex(p => p.id === this.editingPhoto?.id);
-      if (index !== -1) {
-        this.photos[index] = updatedPhoto;
+      if (this.selectedFiles.length > 0) {
+        photoDto.photoImage = this.selectedFiles[0].file;
       }
 
-      if (this.viewingPhoto?.id === updatedPhoto.id) {
-        this.viewingPhoto = updatedPhoto;
-      }
+      this.photoService.updatePhoto(this.editingPhoto.id, photoDto).subscribe(updatedPhoto => {
+        const index = this.photos.findIndex(p => p.id === updatedPhoto.id);
+        if (index !== -1) {
+          this.photos[index] = {
+            ...updatedPhoto,
+            url: `../../../assets/Gallery/${updatedPhoto.imageName}`,
+            albumName: this.getAlbumName(updatedPhoto.albumId),
+            displayDate: new Date(updatedPhoto.uploadDate)
+          };
+        }
+        this.filterPhotos();
+        this.closeUploadModal();
+      });
     } else {
-      // Add new photos from selected files
-      this.selectedFiles.forEach(file => {
-        const newPhoto: Photo = {
-          id: this.generateId(),
-          name: file.name.split('.')[0], // Remove extension
-          url: file.preview,
-          album: this.photoForm.value.album ?
-                this.albums.find(a => a.id === this.photoForm.value.album)?.name || '' : 'Uncategorized',
-          albumId: this.photoForm.value.album || '',
-          date: new Date(),
-          description: this.photoForm.value.description
+      const uploadPromises = this.selectedFiles.map(file => {
+        const photoDto: PhotoDto = {
+          name: this.photoForm.value.name || file.name.split('.')[0],
+          description: this.photoForm.value.description,
+          albumId: Number(this.photoForm.value.album),
+          photoImage: file.file
         };
-        this.photos.unshift(newPhoto); // Add to beginning
+
+        return this.photoService.createPhoto(photoDto).toPromise();
+      });
+
+      Promise.all(uploadPromises).then(newPhotos => {
+        const validPhotos = newPhotos.filter(photo => photo !== undefined) as Photo[];
+        this.photos = [
+          ...validPhotos.map(photo => ({
+            ...photo,
+            uploadDate: new Date(photo.uploadDate)
+          })),
+          ...this.photos
+        ];
+        this.filterPhotos();
+        this.closeUploadModal();
       });
     }
-
-    this.filterPhotos();
-    this.closeUploadModal();
   }
 
-  deletePhoto(id: string): void {
-    if (confirm('Are you sure you want to delete this photo?')) {
-      this.photos = this.photos.filter(photo => photo.id !== id);
-      this.filterPhotos();
 
-      if (this.viewingPhoto?.id === id) {
-        this.closeViewer();
-      }
+  deletePhoto(id: number): void {
+    if (confirm('Are you sure you want to delete this photo?')) {
+      this.photoService.deletePhoto(id).subscribe(() => {
+        this.photos = this.photos.filter(photo => photo.id !== id);
+        this.filterPhotos();
+
+        if (this.viewingPhoto?.id === id) {
+          this.closeViewer();
+        }
+      });
     }
   }
 
   createAlbum(): void {
-    const newAlbum: Album = {
-      id: this.generateId(),
-      name: this.albumForm.value.name,
-      description: this.albumForm.value.description
-    };
+    if (this.albumForm.valid) {
+      const albumDto: AlbumDto = {
+        name: this.albumForm.value.name,
+        description: this.albumForm.value.description
+      };
 
-    this.albums.push(newAlbum);
-    this.closeAlbumModal();
-    this.selectedAlbum = newAlbum.id;
-    this.filterPhotos();
-  }
-
-  // Helper methods
-  private generateId(): string {
-    return Math.random().toString(36).substring(2, 9);
+      this.albumService.createAlbum(albumDto).subscribe(newAlbum => {
+        this.albums.push(newAlbum);
+        this.closeAlbumModal();
+        this.selectedAlbum = newAlbum.id.toString();
+        this.loadPhotos();
+      });
+    }
   }
 }

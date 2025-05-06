@@ -18,6 +18,7 @@ import { ViewTrainerComponent } from './view-trainer/view-trainer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -45,6 +46,7 @@ import { HomePageComponent } from './home-page/home-page.component';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule
   ]
 })
 export class LandingPageModule { }

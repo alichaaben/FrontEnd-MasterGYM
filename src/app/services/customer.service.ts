@@ -9,6 +9,7 @@ import { CustomerModel } from './../model/customer.model';
 })
 export class CustomerService {
   private apiUrl: string = `${environment.BackEndHost}/customer`;
+  private apiUrlByIdUser: string = `${environment.BackEndHost}/customer/`;
 
   constructor(private http: HttpClient) {}
 
@@ -26,7 +27,7 @@ export class CustomerService {
   }
 
   public getAllCustomerByUserId(id: string): Observable<CustomerModel[]> {
-    return this.http.get<CustomerModel[]>(`${this.apiUrl}/filtre-name/${id}`);
+    return this.http.get<CustomerModel[]>(`${this.apiUrl}/filtre-user/${id}`);
   }
 
   public addCustomer(customer: CustomerModel, profileImage: File | null): Observable<CustomerModel> {

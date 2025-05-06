@@ -1,3 +1,5 @@
+import { UpdateCoatchComponent } from './UI/clients/update-coatch/update-coatch.component';
+import { CraeteCoatchComponent } from './UI/clients/craete-coatch/craete-coatch.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LandingPageComponent } from './landing-page/landing-page.component';
@@ -18,10 +20,10 @@ import { ErrorPageComponent } from './UI/error-page/error-page.component';
 import { AllClientComponent } from './UI/clients/all-client/all-client.component';
 import { CreateCustomerComponent } from './UI/clients/create-customer/create-customer.component';
 import { UpdateCustomerComponent } from './UI/clients/update-customer/update-customer.component';
-import { ClientComponent } from './UI/clients/client/client.component';
 import { ScheduleCalendarComponent } from './UI/schedule-calendar/schedule-calendar.component';
 import { PhotoGalleryComponent } from './UI/photo-gallery/photo-gallery.component';
 import { MessagesComponent } from './UI/messages/messages.component';
+import { ClientCoatchComponent } from './UI/clients/client-coatch/client-coatch.component';
 
 const routes: Routes = [
   {
@@ -84,9 +86,9 @@ const routes: Routes = [
       { path: 'customers/update/:id', component: UpdateCustomerComponent },
 
       /*************** customer-coatch *************** */
-      { path: 'customer-coatch', component: ClientComponent },
-      //{ path: 'customer-coatch/create', component: CreateCustomersComponent },
-      { path: 'customer-coatch/update', component: UpdateCustomerComponent },
+      { path: 'customer-coatch', component: ClientCoatchComponent },
+      { path: 'customer-coatch/create', component: CraeteCoatchComponent },
+      { path: 'customer-coatch/update/:id', component: UpdateCoatchComponent },
 
       /*************** schedule-calendar *************** */
       { path: 'schedule-calendar', component: ScheduleCalendarComponent },

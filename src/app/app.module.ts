@@ -18,7 +18,6 @@ import { UpdateRoleComponent } from './UI/roles/update-role/update-role.componen
 import { ListRoleComponent } from './UI/roles/list-role/list-role.component';
 import { DashboardComponent } from './UI/dashboard/dashboard.component';
 import { AllClientComponent } from './UI/clients/all-client/all-client.component';
-import { ClientComponent } from './UI/clients/client/client.component';
 import { CreateCustomerComponent } from './UI/clients/create-customer/create-customer.component';
 import { UpdateCustomerComponent } from './UI/clients/update-customer/update-customer.component';
 import { ScheduleCalendarComponent } from './UI/schedule-calendar/schedule-calendar.component';
@@ -26,6 +25,10 @@ import { PhotoGalleryComponent } from './UI/photo-gallery/photo-gallery.componen
 import { MessagesComponent } from './UI/messages/messages.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppHttpInterceptor } from './interceptor/app-http.interceptor';
+import { ClientCoatchComponent } from './UI/clients/client-coatch/client-coatch.component';
+import { CraeteCoatchComponent } from './UI/clients/craete-coatch/craete-coatch.component';
+import { UpdateCoatchComponent } from './UI/clients/update-coatch/update-coatch.component';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -41,12 +44,14 @@ import { AppHttpInterceptor } from './interceptor/app-http.interceptor';
     ListRoleComponent,
     DashboardComponent,
     AllClientComponent,
-    ClientComponent,
     CreateCustomerComponent,
     UpdateCustomerComponent,
     ScheduleCalendarComponent,
     PhotoGalleryComponent,
-    MessagesComponent
+    MessagesComponent,
+    ClientCoatchComponent,
+    CraeteCoatchComponent,
+    UpdateCoatchComponent
   ],
   imports: [
     BrowserModule,
@@ -61,11 +66,7 @@ import { AppHttpInterceptor } from './interceptor/app-http.interceptor';
 
   ],
   providers: [
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: AppHttpInterceptor,
-    //   multi: true,
-    // },
+    DatePipe,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,8 @@
+import { ContactUser } from './../../model/contact-user.model';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ContactService } from '../../services/contact.service';
+
 
 @Component({
   selector: 'app-contact',
@@ -9,8 +12,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ContactComponent {
   contactForm: FormGroup;
   formSubmitted = false;
+  isLoading = false;
+  errorMessage = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private contactService: ContactService
+  ) {
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -21,15 +29,33 @@ export class ContactComponent {
 
   onSubmit() {
     if (this.contactForm.valid) {
-      this.formSubmitted = true;
-      // Here you would typically send the form data to your backend
-      console.log('Form submitted:', this.contactForm.value);
-      
-      // Reset form after submission
-      setTimeout(() => {
-        this.contactForm.reset();
-        this.formSubmitted = false;
-      }, 3000);
+      this.isLoading = true;
+      this.errorMessage = '';
+
+      const messageData: ContactUser = {
+        name: this.contactForm.get('name')?.value,
+        email: this.contactForm.get('email')?.value,
+        message: this.contactForm.get('message')?.value,
+        status: 'pending'
+      };
+
+      this.contactService.sendMessage(messageData).subscribe({
+        next: () => {
+          this.formSubmitted = true;
+          this.isLoading = false;
+          setTimeout(() => {
+            this.contactForm.reset();
+            this.formSubmitted = false;
+          }, 3000);
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.errorMessage = 'Failed to send message. Please try again later.';
+          console.error('Error sending message:', err);
+        }
+      });
     }
   }
+
+
 }

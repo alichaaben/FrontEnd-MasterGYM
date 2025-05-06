@@ -1,7 +1,7 @@
 <div class="p-8 bg-white shadow-lg rounded-2xl border border-gray-200 dark:bg-[#222b45] dark:border-gray-600">
   <h3 class="text-2xl font-semibold text-center py-3 bg-[#052659] text-white rounded-lg dark:bg-[#151a30] mb-6">
-    Add User</h3>
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="space-y-7">
+    Update User</h3>
+  <form [formGroup]="updateForm" (ngSubmit)="onSubmit()" class="space-y-7">
 
     <div class="grid gap-6 lg:grid-cols-[300px,1fr]">
       <!-- Left Side: Preview Card -->
@@ -64,7 +64,7 @@
               <input id="username" type="text" formControlName="username"
                 class="w-full px-4 py-2 border border-gray-300 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600"
                 placeholder="user name" />
-              <div *ngIf="userForm.get('username')?.touched && userForm.get('username')?.invalid"
+              <div *ngIf="updateForm.get('username')?.touched && updateForm.get('username')?.invalid"
                 class="text-sm text-red-600 mt-1">username requis (min. 3 caractères).
               </div>
             </div>
@@ -75,7 +75,7 @@
                 <input id="email" type="email" formControlName="email"
                   class="w-full px-4 py-2 border border-gray-300 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600"
                   placeholder="name@gmail.com" />
-                <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid"
+                <div *ngIf="updateForm.get('email')?.touched && updateForm.get('email')?.invalid"
                   class="text-sm text-red-600 mt-1">Email requis (min. 3 caractères).
                 </div>
               </div>
@@ -84,33 +84,44 @@
                 <input id="phone" type="text" formControlName="phone"
                   class="w-full px-4 py-2 border border-gray-300 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600"
                   placeholder="+216 22 865 991" />
-                <div *ngIf="userForm.get('phone')?.touched && userForm.get('phone')?.invalid"
+                <div *ngIf="updateForm.get('phone')?.touched && updateForm.get('phone')?.invalid"
                   class="text-sm text-red-600 mt-1">Phone requis
                 </div>
               </div>
             </div>
 
             <div class="grid gap-2">
-              <label for="roles" class="block text-sm font-medium mb-2 dark:text-white">Roles :</label>
-              <select id="roles" formControlName="roles"
+              <label for="pack" class="block text-sm font-medium mb-2 dark:text-white">Packs :</label>
+              <select id="pack" formControlName="pack"
                 class="dark:text-white w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600">
-                <option value="" disabled selected>Choose a Role</option>
-                <option value="Admin">Admin</option>
-                <option value="Coatch">Coatch</option>
+                <option value="" disabled selected>Choose Pack</option>
+                <option value="3 months">3 months</option>
+                <option value="6 months">6 months</option>
+                <option value="12 months">12 months</option>
               </select>
-              <div *ngIf="userForm.get('roles')?.touched && userForm.get('roles')?.invalid"
-                class="text-sm text-red-600 mt-1">Roles requis.
+              <div *ngIf="updateForm.get('pack')?.touched && updateForm.get('pack')?.invalid"
+                class="text-sm text-red-600 mt-1">pack requis.
               </div>
             </div>
 
-            <!-- Mot de passe -->
+            <!-- dateDebut -->
             <div class="form-group">
-              <label for="password" class="block text-sm font-medium  mb-2 dark:text-white">Password :</label>
-              <input id="password" type="password" formControlName="password"
+              <label for="dateDebut" class="block text-sm font-medium  mb-2 dark:text-white">Start Date :</label>
+              <input id="dateDebut" type="date" formControlName="dateDebut"
+                class="w-full px-4 py-2 border border-gray-300 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
+              <div *ngIf="updateForm.get('dateDebut')?.touched && updateForm.get('dateDebut')?.invalid"
+                class="text-sm text-red-600 mt-1">Start Date requis.
+              </div>
+            </div>
+
+            <!-- dateFin -->
+            <div class="form-group">
+              <label for="dateFin" class="block text-sm font-medium  mb-2 dark:text-white">End Date :</label>
+              <input id="dateFin" type="date" formControlName="dateFin"
                 class="w-full px-4 py-2 border border-gray-300 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600"
-                placeholder="Entrez un mot de passe" />
-              <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid"
-                class="text-sm text-red-600 mt-1">Password requis (min. 6 caractères).
+                placeholder="YYYY-MM-DD" />
+              <div *ngIf="updateForm.get('dateFin')?.touched && updateForm.get('dateFin')?.invalid"
+                class="text-sm text-red-600 mt-1">End Date requis .
               </div>
             </div>
           </div>
