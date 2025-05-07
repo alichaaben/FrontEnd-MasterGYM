@@ -1,0 +1,32 @@
+/* Définir l'animation pour faire défiler les éléments de haut en bas */
+@keyframes testimonialAnimation {
+  0% {
+    transform: translateY(0); /* Commence par le bas */
+  }
+
+  100% {
+    transform: translateY(-100%); /* Se déplace complètement vers le haut */
+  }
+}
+
+/* Conteneur des éléments */
+.testimonials {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Hauteur du conteneur */
+  overflow: hidden; /* Cacher les éléments en dehors de l'écran */
+  position: relative;
+}
+
+/* Les éléments qui se déplacent */
+.testimonials-content {
+  display: flex;
+  flex-direction: column;
+  animation: testimonialAnimation 20s linear infinite; /* Animation continue */
+  position: relative;
+}
+
+/* Les éléments individuels */
+.testimonials-item {
+  margin-bottom: 20px; /* Espacement entre les éléments */
+}

@@ -11,7 +11,7 @@ export interface Photo {
 }
 
 export interface PhotoDto {
-  id?: number;
+  id: number;
   name: string;
   description: string;
   albumId: number;

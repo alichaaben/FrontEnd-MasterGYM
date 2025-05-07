@@ -6,13 +6,25 @@
     <h2 class="text-xl font-semibold text-gray-800 dark:text-white uppercase">Customers</h2>
   </div>
 
-  <!-- Table Content -->
   <div class="p-6">
-    <div class="flex justify-end mt-4 mb-5">
-      <button routerLink="create"
-        class="bg-[#3483E3] hover:bg-[#052659] dark:bg-blue-800 dark:hover:bg-[#3483E3] text-white px-4 py-2 rounded-2xl flex items-center gap-2">
+    <!-- Search and Add User Section -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-5">
+      <!-- Search Box -->
+      <div class="relative w-full md:w-96">
+        <input type="text" [(ngModel)]="searchQuery" (input)="onSearchInput()"
+          placeholder="Search by name, email or phone..."
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-600">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <i class="ph ph-magnifying-glass text-gray-400"></i>
+        </div>
+      </div>
+
+      <div class="flex gap-3 w-full md:w-auto">
+        <button routerLink="create"
+        class="bg-[#3483E3] hover:bg-[#052659] dark:bg-blue-800 dark:hover:bg-[#3483E3] text-white px-4 py-2 rounded-lg flex items-center gap-2 whitespace-nowrap">
         <i class="ph ph-plus-circle"></i> Add customer
       </button>
+      </div>
     </div>
 
     <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
@@ -38,7 +50,7 @@
           </tr>
         </thead>
         <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-          <tr *ngFor="let customer of recuperCustomer | paginate: { itemsPerPage: itemsPerPage, currentPage: p }"
+          <tr *ngFor="let customer of displayedCustomers | paginate: { itemsPerPage: itemsPerPage, currentPage: p }"
             class="hover:bg-gray-50 dark:hover:bg-gray-700 text-center transition-colors duration-150">
             <td class="p-3 flex justify-center">
               <img *ngIf="customer.profileImage" [src]="imageBaseUrl + '/' + customer.profileImage" alt="{{ customer.userName }}" class="w-12 h-12 rounded-full object-cover">
@@ -63,68 +75,81 @@
           </tr>
         </tbody>
       </table>
+
+
+      <!-- Empty State -->
+      <div *ngIf="displayedCustomers.length === 0" class="p-8 text-center">
+        <i class="ph ph-users text-4xl text-gray-300 dark:text-gray-600 mb-3"></i>
+        <h3 class="text-lg font-medium text-gray-500 dark:text-gray-400">No customer found</h3>
+        <p class="mt-1 text-sm text-gray-400 dark:text-gray-500">
+          {{ searchQuery ? 'No customer match your search' : 'There are no customers to display' }}
+        </p>
+      </div>
     </div>
 
     <!-- Pagination -->
-    <div class="flex items-center justify-end space-x-2 p-4">
+    <div class="flex flex-col sm:flex-row items-center justify-between mt-4 px-2">
       <!-- Items per page selector -->
-      <div class="mr-auto">
+      <div class="mb-3 sm:mb-0">
         <select [(ngModel)]="itemsPerPage" (change)="changePageSize(itemsPerPage)"
-          class="border rounded-md px-3 py-1 text-sm dark:bg-gray-800 dark:border-gray-700 text-black dark:text-white">
+          class="border rounded-md px-3 py-1 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white">
           <option *ngFor="let size of pageSizes" [value]="size">{{ size }} per page</option>
         </select>
       </div>
 
-      <!-- Previous Button -->
-      <button
-        class="dark:text-white px-4 py-2 border rounded-full text-sm font-medium hover:bg-gray-50 dark:hover:bg-blue-800 dark:border-slate-600"
-        (click)="p = Math.max(1, p - 1)" [disabled]="p === 1">
-        Previous
-      </button>
-
-      <!-- Page Numbers (Visible on larger screens) -->
-      <div class="hidden md:flex items-center space-x-2">
-        <!-- Always show first page -->
-        <button class="  dark:text-white px-4 py-2 border rounded-full text-sm dark:border-slate-600"
-          [ngClass]="{'bg-[#052659] dark:bg-blue-800 text-white dark:text-white': p === 1, 'dark:text-white hover:bg-gray-50 dark:hover:bg-blue-800': p !== 1}"
-          (click)="p = 1">
-          1
+      <!-- Pagination Controls -->
+      <div class="flex items-center gap-1">
+        <button (click)="p = Math.max(1, p - 1)" [disabled]="p === 1"
+          class="px-3 py-1 border rounded-md text-sm font-medium dark:text-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50">
+          Previous
         </button>
 
-        <!-- Show ellipsis if current page is far from start -->
-        <span *ngIf="p > 3" class="px-2 dark:text-white">...</span>
-
-        <!-- Show pages around current page -->
-        <ng-container *ngFor="let page of getMiddlePages()">
-          <button class="px-4 py-2 border rounded-full text-sm dark:border-slate-600"
-            [ngClass]="{'bg-[#052659] dark:bg-blue-800 text-white dark:text-white': p === page, 'dark:text-white hover:bg-gray-50 dark:hover:bg-blue-800': p !== page}"
-            (click)="p = page">
-            {{ page }}
+        <!-- Page Numbers -->
+        <div class="hidden sm:flex items-center gap-1">
+          <!-- First Page -->
+          <button (click)="p = 1" class="w-8 h-8 flex items-center justify-center rounded-md text-sm" [ngClass]="{
+              'bg-[#052659] text-white dark:bg-blue-800': p === 1,
+              'border dark:border-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700': p !== 1
+            }">
+            1
           </button>
-        </ng-container>
 
-        <!-- Show ellipsis if current page is far from end -->
-        <span *ngIf="p < totalPages - 2" class="px-2 dark:text-white">...</span>
+          <!-- Ellipsis if needed -->
+          <span *ngIf="p > 3" class="px-2 dark:text-white">...</span>
 
-        <!-- Always show last page if there's more than 1 page -->
-        <button *ngIf="totalPages > 1" class=" dark:text-white px-4 py-2 border rounded-full text-sm dark:border-slate-600"
-          [ngClass]="{'bg-[#052659] dark:bg-blue-800 text-white': p === totalPages, 'hover:bg-gray-50 dark:hover:bg-blue-800': p !== totalPages}"
-          (click)="p = totalPages">
-          {{ totalPages }}
+          <!-- Middle Pages -->
+          <ng-container *ngFor="let page of getMiddlePages()">
+            <button (click)="p = page" class="w-8 h-8 flex items-center justify-center rounded-md text-sm" [ngClass]="{
+                'bg-[#052659] text-white dark:bg-blue-800': p === page,
+                'border dark:border-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700': p !== page
+              }">
+              {{ page }}
+            </button>
+          </ng-container>
+
+          <!-- Ellipsis if needed -->
+          <span *ngIf="p < totalPages - 2" class="px-2 dark:text-white">...</span>
+
+          <!-- Last Page -->
+          <button *ngIf="totalPages > 1" (click)="p = totalPages"
+            class="w-8 h-8 flex items-center justify-center rounded-md text-sm" [ngClass]="{
+              'bg-[#052659] text-white dark:bg-blue-800': p === totalPages,
+              'border dark:border-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700': p !== totalPages
+            }">
+            {{ totalPages }}
+          </button>
+        </div>
+
+        <!-- Mobile Page Indicator -->
+        <div class="sm:hidden px-3 text-sm dark:text-white">
+          Page {{ p }} of {{ totalPages }}
+        </div>
+
+        <button (click)="p = Math.min(totalPages, p + 1)" [disabled]="p === totalPages"
+          class="px-3 py-1 border rounded-md text-sm font-medium dark:text-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50">
+          Next
         </button>
       </div>
-
-      <!-- Ellipsis (Visible on smaller screens) -->
-      <div class="md:hidden px-4 py-2 text-sm dark:text-white">
-        {{ p }} of {{ totalPages }}
-      </div>
-
-      <!-- Next Button -->
-      <button
-        class=" dark:text-white  px-4 py-2 border rounded-full text-sm font-medium hover:bg-gray-50 dark:hover:bg-blue-800 dark:border-slate-600"
-        (click)="p = Math.min(totalPages, p + 1)" [disabled]="p === totalPages">
-        Next
-      </button>
     </div>
   </div>
 </div>

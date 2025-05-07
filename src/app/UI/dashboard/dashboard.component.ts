@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CustomerModel } from '../../model/customer.model';
 import { CustomerService } from './../../services/customer.service';
 import { environment } from '../../../environments/environment.dev';
+import { CouterDashboardService } from './../../services/couter-dashboard.service';
+import { Counters } from '../../model/couter-dashboard.model';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -9,59 +12,143 @@ import { environment } from '../../../environments/environment.dev';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-Math = Math;
-
-public expiredThisMonthCount: number = 0;
-
-  public recuperCustomer: CustomerModel[] = [];
+  Math = Math;
   public imageBaseUrl = `${environment.UrlImagesCustomer}`;
 
-  constructor(private customerService: CustomerService) {}
+  // User data
+  allCustomers: CustomerModel[] = [];
+  displayedCustomers: CustomerModel[] = [];
 
-  //get all users
+  stats = {
+    totalUsers: 0,
+    totalCustomers: 0,
+    totalCoaches: 0,
+    activeSessions: 0
+  };
+
+  // Pagination
+  p: number = 1;
+  itemsPerPage: number = 5;
+  pageSizes: number[] = [5, 10, 20];
+
+  // Search and filter
+  searchQuery: string = '';
+  currentFilter: string = 'all';
+  searchTimeout: any;
+
+  constructor(private customerService: CustomerService,private couterDashboardService:CouterDashboardService) {}
+
   ngOnInit(): void {
+    this.loadCustomer();
+    this.loadDashboardStats();
+  }
+
+  loadCustomer(): void {
     this.customerService.getAllCustomer().subscribe({
       next: (data: CustomerModel[]) => {
-        this.recuperCustomer = data;
+        this.allCustomers = data;
+        this.displayedCustomers = [...data];
       },
       error: (err) => {
-        console.error('Error loading customers:', err);
+        console.error('Error loading customer:', err);
       },
     });
   }
 
-  //Edit User
-  editCustomer(customerId: string): void {
-    console.log('Edit user with ID:', customerId);
+  loadDashboardStats(): void {
+    this.couterDashboardService.getTotalUsers().subscribe({
+      next: (count) => this.stats.totalUsers = count,
+      error: (err) => console.error('Error loading user count:', err)
+    });
+
+    this.couterDashboardService.getTotalCustomers().subscribe({
+      next: (count) => this.stats.totalCustomers = count,
+      error: (err) => console.error('Error loading customer count:', err)
+    });
+
+    this.couterDashboardService.getTotalCoaches().subscribe({
+      next: (count) => this.stats.totalCoaches = count,
+      error: (err) => console.error('Error loading coach count:', err)
+    });
+
+    this.couterDashboardService.getActiveSessionsCount().subscribe({
+      next: (count) => this.stats.activeSessions = count,
+      error: (err) => console.error('Error loading active sessions:', err)
+    });
   }
 
-  //delete User
+
+
+
   deleteCustomer(customerId: string): void {
     if (confirm('Are you sure you want to delete this customer?')) {
       this.customerService.deleteCustomer(customerId).subscribe({
         next: () => {
-          this.recuperCustomer = this.recuperCustomer.filter(user => user.id !== customerId);
+          this.allCustomers = this.allCustomers.filter(customer => customer.id !== customerId);
+          this.applyFilters();
         },
         error: (err) => {
-          console.error(`Error deleting customer with ID : ${customerId}:`, err);
+          console.error(`Error deleting customer with ID ${customerId}:`, err);
         },
       });
     }
   }
 
-  p: number = 1; // Current page
-  itemsPerPage: number = 5; // Items per page
-  pageSizes: number[] = [5, 10, 20]; // Page size options
+  // Search functionality
+  onSearchInput(): void {
+    // Debounce the search to avoid too many API calls
+    clearTimeout(this.searchTimeout);
+    this.searchTimeout = setTimeout(() => {
+      if (this.searchQuery.trim().length >= 3 || this.searchQuery.trim() === '') {
+        this.applyFilters();
+      }
+    }, 500);
+  }
+
+  applyFilters(): void {
+    let filtered = [...this.allCustomers];
+
+    // Apply search filter
+    if (this.searchQuery.trim()) {
+      const query = this.searchQuery.toLowerCase();
+      filtered = filtered.filter(user =>
+        (user.userName?.toLowerCase().includes(query)) ||
+        (user.email?.toLowerCase().includes(query)) ||
+        (user.telephone?.toLowerCase().includes(query))
+      );
+    }
 
 
-  changePageSize(size: number): void {
-    this.itemsPerPage = size;
+    this.displayedCustomers = filtered;
     this.p = 1; // Reset to first page
   }
 
-  getPages(): number[] {
-    const totalPages = this.totalPages;
-    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  // Server-side search option
+  searchUsers(): void {
+    if (this.searchQuery.trim()) {
+      this.customerService.searchCustomers(this.searchQuery).subscribe({
+        next: (customer) => {
+          this.displayedCustomers = customer;
+          this.p = 1;
+        },
+        error: (err) => {
+          console.error('Error searching users:', err);
+        }
+      });
+    } else {
+      this.displayedCustomers = [...this.allCustomers];
+      this.p = 1;
+    }
+  }
+
+  // Pagination methods
+  changePageSize(size: number): void {
+    this.itemsPerPage = size;
+    this.p = 1;
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.displayedCustomers.length / this.itemsPerPage);
   }
 
   getMiddlePages(): number[] {
@@ -75,25 +162,6 @@ public expiredThisMonthCount: number = 0;
       }
     }
     return pages;
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.recuperCustomer.length / this.itemsPerPage);
-  }
-
-  isExpiredThisMonth(endDate: string): boolean {
-    const today = new Date();
-    const end = new Date(endDate);
-    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-
-    return end >= startOfMonth && end <= endOfMonth;
-  }
-
-  calculateExpiredThisMonth(): void {
-    this.expiredThisMonthCount = this.recuperCustomer.filter(customer =>
-      this.isExpiredThisMonth(customer.dateFin.toISOString())
-    ).length;
   }
 
 }

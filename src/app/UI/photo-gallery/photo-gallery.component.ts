@@ -4,11 +4,15 @@ import { Photo, PhotoDto } from '../../model/photo.model';
 import { Album, AlbumDto } from '../../model/album.model';
 import { PhotoService } from '../../services/photo.service';
 import { AlbumService } from '../../services/album.service';
+import { HttpEventType } from '@angular/common/http';
+import { environment } from '../../../environments/environment.dev';
 
 interface SelectedFile {
   file: File;
   name: string;
   preview: string;
+  uploadProgress?: number;
+  uploadComplete?: boolean;
 }
 
 @Component({
@@ -17,6 +21,7 @@ interface SelectedFile {
   styleUrls: ['./photo-gallery.component.css']
 })
 export class PhotoGalleryComponent implements OnInit {
+  public imageBaseUrl = `${environment.UrlImagesGallery}`;
   photos: Photo[] = [];
   albums: Album[] = [];
   filteredPhotos: Photo[] = [];
@@ -27,6 +32,9 @@ export class PhotoGalleryComponent implements OnInit {
   showAlbumModal = false;
   editingPhoto: Photo | null = null;
   selectedFiles: SelectedFile[] = [];
+  isUploading = false;
+  uploadProgress = 0;
+
 
   photoForm: FormGroup;
   albumForm: FormGroup;
@@ -38,7 +46,7 @@ export class PhotoGalleryComponent implements OnInit {
   ) {
     this.photoForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
-      album: [''],
+      album: ['', Validators.required],
       description: ['']
     });
 
@@ -57,7 +65,7 @@ export class PhotoGalleryComponent implements OnInit {
     this.photoService.getAllPhotos().subscribe(photos => {
       this.photos = photos.map(photo => ({
         ...photo,
-        url: `../../../assets/Gallery/${photo.imageName}`,
+        url: `assets/Gallery/${photo.imageName}`,
         albumName: this.getAlbumName(photo.albumId),
         displayDate: new Date(photo.uploadDate)
       }));
@@ -116,7 +124,9 @@ export class PhotoGalleryComponent implements OnInit {
           this.selectedFiles.push({
             file,
             name: file.name,
-            preview: e.target.result
+            preview: e.target.result,
+            uploadProgress: 0,
+            uploadComplete: false
           });
         };
         reader.readAsDataURL(file);
@@ -161,6 +171,7 @@ export class PhotoGalleryComponent implements OnInit {
     this.showUploadModal = false;
     this.editingPhoto = null;
     this.selectedFiles = [];
+    this.isUploading = false;
   }
 
   openEditModal(photo: Photo): void {
@@ -182,60 +193,99 @@ export class PhotoGalleryComponent implements OnInit {
     this.showAlbumModal = false;
   }
 
-
   savePhoto(): void {
+    if (this.photoForm.invalid) {
+      this.photoForm.markAllAsTouched();
+      return;
+    }
+
     if (this.editingPhoto) {
-      const photoDto: PhotoDto = {
-        id: this.editingPhoto.id,
-        name: this.photoForm.value.name,
-        description: this.photoForm.value.description,
-        albumId: Number(this.photoForm.value.album)
-      };
+      this.updateExistingPhoto();
+    } else {
+      this.uploadNewPhotos();
+    }
+  }
 
-      if (this.selectedFiles.length > 0) {
-        photoDto.photoImage = this.selectedFiles[0].file;
-      }
+  private updateExistingPhoto(): void {
+    if (!this.editingPhoto) return;
 
-      this.photoService.updatePhoto(this.editingPhoto.id, photoDto).subscribe(updatedPhoto => {
+    const formData = new FormData();
+    formData.append('id', this.editingPhoto.id.toString());
+    formData.append('name', this.photoForm.value.name);
+    formData.append('description', this.photoForm.value.description);
+    formData.append('albumId', this.photoForm.value.album);
+
+    if (this.selectedFiles.length > 0) {
+      formData.append('photoImage', this.selectedFiles[0].file);
+    }
+
+    this.isUploading = true;
+    this.photoService.updatePhotoFormData(formData).subscribe({
+      next: (updatedPhoto) => {
         const index = this.photos.findIndex(p => p.id === updatedPhoto.id);
         if (index !== -1) {
           this.photos[index] = {
             ...updatedPhoto,
-            url: `../../../assets/Gallery/${updatedPhoto.imageName}`,
+            url: `assets/Gallery/${updatedPhoto.imageName}?t=${new Date().getTime()}`,
             albumName: this.getAlbumName(updatedPhoto.albumId),
             displayDate: new Date(updatedPhoto.uploadDate)
           };
         }
         this.filterPhotos();
         this.closeUploadModal();
-      });
-    } else {
-      const uploadPromises = this.selectedFiles.map(file => {
-        const photoDto: PhotoDto = {
-          name: this.photoForm.value.name || file.name.split('.')[0],
-          description: this.photoForm.value.description,
-          albumId: Number(this.photoForm.value.album),
-          photoImage: file.file
-        };
-
-        return this.photoService.createPhoto(photoDto).toPromise();
-      });
-
-      Promise.all(uploadPromises).then(newPhotos => {
-        const validPhotos = newPhotos.filter(photo => photo !== undefined) as Photo[];
-        this.photos = [
-          ...validPhotos.map(photo => ({
-            ...photo,
-            uploadDate: new Date(photo.uploadDate)
-          })),
-          ...this.photos
-        ];
-        this.filterPhotos();
-        this.closeUploadModal();
-      });
-    }
+      },
+      error: (err) => {
+        console.error('Error updating photo:', err);
+        this.isUploading = false;
+      }
+    });
   }
 
+  private uploadNewPhotos(): void {
+    if (this.selectedFiles.length === 0) return;
+
+    this.isUploading = true;
+    const uploadPromises = this.selectedFiles.map((file, index) => {
+      const formData = new FormData();
+      formData.append('name', this.photoForm.value.name || file.name.split('.')[0]);
+      formData.append('description', this.photoForm.value.description);
+      formData.append('albumId', this.photoForm.value.album);
+      formData.append('photoImage', file.file);
+
+      return new Promise<Photo>((resolve, reject) => {
+        this.photoService.createPhotoFormData(formData).subscribe({
+          next: (event) => {
+            if (event.type === HttpEventType.UploadProgress && event.total) {
+              file.uploadProgress = Math.round(100 * event.loaded / event.total);
+            } else if (event.type === HttpEventType.Response) {
+              file.uploadComplete = true;
+              resolve(event.body as Photo);
+            }
+          },
+          error: (err) => {
+            reject(err);
+          }
+        });
+      });
+    });
+
+    Promise.all(uploadPromises).then(newPhotos => {
+      this.photos = [
+        ...newPhotos.map(photo => ({
+          ...photo,
+          url: `assets/Gallery/${photo.imageName}?t=${new Date().getTime()}`,
+          albumName: this.getAlbumName(photo.albumId),
+          displayDate: new Date(photo.uploadDate)
+        })),
+        ...this.photos
+      ];
+      this.filterPhotos();
+      this.closeUploadModal();
+    }).catch(err => {
+      console.error('Error uploading photos:', err);
+      this.isUploading = false;
+    });
+  }
 
   deletePhoto(id: number): void {
     if (confirm('Are you sure you want to delete this photo?')) {

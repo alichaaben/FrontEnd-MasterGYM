@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HttpClientModule } from '@angular/common/http';
+import { TestimonialsColumnComponent } from './testimonials-column/testimonials-column.component';
 
 
 
@@ -40,6 +41,7 @@ import { HttpClientModule } from '@angular/common/http';
     ViewTrainerComponent,
     TestimonialsComponent,
     HomePageComponent,
+    TestimonialsColumnComponent,
   ],
   imports: [
     CommonModule,

@@ -6,229 +6,212 @@
 
 <!-- Stats Cards -->
 <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-  <!-- Card 1: Total Users -->
-  <div
-    class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700 transition-all hover:shadow-lg">
+  <!-- Total Users Card -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700 transition-all hover:shadow-lg">
     <div class="flex justify-between items-center">
       <div>
-        <p class="text-2xl font-bold text-gray-800 dark:text-white">95</p>
-        <p class="text-sm text-gray-500 dark:text-gray-400">Total Users</p>
+        <p class="text-2xl font-bold text-gray-800 dark:text-white">{{stats.totalUsers}}</p>
+        <p class="text-md text-gray-500 dark:text-gray-400">Total Users</p>
       </div>
       <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300">
         <i class="ph ph-users text-xl"></i>
       </div>
     </div>
-    <div class="mt-4 flex items-center text-sm text-blue-600 dark:text-blue-300">
-      <i class="ph ph-trend-up mr-1"></i>
-      <span>12% from last month</span>
-    </div>
   </div>
 
-  <!-- Card 2: Active Trainers -->
-  <div
-    class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700 transition-all hover:shadow-lg">
+  <!-- Total Trainers Card -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700 transition-all hover:shadow-lg">
     <div class="flex justify-between items-center">
       <div>
-        <p class="text-2xl font-bold text-gray-800 dark:text-white">5</p>
-        <p class="text-sm text-gray-500 dark:text-gray-400">Active Trainers</p>
+        <p class="text-2xl font-bold text-gray-800 dark:text-white">{{stats.totalCoaches}}</p>
+        <p class="text-md text-gray-500 dark:text-gray-400">Total Trainers</p>
       </div>
       <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300">
         <i class="ph ph-person-simple-run text-xl"></i>
       </div>
     </div>
-    <div class="mt-4 flex items-center text-sm text-purple-600 dark:text-purple-300">
-      <i class="ph ph-trend-up mr-1"></i>
-      <span>2 new this month</span>
-    </div>
   </div>
 
-  <!-- Card 3: Active Sessions -->
-  <div
-    class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700 transition-all hover:shadow-lg">
+  <!-- Active Sessions Card -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700 transition-all hover:shadow-lg">
     <div class="flex justify-between items-center">
       <div>
-        <p class="text-2xl font-bold text-gray-800 dark:text-white">1,482</p>
-        <p class="text-sm text-gray-500 dark:text-gray-400">Active Sessions</p>
+        <p class="text-2xl font-bold text-gray-800 dark:text-white">{{stats.activeSessions}}</p>
+        <p class="text-md text-gray-500 dark:text-gray-400">Active Sessions</p>
       </div>
       <div class="p-3 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-300">
         <i class="ph ph-calendar-check text-xl"></i>
       </div>
     </div>
-    <div class="mt-4 flex items-center text-sm text-green-600 dark:text-green-300">
-      <i class="ph ph-trend-up mr-1"></i>
-      <span>8% from last week</span>
-    </div>
   </div>
 
-  <!-- Card 4: Total Customers -->
-  <div
-    class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700 transition-all hover:shadow-lg">
+  <!-- Total Customers Card -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700 transition-all hover:shadow-lg">
     <div class="flex justify-between items-center">
       <div>
-        <p class="text-2xl font-bold text-gray-800 dark:text-white">89</p>
-        <p class="text-sm text-gray-500 dark:text-gray-400">Total Customers</p>
+        <p class="text-2xl font-bold text-gray-800 dark:text-white">{{stats.totalCustomers}}</p>
+        <p class="text-md text-gray-500 dark:text-gray-400">Total Customers</p>
       </div>
       <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-300">
         <i class="ph ph-users-three text-xl"></i>
       </div>
     </div>
-    <div class="mt-4 flex items-center text-sm text-yellow-600 dark:text-yellow-300">
-      <i class="ph ph-trend-up mr-1"></i>
-      <span>5 new this week</span>
-    </div>
   </div>
 </div>
 
 <!-- Customers Table Section -->
+<!-- /*************tables*************/ -->
 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
-  <!-- Table Header -->
-  <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Customers</h2>
-    <!-- <button routerLink="create"
-      class="bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
-      <i class="ph ph-plus-circle"></i> Add Customer
-    </button> -->
+
+  <!-- Header -->
+  <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+    <h2 class="text-xl font-semibold text-gray-800 dark:text-white uppercase">Customers</h2>
   </div>
 
-  <!-- Table Content -->
   <div class="p-6">
-    <div class="overflow-x-auto">
+    <!-- Search and Add User Section -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-5">
+      <!-- Search Box -->
+      <div class="relative w-full md:w-96">
+        <input type="text" [(ngModel)]="searchQuery" (input)="onSearchInput()"
+          placeholder="Search by name, email or phone..."
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-600">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <i class="ph ph-magnifying-glass text-gray-400"></i>
+        </div>
+      </div>
+
+      <!-- <div class="flex gap-3 w-full md:w-auto">
+        <button routerLink="create"
+        class="bg-[#3483E3] hover:bg-[#052659] dark:bg-blue-800 dark:hover:bg-[#3483E3] text-white px-4 py-2 rounded-lg flex items-center gap-2 whitespace-nowrap">
+        <i class="ph ph-plus-circle"></i> Add customer
+      </button>
+      </div> -->
+    </div>
+
+    <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
       <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-        <thead class="bg-gray-50 dark:bg-gray-700">
+        <thead class="bg-[#052659] dark:bg-gray-700 text-gray-500 rounded-xl">
           <tr>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+            <th class="px-6 py-3 text-sm font-medium text-white dark:text-gray-300 uppercase tracking-wider">
               Photo</th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-              Username</th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+            <th class="px-6 py-3 text-sm font-medium text-white dark:text-gray-300 uppercase tracking-wider">
+              UserName</th>
+            <th class="px-6 py-3 text-sm font-medium text-white dark:text-gray-300 uppercase tracking-wider">
               Email</th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+            <th class="px-6 py-3 text-sm font-medium text-white dark:text-gray-300 uppercase tracking-wider">
               Phone</th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-              Pack</th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-              Start Date</th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-              End Date</th>
-            <!-- <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th> -->
+              <th class="px-6 py-3 text-sm font-medium text-white dark:text-gray-300 uppercase tracking-wider">
+                Pack</th>
+              <th class="px-6 py-3 text-sm font-medium text-white dark:text-gray-300 uppercase tracking-wider">
+                Date debut</th>
+                <th class="px-6 py-3 text-sm font-medium text-white dark:text-gray-300 uppercase tracking-wider">
+                  date fin</th>
+            <!-- <th class="px-6 py-3 text-sm font-medium text-white dark:text-gray-300 uppercase tracking-wider">
+              Actions</th> -->
           </tr>
         </thead>
         <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-          <tr *ngFor="let customer of recuperCustomer | paginate: { itemsPerPage: itemsPerPage, currentPage: p }"
-            class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-            <td class="px-6 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <img *ngIf="customer.profileImage" [src]="imageBaseUrl + '/' + customer.profileImage"
-                  alt="{{ customer.userName }}"
-                  class="w-10 h-10 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600">
-              </div>
+          <tr *ngFor="let customer of displayedCustomers | paginate: { itemsPerPage: itemsPerPage, currentPage: p }"
+            class="hover:bg-gray-50 dark:hover:bg-gray-700 text-center transition-colors duration-150">
+            <td class="p-3 flex justify-center">
+              <img *ngIf="customer.profileImage" [src]="imageBaseUrl + '/' + customer.profileImage" alt="{{ customer.userName }}" class="w-12 h-12 rounded-full object-cover">
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-200">
-              {{ customer.userName }}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-              {{ customer.email }}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-              {{ customer.telephone }}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-              <span
-                class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-xs">
-                {{ customer.pack }}
-              </span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-              {{ customer.dateDebut | date:'shortDate' }}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-              {{ customer.dateFin | date:'shortDate' }}
-            </td>
-            <!-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-              <div class="flex justify-end space-x-2">
-                <button [routerLink]="['update', customer.id]"
-                        class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
-                  <i class="ph ph-pencil-simple text-lg"></i>
-                </button>
-                <button (click)="deleteCustomer(customer.id)"
-                        class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-                  <i class="ph ph-trash text-lg"></i>
-                </button>
-              </div>
+            <td class="px-6 py-4 whitespace-nowrap text-base text-gray-900 dark:text-gray-200">{{ customer.userName }} </td>
+            <td class="px-6 py-4 whitespace-nowrap text-base text-gray-900 dark:text-gray-200">{{ customer.email }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-base text-gray-900 dark:text-gray-200">{{ customer.telephone }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-base text-gray-900 dark:text-gray-200">{{ customer.pack }}</td>
+
+            <td class="px-6 py-4 whitespace-nowrap text-base text-gray-900 dark:text-gray-200">{{ customer.dateDebut }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-base text-gray-900 dark:text-gray-200">{{ customer.dateFin }}</td>
+            <!-- <td class="p-3 flex gap-2 justify-center">
+              <button [routerLink]="['update', customer.id]"
+                class="text-green-600 hover:bg-green-200 p-2 rounded-lg border dark:border-slate-600">
+                <i class="ph ph-pencil-simple text-xl"></i>
+              </button>
+              <button (click)="deleteCustomer(customer.id)"
+              class="text-red-700 hover:bg-red-200 p-2 rounded-lg border dark:border-slate-600">
+                <i class="ph ph-trash text-xl"></i>
+              </button>
             </td> -->
           </tr>
         </tbody>
       </table>
+
+
+      <!-- Empty State -->
+      <div *ngIf="displayedCustomers.length === 0" class="p-8 text-center">
+        <i class="ph ph-users text-4xl text-gray-300 dark:text-gray-600 mb-3"></i>
+        <h3 class="text-lg font-medium text-gray-500 dark:text-gray-400">No customer found</h3>
+        <p class="mt-1 text-sm text-gray-400 dark:text-gray-500">
+          {{ searchQuery ? 'No customer match your search' : 'There are no customers to display' }}
+        </p>
+      </div>
     </div>
 
     <!-- Pagination -->
-    <div class="flex items-center justify-end space-x-2 p-4">
+    <div class="flex flex-col sm:flex-row items-center justify-between mt-4 px-2">
       <!-- Items per page selector -->
-      <div class="mr-auto">
+      <div class="mb-3 sm:mb-0">
         <select [(ngModel)]="itemsPerPage" (change)="changePageSize(itemsPerPage)"
-          class="border rounded-md px-3 py-1 text-sm dark:bg-gray-800 dark:border-gray-700 text-black dark:text-white">
+          class="border rounded-md px-3 py-1 text-sm dark:bg-gray-800 dark:border-gray-700 dark:text-white">
           <option *ngFor="let size of pageSizes" [value]="size">{{ size }} per page</option>
         </select>
       </div>
 
-      <!-- Previous Button -->
-      <button
-        class="dark:text-white px-4 py-2 border rounded-full text-sm font-medium hover:bg-gray-50 dark:hover:bg-blue-800 dark:border-slate-600"
-        (click)="p = Math.max(1, p - 1)" [disabled]="p === 1">
-        Previous
-      </button>
-
-      <!-- Page Numbers (Visible on larger screens) -->
-      <div class="hidden md:flex items-center space-x-2">
-        <!-- Always show first page -->
-        <button class="  dark:text-white px-4 py-2 border rounded-full text-sm dark:border-slate-600"
-          [ngClass]="{'bg-[#052659] dark:bg-blue-800 text-white dark:text-white': p === 1, 'dark:text-white hover:bg-gray-50 dark:hover:bg-blue-800': p !== 1}"
-          (click)="p = 1">
-          1
+      <!-- Pagination Controls -->
+      <div class="flex items-center gap-1">
+        <button (click)="p = Math.max(1, p - 1)" [disabled]="p === 1"
+          class="px-3 py-1 border rounded-md text-sm font-medium dark:text-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50">
+          Previous
         </button>
 
-        <!-- Show ellipsis if current page is far from start -->
-        <span *ngIf="p > 3" class="px-2 dark:text-white">...</span>
-
-        <!-- Show pages around current page -->
-        <ng-container *ngFor="let page of getMiddlePages()">
-          <button class="px-4 py-2 border rounded-full text-sm dark:border-slate-600"
-            [ngClass]="{'bg-[#052659] dark:bg-blue-800 text-white dark:text-white': p === page, 'dark:text-white hover:bg-gray-50 dark:hover:bg-blue-800': p !== page}"
-            (click)="p = page">
-            {{ page }}
+        <!-- Page Numbers -->
+        <div class="hidden sm:flex items-center gap-1">
+          <!-- First Page -->
+          <button (click)="p = 1" class="w-8 h-8 flex items-center justify-center rounded-md text-sm" [ngClass]="{
+              'bg-[#052659] text-white dark:bg-blue-800': p === 1,
+              'border dark:border-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700': p !== 1
+            }">
+            1
           </button>
-        </ng-container>
 
-        <!-- Show ellipsis if current page is far from end -->
-        <span *ngIf="p < totalPages - 2" class="px-2 dark:text-white">...</span>
+          <!-- Ellipsis if needed -->
+          <span *ngIf="p > 3" class="px-2 dark:text-white">...</span>
 
-        <!-- Always show last page if there's more than 1 page -->
-        <button *ngIf="totalPages > 1"
-          class=" dark:text-white px-4 py-2 border rounded-full text-sm dark:border-slate-600"
-          [ngClass]="{'bg-[#052659] dark:bg-blue-800 text-white': p === totalPages, 'hover:bg-gray-50 dark:hover:bg-blue-800': p !== totalPages}"
-          (click)="p = totalPages">
-          {{ totalPages }}
+          <!-- Middle Pages -->
+          <ng-container *ngFor="let page of getMiddlePages()">
+            <button (click)="p = page" class="w-8 h-8 flex items-center justify-center rounded-md text-sm" [ngClass]="{
+                'bg-[#052659] text-white dark:bg-blue-800': p === page,
+                'border dark:border-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700': p !== page
+              }">
+              {{ page }}
+            </button>
+          </ng-container>
+
+          <!-- Ellipsis if needed -->
+          <span *ngIf="p < totalPages - 2" class="px-2 dark:text-white">...</span>
+
+          <!-- Last Page -->
+          <button *ngIf="totalPages > 1" (click)="p = totalPages"
+            class="w-8 h-8 flex items-center justify-center rounded-md text-sm" [ngClass]="{
+              'bg-[#052659] text-white dark:bg-blue-800': p === totalPages,
+              'border dark:border-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700': p !== totalPages
+            }">
+            {{ totalPages }}
+          </button>
+        </div>
+
+        <!-- Mobile Page Indicator -->
+        <div class="sm:hidden px-3 text-sm dark:text-white">
+          Page {{ p }} of {{ totalPages }}
+        </div>
+
+        <button (click)="p = Math.min(totalPages, p + 1)" [disabled]="p === totalPages"
+          class="px-3 py-1 border rounded-md text-sm font-medium dark:text-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50">
+          Next
         </button>
       </div>
-
-      <!-- Ellipsis (Visible on smaller screens) -->
-      <div class="md:hidden px-4 py-2 text-sm dark:text-white">
-        {{ p }} of {{ totalPages }}
-      </div>
-
-      <!-- Next Button -->
-      <button
-        class=" dark:text-white  px-4 py-2 border rounded-full text-sm font-medium hover:bg-gray-50 dark:hover:bg-blue-800 dark:border-slate-600"
-        (click)="p = Math.min(totalPages, p + 1)" [disabled]="p === totalPages">
-        Next
-      </button>
     </div>
   </div>
 </div>

@@ -13,12 +13,11 @@ export class ContactService {
   constructor(private http: HttpClient) { }
 
   public sendMessage(user: ContactUser): Observable<ContactUser> {
-    // Convert status to uppercase before sending
     const payload = {
       name: user.name,
       email: user.email,
       message: user.message,
-      status: user.status.toUpperCase() // Convert to uppercase
+      status: user.status.toUpperCase()
     };
 
     return this.http.post<ContactUser>(this.apiUrl, payload, {

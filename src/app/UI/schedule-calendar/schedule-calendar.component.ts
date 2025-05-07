@@ -187,7 +187,7 @@ export class ScheduleCalendarComponent implements OnInit {
       endTime: '10:00',
       sessionType: 'INDIVIDUAL',
       maxParticipants: 1,
-      sportName: 'CrossFit'
+      sportName: 'Personal trainer'
     });
     this.showSessionModal = true;
   }

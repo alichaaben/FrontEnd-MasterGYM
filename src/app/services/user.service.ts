@@ -20,7 +20,20 @@ export class UserService {
     return this.http.get<UserModel>(`${this.apiUrl}/${id}`);
   }
 
-  //recupperer un seul user
+  searchUsers(query: string): Observable<UserModel[]> {
+    return this.http.get<UserModel[]>(`${this.apiUrl}/search`, {
+      params: { query }
+    });
+  }
+
+  updateUserPassword(userId: number, newPassword: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/password`, {
+      id: userId,
+      motDePasse: newPassword
+    });
+  }
+
+
   public getAllByUserName(username: string): Observable<UserModel> {
     const params = new HttpParams().set('userName', username);
     return this.http.get<UserModel>(`${this.apiUrl}/filtre`, { params });

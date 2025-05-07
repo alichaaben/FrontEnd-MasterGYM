@@ -11,7 +11,7 @@ export class CustomerService {
   private apiUrl: string = `${environment.BackEndHost}/customer`;
   private apiUrlByIdUser: string = `${environment.BackEndHost}/customer/`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public getAllCustomer(): Observable<CustomerModel[]> {
     return this.http.get<CustomerModel[]>(this.apiUrl);
@@ -26,7 +26,11 @@ export class CustomerService {
     return this.http.get<CustomerModel>(`${this.apiUrl}/filtre-name`, { params });
   }
 
-
+  searchCustomers(query: string): Observable<CustomerModel[]> {
+    return this.http.get<CustomerModel[]>(`${this.apiUrl}/search`, {
+      params: { query }
+    });
+  }
 
   public getAllCustomerByUserId(id: string): Observable<CustomerModel[]> {
     return this.http.get<CustomerModel[]>(`${this.apiUrl}/filtre-user/${id}`);

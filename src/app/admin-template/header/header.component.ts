@@ -1,14 +1,19 @@
-// header.component.ts
 import { Component, HostListener, OnInit } from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import { DarkModeService } from '../services/dark-mode.service';
+import { ContactMessage } from '../../model/contact-message.model';
+import { ContactMessageService } from '../../services/contact-message.service';
+import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  providers: [DatePipe]
 })
 export class HeaderComponent implements OnInit {
+  messages: ContactMessage[] = [];
   isMenuOpen = false;
   isSidebarActive = false;
   showNotifications = false;
@@ -17,7 +22,10 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private sharedService: SharedService,
-    private darkModeService: DarkModeService
+    private darkModeService: DarkModeService,
+    private messageService: ContactMessageService,
+    private datePipe: DatePipe,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -29,14 +37,28 @@ export class HeaderComponent implements OnInit {
       this.isSidebarActive = false;
       this.sharedService.changeSidebarState(this.isSidebarActive);
     }
+    this.loadMessages();
+
+    setInterval(() => this.loadMessages(), 300000);
   }
 
-  // Toggle dark mode using the service
+  loadMessages(): void {
+    this.messageService.getMessagesByStatus("PENDING").subscribe({
+      next: (messages) => {
+        this.messages = messages.sort((a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      },
+      error: (err) => {
+        console.error('Error loading messages:', err);
+      }
+    });
+  }
+
   toggleDarkMode(): void {
     this.darkModeService.toggleDarkMode();
   }
 
-  // Get dark mode state from the service
   get isDarkMode(): boolean {
     return this.darkModeService.getDarkMode();
   }
@@ -62,7 +84,6 @@ export class HeaderComponent implements OnInit {
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
-    console.log('Menu toggled:', this.isMenuOpen);
   }
 
   @HostListener('window:scroll', [])
@@ -70,15 +91,11 @@ export class HeaderComponent implements OnInit {
     this.isScrolled = window.scrollY > 50;
   }
 
-  notifications = [
-    { title: 'New user registered', time: '2 minutes ago' },
-    { title: 'Sales report available', time: '1 hour ago' },
-    { title: 'Server update completed', time: '3 hours ago' },
-    { title: 'Server update completed', time: '3 hours ago' },
-  ];
-
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;
+    if (this.showNotifications) {
+      this.loadMessages();
+    }
   }
 
   @HostListener('document:click', ['$event'])
@@ -87,5 +104,13 @@ export class HeaderComponent implements OnInit {
     if (!targetElement.closest('.notification-container')) {
       this.showNotifications = false;
     }
+  }
+
+  viewMessage(messageId: string): void {
+    this.showNotifications = false;
+    this.router.navigate(['/admin/contact-msg'], {
+      queryParams: { selectedMessage: messageId },
+      state: { scrollToMessage: true }
+    });
   }
 }
