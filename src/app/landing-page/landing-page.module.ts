@@ -18,7 +18,8 @@ import { ViewTrainerComponent } from './view-trainer/view-trainer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AppHttpInterceptor } from '../interceptor/app-http.interceptor';
 import { TestimonialsColumnComponent } from './testimonials-column/testimonials-column.component';
 
 
@@ -42,6 +43,13 @@ import { TestimonialsColumnComponent } from './testimonials-column/testimonials-
     TestimonialsComponent,
     HomePageComponent,
     TestimonialsColumnComponent,
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptor,
+      multi: true,
+    },
   ],
   imports: [
     CommonModule,

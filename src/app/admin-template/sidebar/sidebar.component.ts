@@ -1,5 +1,9 @@
 import { Component, HostListener } from '@angular/core';
 import { SharedService } from '../services/shared.service';
+import { UserModel } from '../../model/user.model';
+import { UserService } from '../../services/user.service';
+import { AuthentificationService } from '../../services/authentification.service';
+import { environment } from '../../../environments/environment.dev';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,16 +12,22 @@ import { SharedService } from '../services/shared.service';
 })
 export class SidebarComponent {
   isActive = false;
-  activeMenuItem: number | null = null; // Persist the active menu item
+  activeMenuItem: number | null = null;
   isSidebarActive: boolean = false;
-  isSubMenuHovered: boolean = false; // Track if the submenu is being hovered
+  isSubMenuHovered: boolean = false;
+  Users: UserModel | null = null;
+  displayedUsers: UserModel[] = [];
 
-  constructor(private sharedService: SharedService) {}
+  imageBaseUrl = `${environment.UrlImages}`;
+
+  constructor(private sharedService: SharedService,public authService:AuthentificationService,private usersService: UserService,) {}
+
 
   ngOnInit(): void {
     this.sharedService.currentSidebarState.subscribe((state) => {
       this.isSidebarActive = state;
     });
+    this.loadUsers();
   }
 
   toggleSidebar(): void {
@@ -45,6 +55,29 @@ export class SidebarComponent {
         this.activeMenuItem = null; // Close the submenu if not hovered
       }
     }, 250); // Adjust the delay as needed
+  }
+
+  handelLogout(){
+    this.authService.logout();
+  }
+
+  isAuthorized(roles: string[] | undefined): boolean {
+    if (!roles) {
+      return true;
+    }
+    return roles.some(role => this.authService.roles.includes(role));
+  }
+
+
+  loadUsers(): void {
+    this.usersService.getUserById(this.authService.userId).subscribe({
+      next: (data: UserModel) => {
+        this.Users = data;
+      },
+      error: (err) => {
+        console.error('Error loading users:', err);
+      },
+    });
   }
 
 }

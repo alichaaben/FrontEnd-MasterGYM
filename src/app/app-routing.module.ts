@@ -9,10 +9,7 @@ import { ServicesComponent } from './landing-page/services/services.component';
 import { ContactComponent } from './landing-page/contact/contact.component';
 import { LoginComponent } from './UI/login/login.component';
 import { AdminTemplateComponent } from './admin-template/admin-template.component';
-import { ListRoleComponent } from './UI/roles/list-role/list-role.component';
 import { DashboardComponent } from './UI/dashboard/dashboard.component';
-import { CreateRoleComponent } from './UI/roles/create-role/create-role.component';
-import { UpdateRoleComponent } from './UI/roles/update-role/update-role.component';
 import { ListUsersComponent } from './UI/users/list-users/list-users.component';
 import { CreateUsersComponent } from './UI/users/create-users/create-users.component';
 import { UpdateUsersComponent } from './UI/users/update-users/update-users.component';
@@ -25,6 +22,9 @@ import { PhotoGalleryComponent } from './UI/photo-gallery/photo-gallery.componen
 import { MessagesComponent } from './UI/messages/messages.component';
 import { ClientCoatchComponent } from './UI/clients/client-coatch/client-coatch.component';
 import { SettingComponent } from './UI/setting/setting.component';
+import { authGuard } from './guards/auth-gard.guard';
+import { authorizGardGuardAdmin, authorizGardGuardCoach } from './guards/authoriz-gard.guard';
+import { LoginRegisterComponent } from './UI/login-register/login-register.component';
 
 const routes: Routes = [
   {
@@ -33,12 +33,8 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
     path: 'MasterGYM',
-    component: LandingPageComponent,
+    component: LandingPageComponent
   },
   {
     path: 'MasterGYM',
@@ -62,88 +58,111 @@ const routes: Routes = [
       },
     ]
   },
-  // {
-  //   path: 'admin',
-  //   component: AdminTemplateComponent,
-  //   children: [
-  //     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  //     { path: 'dashboard', component: DashboardComponent },
 
-
-  //     /***************************** Admin ****************************************************/
-  //     /*************** roles *************** */
-  //     // { path: 'roles', component: ListRoleComponent },
-  //     // { path: 'roles/create', component: CreateRoleComponent },
-  //     // { path: 'roles/update', component: UpdateRoleComponent },
-
-  //     /*************** Users *************** */
-  //     { path: 'users', component: ListUsersComponent },
-  //     { path: 'users/create', component: CreateUsersComponent },
-  //     { path: 'users/update/:id', component: UpdateUsersComponent },
-
-  //     /*************** customers *************** */
-  //     { path: 'customers', component: AllClientComponent },
-  //     { path: 'customers/create', component: CreateCustomerComponent },
-  //     { path: 'customers/update/:id', component: UpdateCustomerComponent },
-
-  //     /*************** customer-coatch *************** */
-  //     { path: 'customer-coatch', component: ClientCoatchComponent },
-  //     { path: 'customer-coatch/create', component: CraeteCoatchComponent },
-  //     { path: 'customer-coatch/update/:id', component: UpdateCoatchComponent },
-
-  //     /*************** schedule-calendar *************** */
-  //     { path: 'schedule-calendar', component: ScheduleCalendarComponent },
-
-  //     /*************** photo-gallery*************** */
-  //     { path: 'photo-gallery', component: PhotoGalleryComponent },
-
-  //     /*************** contact-msg*************** */
-  //     { path: 'contact-msg', component: MessagesComponent },
-
-  //     /*************** settings *************** */
-  //     { path: 'settings', component: SettingComponent },
-
-
-
-  //     /*************** Error Pages *************** */
-  //     { path: 'error', component: ErrorPageComponent },
-  //     { path: '**', component: ErrorPageComponent },
-  //   ],
-  // },
-
+  {
+    path: 'login',
+    component: LoginComponent
+  },
   {
     path: 'admin',
     component: AdminTemplateComponent,
+    canActivate: [authGuard],
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, data: { breadcrumb: 'Dashboard' } },
-      { path: 'users', component: ListUsersComponent, data: { breadcrumb: 'Users' } },
-       /*************** Users *************** */
-      { path: 'users/create', component: CreateUsersComponent, data: { breadcrumb: 'Create User' } },
-      { path: 'users/update/:id', component: UpdateUsersComponent, data: { breadcrumb: 'Update User' } },
+      {
+        path: 'dashboard', component: DashboardComponent,
+        canActivate: [authorizGardGuardAdmin],
+        data: { role: 'ROLE_Admin', breadcrumb: 'Dashboard' },
+      },
+      {
+        path: 'users', component: ListUsersComponent,
+        canActivate: [authorizGardGuardAdmin],
+        data: { role: 'ROLE_Admin', breadcrumb: 'Users' },
+      },
+      /*************** Users *************** */
+      {
+        path: 'users/create', component: CreateUsersComponent,
+        canActivate: [authorizGardGuardAdmin],
+        data: { role: 'ROLE_Admin', breadcrumb: 'Users' },
+      },
+      {
+        path: 'users/update/:id', component: UpdateUsersComponent,
+        canActivate: [authorizGardGuardAdmin],
+        data: { role: 'ROLE_Admin', breadcrumb: 'Users' },
+      },
+
       /*************** customers *************** */
-      { path: 'customers', component: AllClientComponent, data: { breadcrumb: 'Customers' } },
-      { path: 'customers/create', component: CreateCustomerComponent, data: { breadcrumb: 'Create Customer' } },
-      { path: 'customers/update/:id', component: UpdateCustomerComponent, data: { breadcrumb: 'Update Customer' } },
-       /*************** customer-coatch *************** */
-      { path: 'customer-coatch', component: ClientCoatchComponent, data: { breadcrumb: 'Customer-Coatch' } },
-      { path: 'customer-coatch/create', component: CraeteCoatchComponent, data: { breadcrumb: 'Create Coatch' } },
-      { path: 'customer-coatch/update/:id', component: UpdateCoatchComponent, data: { breadcrumb: 'Update Coatch' } },
+      {
+        path: 'customers', component: AllClientComponent,
+        canActivate: [authorizGardGuardAdmin],
+        data: { role: 'ROLE_Admin', breadcrumb: 'Customers' },
+      },
+      {
+        path: 'customers/create', component: CreateCustomerComponent,
+        canActivate: [authorizGardGuardCoach],
+        data: { role: ['ROLE_Admin', 'ROLE_Coach'], breadcrumb: 'Users' },
+      },
+      {
+        path: 'customers/update/:id', component: UpdateCustomerComponent,
+        canActivate: [authorizGardGuardCoach],
+        data: { role: ['ROLE_Admin', 'ROLE_Coach'], breadcrumb: 'Update Customer' },
+      },
+
+      /*************** customer-coatch *************** */
+      {
+        path: 'customer-coatch', component: ClientCoatchComponent,
+        canActivate: [authorizGardGuardCoach],
+        data: { role: ['ROLE_Admin', 'ROLE_Coach'], breadcrumb: 'Customers' },
+      },
+      {
+        path: 'customer-coatch/create', component: CraeteCoatchComponent,
+        canActivate: [authorizGardGuardCoach],
+        data: { role: ['ROLE_Admin', 'ROLE_Coach'], breadcrumb: 'Create Customers' },
+      },
+      {
+        path: 'customer-coatch/update/:id', component: UpdateCoatchComponent,
+        canActivate: [authorizGardGuardCoach],
+        data: { role: ['ROLE_Admin', 'ROLE_Coach'], breadcrumb: 'Update Customers' },
+      },
+
       /*************** schedule-calendar *************** */
-      { path: 'schedule-calendar', component: ScheduleCalendarComponent, data: { breadcrumb: 'Calendar' } },
+      {
+        path: 'schedule-calendar', component: ScheduleCalendarComponent,
+        canActivate: [authorizGardGuardCoach],
+        data: { role: ['ROLE_Admin', 'ROLE_Coach'], breadcrumb: 'Calendar' },
+      },
+
       /*************** photo-gallery*************** */
-      { path: 'photo-gallery', component: PhotoGalleryComponent, data: { breadcrumb: 'Gallery' } },
+      {
+        path: 'photo-gallery', component: PhotoGalleryComponent,
+        canActivate: [authorizGardGuardCoach],
+        data: { role: ['ROLE_Admin', 'ROLE_Coach'], breadcrumb: 'Gallery' },
+      },
+
       /*************** contact-msg*************** */
-      { path: 'contact-msg', component: MessagesComponent, data: { breadcrumb: 'Messages' } },
+      {
+        path: 'contact-msg', component: MessagesComponent,
+        canActivate: [authorizGardGuardCoach],
+        data: { role: ['ROLE_Admin', 'ROLE_Coach'], breadcrumb: 'Messages' },
+      },
+
       /*************** settings *************** */
-      { path: 'settings', component: SettingComponent, data: { breadcrumb: 'Settings' } },
+      {
+        path: 'settings', component: SettingComponent,
+        canActivate: [authorizGardGuardCoach],
+        data: { role: ['ROLE_Admin', 'ROLE_Coach'], breadcrumb: 'Settings' },
+      },
 
-       /*************** Error Pages *************** */
-      { path: 'error', component: ErrorPageComponent, data: { breadcrumb: 'Error' } },
-      { path: '**', component: ErrorPageComponent, data: { breadcrumb: 'Not Found' } }
+      /*************** Error Pages *************** */
+      {
+        path: 'error', component: ErrorPageComponent,
+        data: { breadcrumb: 'Error' },
+      },
+      {
+        path: '**', component: ErrorPageComponent,
+        data: { breadcrumb: 'Not Found' },
+      }
     ]
-  }
-
+  },
 
 ];
 

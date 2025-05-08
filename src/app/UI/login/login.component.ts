@@ -2,16 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DarkModeService } from '../../admin-template/services/dark-mode.service';
-import { z } from 'zod';
+import { AuthentificationService } from '../../services/authentification.service';
 
-// Define the Zod schema for form validation
-const loginFormSchema = z.object({
-  email: z.string().min(1, { message: 'Email is required' }).email({ message: 'Invalid email address' }),
-  password: z.string().min(8, { message: 'Password must be at least 8 characters' }),
-  rememberMe: z.boolean().default(false),
-});
 
-type LoginFormValues = z.infer<typeof loginFormSchema>;
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,11 +12,15 @@ type LoginFormValues = z.infer<typeof loginFormSchema>;
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  isLoading = false;
   showPassword = false;
+  showErrorModal = false;
 
-  constructor(private fb: FormBuilder, private router: Router,private darkModeService: DarkModeService) {
-    // Initialize the form with validation
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private darkModeService: DarkModeService,
+    private authentificationService: AuthentificationService){
+
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(2)]],
       password: ['', [Validators.required, Validators.minLength(5)]],
@@ -33,7 +30,6 @@ export class LoginComponent {
   ngOnInit(): void {
     // Access dark mode state
     const isDarkMode = this.darkModeService.getDarkMode();
-    console.log('Dark mode is:', isDarkMode);
   }
 
   toggleDarkMode(): void {
@@ -47,19 +43,33 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
-  // Handle form submission
+
   onSubmit(): void {
-    if (this.loginForm.invalid) {
-      return;
+    if (this.loginForm.valid) {
+      this.LoginAuth();
+    } else {
+      console.log('Form is invalid');
     }
-
-    this.isLoading = true;
-
-    // Simulate API call
-    setTimeout(() => {
-      this.isLoading = false;
-      this.router.navigate(['/']);
-    }, 1000);
   }
+
+  LoginAuth(): void {
+    let username = this.loginForm.value.username;
+    let password = this.loginForm.value.password;
+    this.authentificationService.login(username, password).subscribe({
+      next: (data) => {
+        this.authentificationService.loadUser(data);
+      },
+      error: (err) => {
+        console.error('Erreur Authentification :', err);
+        this.showErrorModal = true;
+        this.loginForm.get('password')?.reset();
+      }
+    });
+  }
+
+  closeErrorModal(): void {
+    this.showErrorModal = false;
+  }
+
 }
 

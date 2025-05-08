@@ -27,7 +27,7 @@ export class BestTrainerComponent implements OnInit, OnDestroy {
 
   loadTrainers() {
     // Assuming 'TRAINER' is the role name for trainers in your system
-    this.userService.getAllByRoleName('Coatch').subscribe({
+    this.userService.getAllByRoleName('ROLE_Coach').subscribe({
       next: (trainers) => {
         this.trainers = trainers;
         this.duplicatedTrainers = [...this.trainers, ...this.trainers];

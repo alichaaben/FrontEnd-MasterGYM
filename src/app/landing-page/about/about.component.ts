@@ -18,7 +18,7 @@ export class AboutComponent implements OnInit{
 
     //get all users
     ngOnInit(): void {
-      this.userService.getAllByRoleName('Coatch').subscribe({
+      this.userService.getAllByRoleName('ROLE_Coach').subscribe({
         next: (data: UserModel[]) => {
           this.recuperUser = data;
         },

@@ -2,6 +2,7 @@ import { CustomerService } from './../../../services/customer.service';
 import { CustomerModel } from './../../../model/customer.model';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthentificationService } from '../../../services/authentification.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,7 +24,8 @@ export class CraeteCoatchComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private authentificationService: AuthentificationService
   ) {
     this.customerForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -204,7 +206,7 @@ export class CraeteCoatchComponent {
 
     const newCustomer: CustomerModel = {
       id: '',
-      userId: 2,
+      userId: this.authentificationService.userId,
       userName: this.customerForm.get('username')?.value,
       email: this.customerForm.get('email')?.value,
       telephone: this.customerForm.get('phone')?.value,

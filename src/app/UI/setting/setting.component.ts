@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserModel } from '../../model/user.model';
 import { UserService } from '../../services/user.service';
+import { AuthentificationService } from '../../services/authentification.service';
+import { environment } from '../../../environments/environment.dev';
 
 type Tab = 'profile' | 'password' | 'notifications' | 'infoSoc';
 
@@ -15,9 +17,11 @@ export class SettingComponent implements OnInit {
   updateProfile: FormGroup;
   updatePassword: FormGroup;
   activeTab: Tab = 'profile';
-  avatar = 'assets/user-upload-bro.svg';
+  displayedImage: string = 'assets/user-upload-bro.svg';
   selectedFile: File | null = null;
   currentUser: UserModel | null = null;
+
+    imageBaseUrl = `${environment.UrlImages}`;
 
   tabs = [
     { id: 'profile' as const, label: 'Profil Public' },
@@ -30,7 +34,8 @@ export class SettingComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private usersService: UserService
+    private usersService: UserService,
+    private authentificationService: AuthentificationService
   ) {
     this.updateProfile = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -65,14 +70,14 @@ export class SettingComponent implements OnInit {
       this.selectedFile = file;
       const reader = new FileReader();
       reader.onload = () => {
-        this.avatar = reader.result as string;
+        this.displayedImage = reader.result as string;
       };
       reader.readAsDataURL(file);
     }
   }
 
   loadUser(): void {
-    this.usersService.getUserById("2").subscribe({
+    this.usersService.getUserById(this.authentificationService.userId).subscribe({
       next: (user: UserModel) => {
         this.currentUser = user;
         this.updateProfile.patchValue({
@@ -81,7 +86,9 @@ export class SettingComponent implements OnInit {
           phone: user.telephone,
         });
         if (user.profileImage) {
-          this.avatar = typeof user.profileImage === 'string' ? user.profileImage : this.avatar;
+          this.displayedImage = user.profileImage
+          ? `${this.imageBaseUrl}/${user.profileImage}`
+          : 'assets/user-upload-bro.svg';
         }
       },
       error: (err) => {
@@ -102,8 +109,9 @@ export class SettingComponent implements OnInit {
 
     this.usersService.updateUser(updatedUser, this.selectedFile).subscribe({
       next: () => {
-        alert('Profile updated successfully!');
-        this.router.navigateByUrl("admin/dashboard");
+        if (updatedUser.profileImage) {
+          this.displayedImage = `${this.imageBaseUrl}/${updatedUser.profileImage}`;
+        }
       },
       error: (err) => {
         console.error('Error updating user:', err);
@@ -112,10 +120,11 @@ export class SettingComponent implements OnInit {
     });
   }
 
+
   onSubmitPassword(): void {
-    if (this.updateProfile.invalid || !this.currentUser) return;
-      const newPassword = this.updateProfile.get('newPassword')?.value;
-    const confirmPassword = this.updateProfile.get('confirmPassword')?.value;
+    if (this.updatePassword.invalid || !this.currentUser) return;
+      const newPassword = this.updatePassword.get('newPassword')?.value;
+    const confirmPassword = this.updatePassword.get('confirmPassword')?.value;
 
     if (newPassword !== confirmPassword) {
       alert('Passwords do not match!');
@@ -127,10 +136,10 @@ export class SettingComponent implements OnInit {
       motDePasse: newPassword
     };
 
-    this.usersService.updateUserPassword(2, newPassword).subscribe({
+    this.usersService.updateUserPassword(this.authentificationService.userId, newPassword).subscribe({
       next: () => {
         alert('Password updated successfully!');
-        this.router.navigateByUrl("admin/dashboard");
+        // this.router.navigateByUrl("admin/dashboard");
       },
       error: (err) => {
         console.error('Error updating password:', err);

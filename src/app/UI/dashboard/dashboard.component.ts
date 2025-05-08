@@ -3,7 +3,6 @@ import { CustomerModel } from '../../model/customer.model';
 import { CustomerService } from './../../services/customer.service';
 import { environment } from '../../../environments/environment.dev';
 import { CouterDashboardService } from './../../services/couter-dashboard.service';
-import { Counters } from '../../model/couter-dashboard.model';
 
 
 @Component({

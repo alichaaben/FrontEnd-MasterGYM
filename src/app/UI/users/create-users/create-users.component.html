@@ -95,8 +95,8 @@
               <select id="roles" formControlName="roles"
                 class="dark:text-white w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600">
                 <option value="" disabled selected>Choose a Role</option>
-                <option value="Admin">Admin</option>
-                <option value="Coatch">Coatch</option>
+                <option value="ROLE_Admin">Admin</option>
+                <option value="ROLE_Coach">Coach</option>
               </select>
               <div *ngIf="userForm.get('roles')?.touched && userForm.get('roles')?.invalid"
                 class="text-sm text-red-600 mt-1">Roles requis.

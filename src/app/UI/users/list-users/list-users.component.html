@@ -27,8 +27,8 @@
           <select [(ngModel)]="currentFilter" (change)="applyFilters()"
             class="appearance-none pl-3 pr-8 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
             <option value="all">All Roles</option>
-            <option value="Admin">Admin</option>
-            <option value="Coatch">Coach</option>
+            <option value="ROLE_Admin">Admin</option>
+            <option value="ROLE_Coach">Coach</option>
             <!-- Add other roles as needed -->
           </select>
           <div
@@ -73,9 +73,13 @@
             <td class="px-6 py-4 whitespace-nowrap text-base text-gray-900 dark:text-gray-200">{{ user.email }}</td>
             <!-- <td class="px-6 py-4 whitespace-nowrap text-base text-gray-900 dark:text-gray-200">{{ user.roleName }}</td> -->
             <span
-            class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-xs">
-            {{ user.roleName }}
+            class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-xs" *ngIf="user.roleName == 'ROLE_Coach'">
+            Coach
           </span>
+          <span
+          class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-xs" *ngIf="user.roleName == 'ROLE_Admin'">
+          Admin
+        </span>
             <td class="px-6 py-4 whitespace-nowrap text-base text-gray-900 dark:text-gray-200">{{ user.telephone }}</td>
             <td class="p-3 flex gap-2 justify-center">
               <button [routerLink]="['update', user.id]"

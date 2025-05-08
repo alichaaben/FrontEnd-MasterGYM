@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingPageModule } from './landing-page/landing-page.module';
 import { AdminTemplateModule } from './admin-template/admin-template.module';
-import { LoginComponent } from './UI/login/login.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -30,14 +29,16 @@ import { CraeteCoatchComponent } from './UI/clients/craete-coatch/craete-coatch.
 import { UpdateCoatchComponent } from './UI/clients/update-coatch/update-coatch.component';
 import { DatePipe } from '@angular/common';
 import { SettingComponent } from './UI/setting/setting.component';
+import { LoginComponent } from './UI/login/login.component';
+import { LoginRegisterComponent } from './UI/login-register/login-register.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     ListUsersComponent,
     UpdateUsersComponent,
+    LoginComponent,
     CreateUsersComponent,
     ErrorPageComponent,
     CreateRoleComponent,
@@ -53,7 +54,8 @@ import { SettingComponent } from './UI/setting/setting.component';
     ClientCoatchComponent,
     CraeteCoatchComponent,
     UpdateCoatchComponent,
-    SettingComponent
+    SettingComponent,
+    LoginRegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +71,11 @@ import { SettingComponent } from './UI/setting/setting.component';
   ],
   providers: [
     DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })

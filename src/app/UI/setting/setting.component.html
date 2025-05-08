@@ -1,118 +1,134 @@
 <div class="flex flex-col lg:flex-row">
   <!-- Sidebar -->
-  <div class="lg:fixed lg:w-[359px] bg-white dark:bg-[#222b45] border dark:border-gray-600 rounded-lg p-6 mb-4 lg:mb-0 lg:mr-4">
-      <h3 class="text-xl font-semibold text-gray-900 border-b pb-3 dark:text-white dark:border-b-slate-600">Paramètres</h3>
-      <br />
-      <div class="space-y-2">
-          <button *ngFor="let tab of tabs" (click)="activeTab = tab.id"
-              class="flex items-center w-full p-3 transition-colors border rounded-full"
-              [class.bg-blue-50]="activeTab === tab.id" [class.text-blue-600]="activeTab === tab.id"
-              [class.hover:bg-gray-50]="activeTab !== tab.id" [class.dark:hover:bg-gray-600]="activeTab !== tab.id">
-              <i class="ph ph-user w-5 h-5 mr-3 dark:text-gray-600" *ngIf="tab.id === 'profile'"></i>
-              <i class="ph ph-lock w-5 h-5 mr-3 dark:text-gray-600" *ngIf="tab.id === 'password'"></i>
-              <span class="flex-1 text-left"> {{ tab.label }}</span>
-              <i class="ph ph-chevron-right w-4 h-4 dark:text-gray-600"></i>
-          </button>
-      </div>
+  <div
+    class="lg:fixed lg:w-[359px] bg-white dark:bg-[#222b45] border dark:border-gray-600 rounded-lg p-6 mb-4 lg:mb-0 lg:mr-4">
+    <h3 class="text-xl font-semibold text-gray-900 border-b pb-3 dark:text-white dark:border-b-slate-600">Paramètres
+    </h3>
+    <br />
+    <div class="space-y-2">
+      <button *ngFor="let tab of tabs" (click)="activeTab = tab.id"
+        class="flex items-center w-full p-3 transition-colors border rounded-full"
+        [class.bg-blue-50]="activeTab === tab.id" [class.text-blue-600]="activeTab === tab.id"
+        [class.hover:bg-gray-50]="activeTab !== tab.id" [class.dark:hover:bg-gray-600]="activeTab !== tab.id">
+        <i class="ph ph-user w-5 h-5 mr-3 dark:text-gray-600" *ngIf="tab.id === 'profile'"></i>
+        <i class="ph ph-lock w-5 h-5 mr-3 dark:text-gray-600" *ngIf="tab.id === 'password'"></i>
+        <span class="flex-1 text-left"> {{ tab.label }}</span>
+        <i class="ph ph-chevron-right w-4 h-4 dark:text-gray-600"></i>
+      </button>
+    </div>
   </div>
 
   <!-- Main Content -->
-  <div class="bg-white dark:bg-[#222b45] border dark:border-gray-600 rounded-lg p-6 w-full lg:ml-[369px] lg:max-w-[calc(100%-359px)]">
-      <!-- Profile Form -->
-      <form [formGroup]="updateProfile" (ngSubmit)="onSubmitProfile()" *ngIf="activeTab === 'profile'">
-          <div class="space-y-6">
-              <h3 class="text-xl font-semibold text-gray-900 border-b pb-3 dark:text-white dark:border-b-slate-600">Profil Public</h3>
-              <div class="flex items-center space-x-4">
-                  <!-- Profile Image Container -->
-                  <div class="relative group w-[150px] h-[177px] border-2 border-dashed rounded-md">
-                      <img [src]="avatar" alt="Profile" class="w-full h-full rounded-md object-cover transition duration-300 group-hover:blur-sm" />
-                      <!-- Upload Icon on Hover -->
-                      <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
-                          <button (click)="triggerFileInput()" type="button" class="bg-black/60 p-2 rounded-full text-white hover:bg-black/80">
-                              <i class="ph ph-upload-simple text-xl"></i>
-                          </button>
-                      </div>
-                  </div>
-                  <!-- Hidden file input -->
-                  <input type="file" #fileInput (change)="onFileSelected($event)" class="hidden" accept="image/*" />
-              </div>
-
-              <div class="space-y-4">
-                  <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">User name :</label>
-                      <input type="text" placeholder="Nom complet" formControlName="username"
-                          class="w-full px-3 py-2 border rounded-md dark:text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
-                      <div *ngIf="updateProfile.get('username')?.invalid && updateProfile.get('username')?.touched" class="text-red-500 text-sm">
-                          Username is required and must be at least 3 characters
-                      </div>
-                  </div>
-                  <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Email :</label>
-                      <input type="email" placeholder="Email@gmail.com" formControlName="email"
-                          class="w-full px-3 py-2 border rounded-md dark:text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
-                      <div *ngIf="updateProfile.get('email')?.invalid && updateProfile.get('email')?.touched" class="text-red-500 text-sm">
-                          Please enter a valid email
-                      </div>
-                  </div>
-                  <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Phone :</label>
-                      <input type="text" placeholder="+216 22 111 333" formControlName="phone"
-                          class="w-full px-3 py-2 border rounded-md dark:text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
-                      <div *ngIf="updateProfile.get('phone')?.invalid && updateProfile.get('phone')?.touched" class="text-red-500 text-sm">
-                          Phone number must be 8-12 digits
-                      </div>
-                  </div>
-              </div>
-
-              <div class="flex space-x-2">
-                  <button type="submit" [disabled]="updateProfile.invalid"
-                      class="px-4 py-2 rounded-md bg-[#052659] hover:bg-[#3483E3] text-white dark:bg-blue-800 dark:hover:bg-[#3483E3] disabled:opacity-50">
-                      Save Changes
-                  </button>
-                  <button type="button" (click)="loadUser()" class="px-4 py-2 ml-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
-                      Cancel
-                  </button>
-              </div>
+  <div
+    class="bg-white dark:bg-[#222b45] border dark:border-gray-600 rounded-lg p-6 w-full lg:ml-[369px] lg:max-w-[calc(100%-359px)]">
+    <!-- Profile Form -->
+    <form [formGroup]="updateProfile" (ngSubmit)="onSubmitProfile()" *ngIf="activeTab === 'profile'">
+      <div class="space-y-6">
+        <h3 class="text-xl font-semibold text-gray-900 border-b pb-3 dark:text-white dark:border-b-slate-600">Profil
+          Public</h3>
+        <div class="flex items-center space-x-4">
+          <!-- Profile Image Container -->
+          <div class="relative group w-[150px] h-[177px] border-2 border-dashed rounded-md">
+            <img [src]="displayedImage" alt="{{ currentUser?.userName }}"
+              class="w-full h-full rounded-md object-cover transition duration-300 group-hover:blur-sm" />
+            <!-- Upload Icon on Hover -->
+            <div
+              class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+              <button (click)="triggerFileInput()" type="button"
+                class="bg-black/60 p-2 rounded-full text-white hover:bg-black/80">
+                <i class="ph ph-upload-simple text-xl"></i>
+              </button>
+            </div>
           </div>
-      </form>
+          <!-- Hidden file input -->
+          <input type="file" #fileInput (change)="onFileSelected($event)" class="hidden" accept="image/*" />
+        </div>
 
-      <!-- Password Form -->
-      <form [formGroup]="updatePassword" (ngSubmit)="onSubmitPassword()" *ngIf="activeTab === 'password'">
-          <div class="space-y-6">
-              <h3 class="text-xl font-semibold text-gray-900 border-b pb-3 dark:text-white dark:border-b-slate-600">Changer le mot de passe</h3>
-              <div class="space-y-4">
-                  <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Mot de passe actuel</label>
-                      <input type="password" placeholder="Mot de passe actuel" formControlName="currentPassword"
-                          class="w-full px-3 py-2 border rounded-md border-gray-300 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
-                  </div>
-                  <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Nouveau mot de passe</label>
-                      <input type="password" placeholder="Nouveau mot de passe" formControlName="newPassword"
-                          class="w-full px-3 py-2 border rounded-md border-gray-300 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
-                      <div *ngIf="updatePassword.get('newPassword')?.invalid && updatePassword.get('newPassword')?.touched" class="text-red-500 text-sm">
-                          Password must be at least 6 characters
-                      </div>
-                  </div>
-                  <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Confirmer le nouveau mot de passe</label>
-                      <input type="password" placeholder="Confirmer le nouveau mot de passe" formControlName="confirmPassword"
-                          class="w-full px-3 py-2 border rounded-md dark:text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
-                      <div *ngIf="updatePassword.hasError('mismatch') && updatePassword.get('confirmPassword')?.touched" class="text-red-500 text-sm">
-                          Passwords do not match
-                      </div>
-                  </div>
-              </div>
-              <div class="flex space-x-2">
-                  <button type="submit" [disabled]="updatePassword.invalid"
-                      class="px-4 py-2 rounded-md bg-[#052659] hover:bg-[#3483E3] text-white dark:bg-blue-800 dark:hover:bg-[#3483E3] disabled:opacity-50">
-                      Change Password
-                  </button>
-                  <button type="button" (click)="updatePassword.reset()" class="px-4 py-2 ml-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
-                      Cancel
-                  </button>
-              </div>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">User name :</label>
+            <input type="text" placeholder="Nom complet" formControlName="username"
+              class="w-full px-3 py-2 border rounded-md dark:text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
+            <div *ngIf="updateProfile.get('username')?.invalid && updateProfile.get('username')?.touched"
+              class="text-red-500 text-sm">
+              Username is required and must be at least 3 characters
+            </div>
           </div>
-      </form>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Email :</label>
+            <input type="email" placeholder="Email@gmail.com" formControlName="email"
+              class="w-full px-3 py-2 border rounded-md dark:text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
+            <div *ngIf="updateProfile.get('email')?.invalid && updateProfile.get('email')?.touched"
+              class="text-red-500 text-sm">
+              Please enter a valid email
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Phone :</label>
+            <input type="text" placeholder="+216 22 111 333" formControlName="phone"
+              class="w-full px-3 py-2 border rounded-md dark:text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
+            <div *ngIf="updateProfile.get('phone')?.invalid && updateProfile.get('phone')?.touched"
+              class="text-red-500 text-sm">
+              Phone number must be 8-12 digits
+            </div>
+          </div>
+        </div>
+
+        <div class="flex space-x-2">
+          <button type="submit" [disabled]="updateProfile.invalid"
+            class="px-4 py-2 rounded-md bg-[#052659] hover:bg-[#3483E3] text-white dark:bg-blue-800 dark:hover:bg-[#3483E3] disabled:opacity-50">
+            Save Changes
+          </button>
+          <button type="button" (click)="loadUser()"
+            class="px-4 py-2 ml-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Password Form -->
+    <form [formGroup]="updatePassword" (ngSubmit)="onSubmitPassword()" *ngIf="activeTab === 'password'">
+      <div class="space-y-6">
+        <h3 class="text-xl font-semibold text-gray-900 border-b pb-3 dark:text-white dark:border-b-slate-600">Changer le
+          mot de passe</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Mot de passe actuel</label>
+            <input type="password" placeholder="Mot de passe actuel" formControlName="currentPassword"
+              class="w-full px-3 py-2 border rounded-md border-gray-300 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Nouveau mot de passe</label>
+            <input type="password" placeholder="Nouveau mot de passe" formControlName="newPassword"
+              class="w-full px-3 py-2 border rounded-md border-gray-300 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
+            <div *ngIf="updatePassword.get('newPassword')?.invalid && updatePassword.get('newPassword')?.touched"
+              class="text-red-500 text-sm">
+              Password must be at least 6 characters
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-white">Confirmer le nouveau mot de
+              passe</label>
+            <input type="password" placeholder="Confirmer le nouveau mot de passe" formControlName="confirmPassword"
+              class="w-full px-3 py-2 border rounded-md dark:text-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-yellow-500 dark:bg-[#151a30] dark:border-gray-600" />
+            <div *ngIf="updatePassword.hasError('mismatch') && updatePassword.get('confirmPassword')?.touched"
+              class="text-red-500 text-sm">
+              Passwords do not match
+            </div>
+          </div>
+        </div>
+        <div class="flex space-x-2">
+          <button type="submit" [disabled]="updatePassword.invalid"
+            class="px-4 py-2 rounded-md bg-[#052659] hover:bg-[#3483E3] text-white dark:bg-blue-800 dark:hover:bg-[#3483E3] disabled:opacity-50">
+            Change Password
+          </button>
+          <button type="button" (click)="updatePassword.reset()"
+            class="px-4 py-2 ml-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>

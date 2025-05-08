@@ -13,14 +13,16 @@
       <div class="menu">
         <p class="title">Main</p>
         <ul>
-          <li [class.active]="activeMenuItem === 0" (click)="toggleMenuItem(0, $event)">
+          <li [class.active]="activeMenuItem === 0" (click)="toggleMenuItem(0, $event)"
+            *ngIf="this.authService.roles.includes('ROLE_Admin')">
             <a routerLink="dashboard">
               <i class="icon ph-bold ph-house-simple"></i>
               <span class="text" [class.tooltip]="isSidebarActive">Dashboard</span>
             </a>
           </li>
 
-          <li [class.active]="activeMenuItem === 1" (click)="toggleMenuItem(1, $event)">
+          <li [class.active]="activeMenuItem === 1" (click)="toggleMenuItem(1, $event)"
+            *ngIf="this.authService.roles.includes('ROLE_Admin')">
             <a routerLink="users">
               <i class="ph ph-users text-xl"></i>
               <span class="text" [class.tooltip]="isSidebarActive">Users</span>
@@ -49,7 +51,8 @@
             </ul>
           </li> -->
 
-          <li [class.active]="activeMenuItem === 2" (click)="toggleMenuItem(2, $event)">
+          <li [class.active]="activeMenuItem === 2" (click)="toggleMenuItem(2, $event)"
+            *ngIf="this.authService.roles.includes('ROLE_Admin')">
             <a routerLink="customers">
               <i class="ph ph-identification-card text-2xl"></i>
               <span class="text" [class.tooltip]="isSidebarActive">All-Customers</span>
@@ -105,8 +108,8 @@
       <p class="title">Account</p>
       <ul>
         <li [class.active]="activeMenuItem === 8" (click)="toggleMenuItem(8, $event)">
-          <a routerLink="/login">
-            <i class="icon ph-bold ph-sign-out"></i>
+          <a (click)="handelLogout()">
+            <i class="icon ph-bold ph-sign-out text-red-600"></i>
             <span class="text" [class.tooltip]="isSidebarActive">Logout</span>
           </a>
         </li>
@@ -115,11 +118,13 @@
 
     <div class="head">
       <div class="user-img">
-        <img src="assets/Ali2.jpg" alt="" />
+        <img *ngIf="Users?.userName" [src]="imageBaseUrl + '/' + Users?.profileImage" alt="{{ Users?.userName }}" />
       </div>
       <div class="user-details">
-        <p class="title">Admin</p>
-        <p class="name">Ali Chaabane</p>
+        <p class="name">{{ Users?.userName }}</p>
+        <p class="title" *ngIf="Users?.roleName == 'ROLE_Coach'">Coach</p>
+        <p class="title" *ngIf="Users?.roleName == 'ROLE_Admin'">Admin</p>
+
       </div>
     </div>
   </div>

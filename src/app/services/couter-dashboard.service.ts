@@ -25,7 +25,7 @@ export class CouterDashboardService {
   }
 
     public getTotalCoaches(): Observable<number> {
-      const params = new HttpParams().set('roleName', "Coatch");
+      const params = new HttpParams().set('roleName', "ROLE_Coach");
       return this.http.get<number>(`${this.apiUrl}/count-coach`, { params });
     }
 
