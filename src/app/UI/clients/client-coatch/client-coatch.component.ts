@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CustomerModel } from '../../../model/customer.model';
 import { CustomerService } from './../../../services/customer.service';
 import { environment } from '../../../../environments/environment.dev';
+import { AuthentificationService } from '../../../services/authentification.service';
 
 @Component({
   selector: 'app-client-coatch',
@@ -26,14 +27,14 @@ export class ClientCoatchComponent implements OnInit {
   currentFilter: string = 'all';
   searchTimeout: any;
 
-  constructor(private customerService: CustomerService) {}
+  constructor(private customerService: CustomerService,public authService:AuthentificationService) {}
 
   ngOnInit(): void {
     this.loadCustomer();
   }
 
   loadCustomer(): void {
-    this.customerService.getAllCustomerByUserId('2').subscribe({
+    this.customerService.getAllCustomerByUserId(this.authService.userId).subscribe({
       next: (data: CustomerModel[]) => {
         this.allCustomers = data;
         this.displayedCustomers = [...data];
@@ -43,6 +44,7 @@ export class ClientCoatchComponent implements OnInit {
       },
     });
   }
+
 
   deleteCustomer(customerId: string): void {
     if (confirm('Are you sure you want to delete this customer?')) {
